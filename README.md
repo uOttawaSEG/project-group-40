@@ -7,4 +7,5 @@ Merge requests are also a must.
 
 ### Admin login
 username: root
+
 password: toor
