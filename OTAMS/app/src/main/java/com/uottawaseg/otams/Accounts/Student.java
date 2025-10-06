@@ -1,9 +1,8 @@
-package com.uottawaseg.otams.Account;
-
-import System;
+package com.uottawaseg.otams.Accounts;
 
 public class Student extends Account {
-    private String _studentNumber;
+    private final String _studentNumber;
+    private final Role _role = Role.STUDENT;
 
     // We'll make a Course enum with the courses.
     // Let's not worry about it now
@@ -20,6 +19,9 @@ public class Student extends Account {
 
     public String getStudentNumber() {
         return _studentNumber;
+    }
+    public Role getRole() {
+        return _role;
     }
 
 }

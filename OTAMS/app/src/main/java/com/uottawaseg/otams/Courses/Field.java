@@ -1,6 +1,10 @@
 // Feel free to add to this, just no sub-categories
 // ie, mechanical engineering vs civil engineering
 // This is only for degrees, not for students
+package com.uottawaseg.otams.Courses;
+
+import org.jetbrains.annotations.NotNull;
+
 public enum Field {
     // STEM
     SCIENCE(0), ENGINEERING(1), MATHEMATICS(2),
@@ -14,24 +18,30 @@ public enum Field {
 
     // BUSINESS
     // FAKE DEGREES
-    BUSINESS(5),
+    BUSINESS(5);
 
-    private int _value;
+    private final int _value;
     Field(int value) {
         _value = value;
     }
     public int getValue() {
         return _value;
     }
-
-    publc String toString() {
-        return switch (_value) {
-            case 0 -> "Science";
-            case 1 -> "Engineering";
-            case 2 -> "Mathematics";
-            case 3 -> "Medicine";
-            case 4 -> "Business";
-            default -> "UNKNOWN";
+    @NotNull
+    public String toString() {
+        switch (_value) {
+            case 0:
+                return "Science";
+            case 1:
+                return "Engineering";
+            case 2:
+                return "Mathematics";
+            case 3:
+                return "Medicine";
+            case 4:
+                return "Business";
+            default:
+                return "UNKNOWN";
         }
     }
 }
