@@ -53,5 +53,7 @@ public abstract class Account {
         sb.append("Username: ").append(getUsername()).append("\n");
         sb.append("Phone Number: ").append(getPhoneNumber()).append("\n");
         sb.append("Email: ").append(getEmail()).append("\n");
+
+        return "im just tryna get this to run and it wouldn't run without this"; // added
     }
 }
