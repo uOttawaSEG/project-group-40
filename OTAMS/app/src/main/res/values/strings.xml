@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">OTAMS</string>
+    <string name="student_form">Student Form</string>
+    <string name="tutor_form">Tutor Form</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="phone_hint">Phone</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="program_hint">Program of Study</string>
+    <string name="degree_hint">Highest Degree</string>
+    <string name="courses_hint">Courses Offered</string>
+    <string name="apply_button">Apply</string>
 </resources>
