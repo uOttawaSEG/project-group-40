@@ -18,7 +18,10 @@ public enum Field {
 
     // BUSINESS
     // FAKE DEGREES
-    BUSINESS(5);
+    BUSINESS(5),
+
+    // This is just for if there's an error somewhere
+    UNKNOWN(-1);
 
     private final int _value;
     Field(int value) {
@@ -39,9 +42,29 @@ public enum Field {
             case 3:
                 return "Medicine";
             case 4:
+                return "Art";
+            case 5:
                 return "Business";
             default:
                 return "UNKNOWN";
+        }
+    }
+    public static Field fromString(String s) {
+        switch(s.toUpperCase()) {
+            case "SCIENCE":
+                return SCIENCE;
+            case "ENGINEERING":
+                return ENGINEERING;
+            case "MATHEMATICS":
+                return MATHEMATICS;
+            case "MEDICINE":
+                return MEDICINE;
+            case "ART":
+                return ARTS;
+            case "BUSINESS":
+                return BUSINESS;
+            default:
+                return UNKNOWN;
         }
     }
 }

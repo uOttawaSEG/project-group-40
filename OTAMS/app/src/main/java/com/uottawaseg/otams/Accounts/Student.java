@@ -1,5 +1,7 @@
 package com.uottawaseg.otams.Accounts;
 
+import java.util.HashMap;
+
 public class Student extends Account {
     private final String _studentNumber;
     private final Role _role = Role.STUDENT;
@@ -12,7 +14,7 @@ public class Student extends Account {
 
     public Student(String firstName, String lastName, String username, String password,
                    String phoneNumber, String email, String studentNumber) {
-        super(username, password, phoneNumber, email);
+        super(firstName, lastName, username, password, phoneNumber, email);
         _studentNumber = studentNumber;
 
     }
@@ -22,6 +24,12 @@ public class Student extends Account {
     }
     public Role getRole() {
         return _role;
+    }
+
+    public HashMap<String, Object> ConvertToMap() {
+        var superMap = super.ConvertToMap();
+        superMap.put("StudentNumber", _studentNumber);
+        return superMap;
     }
 
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "830946815957",
+    "project_id": "otams-6abdd",
+    "storage_bucket": "otams-6abdd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830946815957:android:66621bc5eabe132c36575c",
+        "android_client_info": {
+          "package_name": "com.uottawaseg.otams"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSv2aUDbOAl8lDerSVJr2Im77gwQSkkYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
