@@ -100,22 +100,11 @@ public abstract class Account {
     // We don't want to print the password at every chance we get
     @NonNull
     public String toString() {
-        String sb = "Name: " + getName() + "\n" +
-                "Username: " + getUsername() + "\n" +
-                "Phone Number: " + getPhoneNumber() + "\n" +
-                "Email: " + getEmail() + "\n";
-
-        return sb; // added
-    }
-    public HashMap<String, Object> ConvertToMap() {
-        var map = new HashMap<String, Object>();
-        map.put(Database.TYPE, _role);
-        map.put(Database.FIRST_NAME, _firstName);
-        map.put(Database.LAST_NAME, _lastName);
-        map.put(Database.USERNAME, getUsername());
-        map.put(Database.PASSWORD, getPassword());
-        map.put(Database.EMAIL, getEmail());
-        map.put(Database.PHONE_NUMBER, getPhoneNumber());
-        return map;
+        var sb =  new StringBuilder();
+        sb.append("Name: ").append(getName()).append("\n");
+        sb.append("Username: ").append(getUsername()).append("\n");
+        sb.append("Phone Number: ").append(getPhoneNumber()).append("\n");
+        sb.append("Email: ").append(getEmail()).append("\n");
+        return sb.toString();
     }
 }
