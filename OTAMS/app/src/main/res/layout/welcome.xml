@@ -19,7 +19,7 @@
             android:id="@+id/loginConfirmation"
             android:layout_width="match_parent"
             android:layout_height="99dp"
-            android:text="You are logged in as *role!*"
+            android:text="You are logged in as *role*!"
             android:textAlignment="center"
             android:textSize="24sp" />
 
@@ -28,6 +28,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#8F001A"
-            android:text="Log Out" />
+            android:text="Log Out"
+            android:textColor="#FFFFFFFF"
+            android:textColorHighlight="#FFFFFFFF"
+            android:textColorHint="#FFFFFFFF"
+            android:textColorLink="#FFFFFFFF"
+            app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
