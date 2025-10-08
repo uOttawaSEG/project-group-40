@@ -8,18 +8,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-// Added import for access to the DB
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.uottawaseg.otams.Courses.Degree;
+import com.uottawaseg.otams.Courses.Field;
+import com.uottawaseg.otams.Database.Database;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "FirebaseTest"; // added
-    private DatabaseReference mDatabase; // added
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,31 +24,15 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        Database.StartDB();
 
-
-
-        // --------------- The following is test code to make sure the DB is working ---------------
-        // From online & ChatGPT
-
-
-        // initializing Firebase DB reference
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        // test write to DB
-        mDatabase.child("test").setValue("Hello, Firebase!");
-
-        // test read from DB
-        mDatabase.child("test").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                String value = snapshot.getValue(String.class);
-                System.out.println("Firebase read success! Value = " + value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                System.out.println("Firebase read failed: " + error.getMessage());
-            }
-        });
+        // Testing register
+        Database.Register("Sebastien", "Gosselin", "sgoss040@uottawaca",
+                "Pass1", "email", "phone num", "101");
+        Database.Register("Sebastien", "Gosselin", "bananas", "pass2",
+                "10490214", "emailtxt", Degree.HIGHSCHOOL, Field.ENGINEERING);
+        // Testing login
+        var acc = Database.Login("bananas", "pass2");
+        System.out.println(acc);
     }
 }

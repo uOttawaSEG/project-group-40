@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.uottawaseg.otams.Courses.*;
 
+import java.util.HashMap;
+
 public class Tutor extends Account {
     private Degree _highestDegreeOfStudy;
     private Field _fieldOfStudy;
@@ -11,8 +13,8 @@ public class Tutor extends Account {
     private final Role _role = Role.TUTOR;
 
     public Tutor(String firstName, String lastName, String username, String password,
-                   String phoneNumber, String email, Degree highestDegreeOfStudy, Field fieldOfStudy) {
-        super(username, password, phoneNumber, email);
+                 String phoneNumber, String email, Degree highestDegreeOfStudy, Field fieldOfStudy) {
+        super(firstName, lastName, username, password, phoneNumber, email);
         _highestDegreeOfStudy = highestDegreeOfStudy;
         _fieldOfStudy = fieldOfStudy;
     }
@@ -63,4 +65,11 @@ public class Tutor extends Account {
         return sb.toString();
     }
 
+    @Override
+    public HashMap<String, Object> ConvertToMap() {
+        var superMap = super.ConvertToMap();
+        superMap.put("FieldOfStudy", _fieldOfStudy);
+        superMap.put("HighestDegree", _highestDegreeOfStudy);
+        return superMap;
+    }
 }

@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 public enum Degree {
     NONE(0), HIGHSCHOOL(1), BACHELORS(2),
-    MASTERS(3), DOCTORATE(4);
+    MASTERS(3), DOCTORATE(4), UNKNOWN(-1);
 
     private final int _value;
     Degree(int value) {
@@ -29,6 +29,24 @@ public enum Degree {
                 return "DOCTORATE";
             default:
                 return "UNKNOWN";
+        }
+    }
+
+    public static Degree fromString(String s) {
+        switch (s.toUpperCase()) {
+            case "NONE":
+                return NONE;
+            case "HIGHSCHOOL":
+                return HIGHSCHOOL;
+            case "BACHELORS":
+                return BACHELORS;
+            case "MASTERS":
+                return MASTERS;
+            case "DOCTORATE":
+                return DOCTORATE;
+
+            default:
+                return UNKNOWN;
         }
     }
 }
