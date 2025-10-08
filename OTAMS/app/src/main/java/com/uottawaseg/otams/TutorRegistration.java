@@ -2,15 +2,15 @@ package com.uottawaseg.otams;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.uottawaseg.otams.databinding.ActivityTutorRegistrationBinding;
+import com.uottawaseg.otams.databinding.TutorRegistrationBinding;
 
-public class TutorRegistrationActivity extends AppCompatActivity {
-    private ActivityTutorRegistrationBinding binding;
+public class TutorRegistration extends AppCompatActivity {
+    private TutorRegistrationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= ActivityTutorRegistrationBinding.inflate(getLayoutInflater());
+        binding= TutorRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initListeners();
     }

@@ -1,22 +1,21 @@
 package com.uottawaseg.otams;
 
 import android.os.Bundle;
-import android.widget.Button; //In case binding doesn't work we'll have reverse back to these, otherwise remove them
-import android.widget.EditText;
-import androidx.appcompat.app.AppCompatActivity;
-import com.uottawaseg.otams.databinding.ActivityStudentRegistrationBinding;
 
-public class StudentRegistrationActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
+
+public class StudentRegistration extends AppCompatActivity {
 
     // UI team, Im new with binding since its not core java feature so sry if something is incorrect.
     // If everything is done right it should allow us to skip manual UI initialization
     // overwise Ill return to my previous manual implementation findViewById(R.id.viewId)(please work)
-    private ActivityStudentRegistrationBinding binding;
+    private StudentRegistrationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= ActivityStudentRegistrationBinding.inflate(getLayoutInflater());
+        binding= StudentRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initListeners();
     }
