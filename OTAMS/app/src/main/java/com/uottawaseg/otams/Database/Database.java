@@ -85,7 +85,10 @@ public class Database {
                                   phoneNumber, email, studentNumber);
         return Register(acc);
     }
-
+    public static Account RegisterAdmin() {
+        var account = new Administrator("Sebastien", "Gosselin");
+        return Register(account);
+    }
     public static Account Register(String firstName, String lastName,
                                    String username, String password, String phoneNumber,
                                    String email, Degree highestDegree, Field fieldOfStudy) {
@@ -99,13 +102,8 @@ public class Database {
         // if it does, ret false
         // otherwise set
 
-        // --------------- The following is test code to make sure the DB is working ---------------
-        // From online & ChatGPT
-        System.out.println("Called register");
         db.child(acc.getUsername()).setValue(acc);
         return acc;
-        // initializing Firebase DB reference
-//
     }
 
     @Nullable
@@ -124,8 +122,7 @@ public class Database {
 
         if(type == Account.Role.ADMIN) {
             // TODO: Actually implement this
-            return new Administrator(null, null, null,
-                    null, null, null);
+            return new Administrator();
         }
 
         /*
