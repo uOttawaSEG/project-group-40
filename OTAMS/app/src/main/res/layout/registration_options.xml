@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
-            android:text="Tutor" />
+            android:text="Tutor"
+            app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,7 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
-            android:text="Administrator" />
+            android:text="Administrator"
+            app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
-            android:text="Student" />
+            android:text="Student"
+            app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,6 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
-            android:text="Return to homepage" />
+            android:text="Return to homepage"
+            app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -158,7 +158,8 @@
             android:layout_weight="1"
             android:backgroundTint="@color/UOgray"
             android:text="@string/apply_button"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
     <LinearLayout
@@ -178,7 +179,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="@color/UOgray"
-            android:text="@string/homepage_button" />
+            android:text="@string/homepage_button"
+            app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
