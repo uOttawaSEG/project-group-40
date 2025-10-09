@@ -64,12 +64,4 @@ public class Tutor extends Account {
         }
         return sb.toString();
     }
-
-    @Override
-    public HashMap<String, Object> ConvertToMap() {
-        var superMap = super.ConvertToMap();
-        superMap.put("FieldOfStudy", _fieldOfStudy);
-        superMap.put("HighestDegree", _highestDegreeOfStudy);
-        return superMap;
-    }
 }

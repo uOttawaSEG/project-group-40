@@ -26,10 +26,4 @@ public class Student extends Account {
         return _role;
     }
 
-    public HashMap<String, Object> ConvertToMap() {
-        var superMap = super.ConvertToMap();
-        superMap.put("StudentNumber", _studentNumber);
-        return superMap;
-    }
-
 }

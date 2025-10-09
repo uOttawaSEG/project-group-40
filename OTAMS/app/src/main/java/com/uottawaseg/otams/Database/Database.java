@@ -33,6 +33,7 @@ public class Database {
     public static final String STUDENT_NUMBER = "studentNumber";
     public static final String FIELD_OF_STUDY = "fieldOfStudy";
     public static final String HIGHEST_DEGREE = "degree";
+    public static final String ACCOUNTS = "accounts";
     // Returns false whether or not the database was able to be setup
 
     private static void OnCancelled(DatabaseError e) {
@@ -52,7 +53,7 @@ public class Database {
     }
 
     public static Account Login(String username, String password) {
-        var query = db.child(username);//.equalTo(Arrays.toString(GetSHA256(password)));
+        var query = db.child(ACCOUNTS).child(username);
 
         var data = query.get();
         while(!(data.isComplete() || data.isCanceled() || data.isSuccessful())) {
@@ -86,7 +87,7 @@ public class Database {
         return Register(acc);
     }
     public static Account RegisterAdmin() {
-        var account = new Administrator("Sebastien", "Gosselin");
+        var account = new Administrator();
         return Register(account);
     }
     public static Account Register(String firstName, String lastName,
@@ -102,20 +103,13 @@ public class Database {
         // if it does, ret false
         // otherwise set
 
-        db.child(acc.getUsername()).setValue(acc);
+        db.child(ACCOUNTS).child(acc.getUsername()).setValue(acc);
         return acc;
     }
 
     @Nullable
     private static Account makeAccountFromQuery(DataSnapshot data) throws ClassCastException {
-        // It says this is redundant but I'm not sure what it'd default to
-        // I'll make it actually default to UNDEFINED later.
-        System.out.println("Make account from query");
-        Account.Role type;
-
-        System.out.println(data.child(TYPE).getValue());
-        type = Account.Role.fromString((String) data.child(TYPE).getValue());
-        System.out.println(type);
+        Account.Role type = Account.Role.fromString((String) data.child(TYPE).getValue());
         if(type == null || type == Account.Role.UNDEFINED) {
             return null;
         }
@@ -189,5 +183,25 @@ public class Database {
     private static boolean checkBytes(Object bytes, byte[] pass) {
         var str = Arrays.toString(pass);
         return bytes.equals(str);
+    }
+
+    public static boolean CheckUsername(String username) {
+        var chars = username.toCharArray();
+        for(char c : chars) {
+            if(!usernameCharIsAllowed(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean usernameCharIsAllowed(char c) {
+        return !(
+                c == '.' || c == ',' || c == '@' || c == '<' || c == '>' ||
+                c == '/' || c == '\'' || c == '\"' || c == '[' || c == ']' ||
+                c == '{' || c == '}' || c == '(' || c == ')' || c == '-' ||
+                c == '+' || c == '=' || c == '&' || c == '^' || c == '%' ||
+                c == '$' || c == '#' || c == '!' || c == '*'
+        );
     }
 }

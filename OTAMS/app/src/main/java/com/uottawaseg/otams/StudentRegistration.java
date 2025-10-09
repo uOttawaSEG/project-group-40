@@ -3,6 +3,9 @@ package com.uottawaseg.otams;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.uottawaseg.otams.Accounts.Student;
+import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
 
 public class StudentRegistration extends AppCompatActivity {
@@ -22,20 +25,23 @@ public class StudentRegistration extends AppCompatActivity {
 
     private void initListeners() {
         binding.button.setOnClickListener(v-> {
+            // TODO:
+            // Add username
+            String username = "";
             String email= binding.etEmail.getText().toString().trim();
             String password= binding.etPassword.getText().toString().trim();
             String phone= binding.etPhone.getText().toString().trim();
             String firstName= binding.etFirstName.getText().toString().trim();
             String lastName= binding.etLastName.getText().toString().trim();
             String program= binding.etProgram.getText().toString().trim();
-
-            if (validateInput(firstName, lastName, email, password, phone, program)) {
-                registerStudent(firstName, lastName, email, password, phone, program);
+            // DB has a function for checking if a username is valid lets use it!
+            if (validateInput(firstName, lastName, email, username, password, phone, program)) {
+                registerStudent(firstName, lastName, email, username, password, phone, program);
             }
         });
     }
 
-    private boolean validateInput(String firstName, String lastName, String email, String password, String phone, String program) {
+    private boolean validateInput(String firstName, String lastName, String email, String username, String password, String phone, String program) {
         if (firstName.isEmpty()) {
             binding.etFirstName.setError("First name is required");
             binding.etFirstName.requestFocus();
@@ -80,27 +86,7 @@ public class StudentRegistration extends AppCompatActivity {
         return true;
     }
 
-    private void registerStudent(String firstName, String lastName, String email, String password, String phone, String program) {
-        Student student = new Student(firstName, lastName, email, phone, program);
-        // Gotta implement Firebase authentication for user here unless I'm mistaken
-    }
-
-    // Data model (when time comes you'll be looking for this, Vincent )
-    public static class Student {
-        public String firstName;
-        public String lastName;
-        public String email;
-        public String phone;
-        public String program;
-
-        public Student() {}
-
-        public Student(String firstName, String lastName, String email, String phone, String program) {
-            this.firstName= firstName;
-            this.lastName= lastName;
-            this.email= email;
-            this.phone= phone;
-            this.program= program;
-        }
+    private void registerStudent(String firstName, String lastName, String email, String username, String password, String phone, String studentID) {
+        Student student = (Student) Database.Register(firstName, lastName, username, password, phone, email, studentID);
     }
 }
