@@ -1,7 +1,8 @@
 package com.uottawaseg.otams;
 
 import android.os.Bundle;
-
+import android.content.Intent;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
 
@@ -21,7 +22,13 @@ public class StudentRegistration extends AppCompatActivity {
     }
 
     private void initListeners() {
-        binding.button.setOnClickListener(v-> {
+        //Remove "//" once there is a class for main page
+        //binding.btnHomepage.setOnClickListener(v -> {
+        //Intent intent = new Intent(StudentRegistration.this, MainPage.class);
+        //    startActivity(intent);
+        //});
+        binding.btnApply.setOnClickListener(v-> {
+            String username= binding.etUsername.getText().toString().trim();
             String email= binding.etEmail.getText().toString().trim();
             String password= binding.etPassword.getText().toString().trim();
             String phone= binding.etPhone.getText().toString().trim();
@@ -29,13 +36,13 @@ public class StudentRegistration extends AppCompatActivity {
             String lastName= binding.etLastName.getText().toString().trim();
             String program= binding.etProgram.getText().toString().trim();
 
-            if (validateInput(firstName, lastName, email, password, phone, program)) {
-                registerStudent(firstName, lastName, email, password, phone, program);
+            if (validateInput(firstName, lastName, username, email, password, phone, program)) {
+                registerStudent(firstName, lastName, username, email, password, phone, program);
             }
         });
     }
 
-    private boolean validateInput(String firstName, String lastName, String email, String password, String phone, String program) {
+    private boolean validateInput(String firstName, String lastName, String username, String email, String password, String phone, String program) {
         if (firstName.isEmpty()) {
             binding.etFirstName.setError("First name is required");
             binding.etFirstName.requestFocus();
@@ -44,6 +51,11 @@ public class StudentRegistration extends AppCompatActivity {
         if (lastName.isEmpty()) {
             binding.etLastName.setError("Last name is required");
             binding.etLastName.requestFocus();
+            return false;
+        }
+        if (username.isEmpty()) {
+            binding.etUsername.setError("Username is required");
+            binding.etUsername.requestFocus();
             return false;
         }
         if (email.isEmpty()) {
@@ -80,7 +92,7 @@ public class StudentRegistration extends AppCompatActivity {
         return true;
     }
 
-    private void registerStudent(String firstName, String lastName, String email, String password, String phone, String program) {
+    private void registerStudent(String firstName, String lastName, String username, String email, String password, String phone, String program) {
         Student student = new Student(firstName, lastName, email, phone, program);
         // Gotta implement Firebase authentication for user here unless I'm mistaken
     }

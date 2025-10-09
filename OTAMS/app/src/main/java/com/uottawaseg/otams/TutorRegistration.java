@@ -16,7 +16,13 @@ public class TutorRegistration extends AppCompatActivity {
     }
 
     private void initListeners() {
-        binding.button.setOnClickListener(v -> {
+        //Remove "//" once there is a class for main page
+        //binding.btnHomepage.setOnClickListener(v -> {
+        //Intent intent = new Intent(StudentRegistration.this, MainPage.class);
+        //    startActivity(intent);
+        //});
+        binding.btnApply.setOnClickListener(v -> {
+            String username= binding.etUsername.getText().toString().trim();
             String email= binding.etEmail.getText().toString().trim();
             String password= binding.etPassword.getText().toString().trim();
             String phone= binding.etPhone.getText().toString().trim();
@@ -25,13 +31,13 @@ public class TutorRegistration extends AppCompatActivity {
             String degree= binding.etDegree.getText().toString().trim();
             String courses= binding.etCourses.getText().toString().trim();
 
-            if (validateInput(firstName, lastName, email, password, phone, degree, courses)) {
-                registerTutor(firstName, lastName, email, password, phone, degree, courses);
+            if (validateInput(firstName, lastName, email, username, password, phone, degree, courses)) {
+                registerTutor(firstName, lastName, email, username, password, phone, degree, courses);
             }
         });
     }
 
-    private boolean validateInput(String firstName, String lastName, String email, String password, String phone, String degree, String courses) {
+    private boolean validateInput(String firstName, String lastName, String username, String email, String password, String phone, String degree, String courses) {
         if (firstName.isEmpty()) {
             binding.etFirstName.setError("First name is required");
             binding.etFirstName.requestFocus();
@@ -40,6 +46,11 @@ public class TutorRegistration extends AppCompatActivity {
         if (lastName.isEmpty()) {
             binding.etLastName.setError("Last name is required");
             binding.etLastName.requestFocus();
+            return false;
+        }
+        if (username.isEmpty()) {
+            binding.etUsername.setError("Username is required");
+            binding.etUsername.requestFocus();
             return false;
         }
         if (email.isEmpty()) {
@@ -80,7 +91,7 @@ public class TutorRegistration extends AppCompatActivity {
         return true;
     }
 
-    private void registerTutor(String firstName, String lastName, String email, String password, String phone, String degree, String courses) {
+    private void registerTutor(String firstName, String lastName, String username, String email, String password, String phone, String degree, String courses) {
         Tutor tutor = new Tutor(firstName, lastName, email, phone, degree, courses);
     }
     public static class Tutor {
