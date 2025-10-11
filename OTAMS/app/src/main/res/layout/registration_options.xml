@@ -38,6 +38,7 @@
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
             android:text="Tutor"
+            android:onClick="tutor_registration"
             app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
@@ -77,6 +78,7 @@
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
             android:text="Student"
+            android:onClick="student_registration"
             app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
@@ -96,6 +98,7 @@
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
             android:text="Return to homepage"
+            android:onClick="main_page"
             app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
