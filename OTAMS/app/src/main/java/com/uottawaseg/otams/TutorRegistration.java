@@ -1,7 +1,12 @@
 package com.uottawaseg.otams;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Courses.*;
+import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.databinding.TutorRegistrationBinding;
 
 public class TutorRegistration extends AppCompatActivity {
@@ -10,34 +15,33 @@ public class TutorRegistration extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= TutorRegistrationBinding.inflate(getLayoutInflater());
+        binding = TutorRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initListeners();
     }
 
     private void initListeners() {
-        //Remove "//" once there is a class for main page
-        //binding.btnHomepage.setOnClickListener(v -> {
-        //Intent intent = new Intent(StudentRegistration.this, MainPage.class);
-        //    startActivity(intent);
-        //});
-        binding.btnApply.setOnClickListener(v -> {
-            String username= binding.etUsername.getText().toString().trim();
-            String email= binding.etEmail.getText().toString().trim();
-            String password= binding.etPassword.getText().toString().trim();
-            String phone= binding.etPhone.getText().toString().trim();
-            String firstName= binding.etFirstName.getText().toString().trim();
-            String lastName= binding.etLastName.getText().toString().trim();
-            String degree= binding.etDegree.getText().toString().trim();
-            String courses= binding.etCourses.getText().toString().trim();
-
+        binding.button.setOnClickListener(v -> {
+            // TODO: add username
+            String username = "";
+            String email = binding.etEmail.getText().toString().trim();
+            String password = binding.etPassword.getText().toString().trim();
+            String phone = binding.etPhone.getText().toString().trim();
+            String firstName = binding.etFirstName.getText().toString().trim();
+            String lastName = binding.etLastName.getText().toString().trim();
+            String degree = binding.etDegree.getText().toString().trim();
+            // TODO: Change this to field of study
+            // Ideally we have a dropdown menu
+            String courses = binding.etCourses.getText().toString().trim();
+            var fieldOfStudy = Field.ENGINEERING.toString();
             if (validateInput(firstName, lastName, email, username, password, phone, degree, courses)) {
-                registerTutor(firstName, lastName, email, username, password, phone, degree, courses);
+                registerTutor(firstName, lastName, email, username, password, phone, Degree.fromString(degree), Field.fromString(fieldOfStudy));
             }
         });
     }
 
-    private boolean validateInput(String firstName, String lastName, String username, String email, String password, String phone, String degree, String courses) {
+    // DB has a function to validate usernames
+    private boolean validateInput(String firstName, String lastName, String email, String username, String password, String phone, String degree, String courses) {
         if (firstName.isEmpty()) {
             binding.etFirstName.setError("First name is required");
             binding.etFirstName.requestFocus();
@@ -88,29 +92,11 @@ public class TutorRegistration extends AppCompatActivity {
             binding.etCourses.requestFocus();
             return false;
         }
+        //TODO: Check username
         return true;
     }
 
-    private void registerTutor(String firstName, String lastName, String username, String email, String password, String phone, String degree, String courses) {
-        Tutor tutor = new Tutor(firstName, lastName, email, phone, degree, courses);
-    }
-    public static class Tutor {
-        public String firstName;
-        public String lastName;
-        public String email;
-        public String phone;
-        public String degree;
-        public String courses;
-
-        public Tutor() {}
-
-        public Tutor(String firstName, String lastName, String email, String phone, String degree, String courses) {
-            this.firstName= firstName;
-            this.lastName= lastName;
-            this.email= email;
-            this.phone= phone;
-            this.degree= degree;
-            this.courses= courses;
-        }
+    private void registerTutor(String firstName, String lastName, String email, String username, String password, String phone, Degree degree, Field fieldOfStudy) {
+        Tutor tutor = (Tutor) Database.Register(firstName, lastName, username, password, email, phone, degree, fieldOfStudy);
     }
 }
