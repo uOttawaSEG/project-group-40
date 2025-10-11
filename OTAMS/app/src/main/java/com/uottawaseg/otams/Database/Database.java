@@ -1,3 +1,4 @@
+
 package com.uottawaseg.otams.Database;
 
 import androidx.annotation.Nullable;
@@ -155,6 +156,7 @@ public class Database {
             * superMap.put("FieldOfStudy", _fieldOfStudy);
             * superMap.put("HighestDegree", _highestDegreeOfStudy);
             * */
+
             var FoS = Field.fromString((String) (data.child(FIELD_OF_STUDY).getValue()));
             var Deg = Degree.fromString((String) (data.child(HIGHEST_DEGREE).getValue()));
             return new Tutor(fName, lName, username,

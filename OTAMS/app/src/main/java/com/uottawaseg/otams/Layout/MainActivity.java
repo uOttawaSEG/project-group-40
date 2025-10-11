@@ -1,6 +1,9 @@
-package com.uottawaseg.otams;
+// Imports
+package com.uottawaseg.otams.Layout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
 import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.R;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,12 +24,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.welcome); // Edit "x" in R.layout.x to test out different pages - Anastasia
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+
+        setContentView(R.layout.main_page);
+
+
+        // Main page "Login" button
+        Button main_page_login_button = findViewById(R.id.main_login);
+        main_page_login_button.setOnClickListener(view ->
+                startActivity(new Intent(MainActivity.this, login.class)));
+
+        // Main page "Sign-up" button
+        Button main_page_register_button = findViewById(R.id.main_signup);
+        main_page_register_button.setOnClickListener(view ->
+                startActivity(new Intent(MainActivity.this, register.class)));
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_page), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+
+
         Database.StartDB();
 
         // Testing register
@@ -34,5 +58,6 @@ public class MainActivity extends AppCompatActivity {
         // Testing login
         var acc = Database.Login("bananas", "pass2");
         System.out.println(acc);
+
     }
 }
