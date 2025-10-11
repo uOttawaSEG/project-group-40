@@ -6,9 +6,6 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.uottawaseg.otams.R;
 
@@ -24,17 +21,17 @@ public class register extends AppCompatActivity {
         setContentView(R.layout.registration_options);
 
         // Button on registration_options activity "Tutor"
-        Button register_tutor_btn = findViewById(R.id.register_tutor_button);
+        Button register_tutor_btn = findViewById(R.id.tutor_btn);
         register_tutor_btn.setOnClickListener(view ->
                 startActivity(new Intent(register.this, registerAsTutor.class)));
 
         // Button on registration_options activity "Student"
-        Button register_student_btn = findViewById(R.id.register_student_button);
+        Button register_student_btn = findViewById(R.id.student_btn);
         register_student_btn.setOnClickListener(view ->
                 startActivity(new Intent(register.this, registerAsStudent.class)));
 
         // Button on registration_options activity "Return to Homepage"
-        Button return_to_HP = findViewById(R.id.returnToHP_button);
+        Button return_to_HP = findViewById(R.id.hp_btn);
         return_to_HP.setOnClickListener(view ->
                 startActivity(new Intent(register.this, MainActivity.class)));
     }

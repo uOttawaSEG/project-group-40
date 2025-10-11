@@ -17,9 +17,10 @@ public class TutorRegistration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = TutorRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        initListeners();
+        //initListeners();
     }
 
+    /*
     private void initListeners() {
         binding.button.setOnClickListener(v -> {
             // TODO: add username
@@ -39,6 +40,7 @@ public class TutorRegistration extends AppCompatActivity {
             }
         });
     }
+    */
 
     // DB has a function to validate usernames
     private boolean validateInput(String firstName, String lastName, String email, String username, String password, String phone, String degree, String courses) {
