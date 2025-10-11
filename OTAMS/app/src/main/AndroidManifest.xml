@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OTAMS">
         <activity
-            android:name=".MainActivity"
+            android:name=".Layout.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +24,19 @@
             android:name=".StudentRegistration" />
         <activity
             android:name=".TutorRegistration" />
+
+
+        <!-- Added for switching between activities -->
+        <!-- Code now recognizes these layouts -->
+        <activity android:name=".Layout.register" />
+        <activity android:name=".Layout.login" />
+        <activity android:name=".Layout.welcome" />
+        <activity android:name=".Layout.registerAsStudent" />
+        <activity android:name=".Layout.registerAsTutor" />
+
+
+
+
     </application>
 
 </manifest>

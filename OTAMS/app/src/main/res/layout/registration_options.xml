@@ -6,96 +6,75 @@
     android:layout_height="match_parent"
     android:background="#80746C">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="381dp"
-        android:layout_height="88dp"
-        android:layout_marginTop="16dp"
-        android:text="Register as..."
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.487" />
-
     <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="386dp"
-        android:layout_height="96dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
-        tools:layout_editor_absoluteX="12dp">
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#8F001A"
-            android:text="Tutor"
-            app:rippleColor="#FFFFFFFF" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="383dp"
-        android:layout_height="88dp"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="511dp">
-
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#8F001A"
-            android:text="Administrator"
-            app:rippleColor="#FFFFFFFF" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout8"
-        android:layout_width="383dp"
-        android:layout_height="83dp"
-        android:layout_marginBottom="12dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#8F001A"
-            android:text="Student"
-            app:rippleColor="#FFFFFFFF" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="175dp"
-        android:layout_height="53dp"
-        android:orientation="horizontal"
+        android:layout_width="351dp"
+        android:layout_height="102dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout12"
+        app:layout_constraintVertical_bias="0.825">
 
         <Button
-            android:id="@+id/button7"
-            android:layout_width="wrap_content"
+            android:id="@+id/returnToHP_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:backgroundTint="#8F001A"
-            android:text="Return to homepage"
-            app:rippleColor="#FFFFFFFF" />
+            android:text="Return to Homepage" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout12"
+        android:layout_width="347dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="36dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
+
+        <Button
+            android:id="@+id/register_student_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#8F001A"
+            android:text="Student" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="324dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="128dp"
+        android:text="Register as..."
+        android:textAlignment="center"
+        android:textColor="#FFFFFFFF"
+        android:textColorHighlight="#FFFFFFFF"
+        android:textColorHint="#FFFFFFFF"
+        android:textColorLink="#FFFFFFFF"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout11"
+        android:layout_width="350dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="88dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <Button
+            android:id="@+id/register_tutor_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#8F001A"
+            android:text="Tutor" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8F001A">
+    android:background="#8F001A"
+    android:id="@+id/main_page">
 
     <TextView
         android:id="@+id/textView"
@@ -14,7 +15,7 @@
         android:text="OTAMS"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="70sp"
+        android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,12 +27,12 @@
         android:layout_marginTop="124dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/main_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -53,7 +54,7 @@
         app:layout_constraintVertical_bias="0.188">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/main_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
