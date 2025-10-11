@@ -38,6 +38,7 @@
             android:layout_weight="1"
             android:backgroundTint="#80746C"
             android:text="Login"
+            android:onClick="login"
             app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
@@ -60,6 +61,7 @@
             android:layout_weight="1"
             android:backgroundTint="#80746C"
             android:text="Sign-up"
+            android:onClick="registration_options"
             app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
 
