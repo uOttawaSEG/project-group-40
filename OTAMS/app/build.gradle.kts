@@ -2,10 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
 }
-
 android {
     buildFeatures {
-        viewBinding= true
+        viewBinding = true
     }
     namespace = "com.uottawaseg.otams"
     compileSdk = 36

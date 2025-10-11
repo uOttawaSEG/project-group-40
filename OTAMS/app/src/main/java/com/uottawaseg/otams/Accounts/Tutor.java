@@ -65,6 +65,4 @@ public class Tutor extends Account {
         }
         return sb.toString();
     }
-
-
 }

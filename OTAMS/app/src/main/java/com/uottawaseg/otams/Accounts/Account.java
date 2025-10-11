@@ -38,7 +38,6 @@ public abstract class Account {
         public int GetValue() {
             return value;
         }
-        @NonNull
         @Override
         public String toString() {
             switch(value) {

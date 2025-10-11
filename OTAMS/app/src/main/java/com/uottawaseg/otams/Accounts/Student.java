@@ -27,5 +27,4 @@ public class Student extends Account {
         return _role;
     }
 
-
 }
