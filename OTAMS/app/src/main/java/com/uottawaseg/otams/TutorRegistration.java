@@ -52,6 +52,11 @@ public class TutorRegistration extends AppCompatActivity {
             binding.etLastName.requestFocus();
             return false;
         }
+        if (username.isEmpty()) {
+            binding.etUsername.setError("Username is required");
+            binding.etUsername.requestFocus();
+            return false;
+        }
         if (email.isEmpty()) {
             binding.etEmail.setError("Email is required");
             binding.etEmail.requestFocus();
