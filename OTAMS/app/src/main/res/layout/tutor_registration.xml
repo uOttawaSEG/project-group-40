@@ -7,6 +7,20 @@
     android:background="@color/UOred"
     android:id="@+id/main">
 
+    <TextView
+        android:id="@+id/TutorForm"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/tutor_form"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/username"/>
+
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
@@ -23,10 +37,28 @@
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toTopOf="@id/password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TutorForm"
-        app:layout_constraintVertical_bias="0.918" />
+        app:layout_constraintTop_toBottomOf="@+id/TutorForm"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:autofillHints="username"
+        android:ems="10"
+        android:hint="@string/password_hint"
+        android:importantForAutofill="yes"
+        android:inputType="text"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username"
+        app:layout_constraintVertical_bias="10.0" />
 
     <EditText
         android:id="@+id/email"
@@ -44,10 +76,8 @@
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toTopOf="@id/phoneNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password"
-        app:layout_constraintVertical_bias="1" />
+        app:layout_constraintTop_toBottomOf="@id/password" />
 
     <EditText
         android:id="@+id/phoneNumber"
@@ -69,26 +99,88 @@
         app:layout_constraintTop_toBottomOf="@id/email"
         app:layout_constraintVertical_bias="1" />
 
-    <EditText
-        android:id="@+id/password"
+
+    <LinearLayout
+        android:id="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:autofillHints="username"
-        android:ems="10"
-        android:hint="@string/password_hint"
-        android:importantForAutofill="yes"
-        android:inputType="text"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/email"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/username"
-        app:layout_constraintVertical_bias="10.0" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumber"
+        app:layout_constraintVertical_bias="0.0">
+
+        <EditText
+            android:id="@+id/firstName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autofillHints="givenName"
+            android:ems="10"
+            android:hint="@string/first_name"
+            android:importantForAutofill="yes"
+            android:inputType="text"
+            android:textColorHint="@color/white" />
+
+        <EditText
+            android:id="@+id/lastName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autofillHints="familyName"
+            android:ems="10"
+            android:hint="@string/last_name"
+            android:importantForAutofill="yes"
+            android:inputType="text"
+            android:textColorHint="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/fieldOfStudy"
+        app:layout_constraintTop_toBottomOf="@+id/name">
+
+
+        <Spinner
+            android:id="@+id/degree"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.8"
+            app:layout_constraintEnd_toStartOf="@+id/btnApply"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/UOgray"
+            android:text="@string/apply_button" />
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/fieldOfStudy"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -110,89 +202,6 @@
             android:text="@string/homepage_button"
             app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
-
-    <Spinner
-        android:id="@+id/fieldOfStudy"
-        android:layout_width="372dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:layout_editor_absoluteX="22dp" />
-
-    <TextView
-        android:id="@+id/TutorForm"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="@string/tutor_form"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/name"
-        android:layout_width="374dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/fieldOfStudy"
-        app:layout_constraintEnd_toEndOf="@id/phoneNumber"
-        app:layout_constraintHorizontal_bias="0.916"
-        app:layout_constraintStart_toStartOf="@id/phoneNumber"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumber"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/firstName"
-            android:layout_width="151dp"
-            android:layout_height="49dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textColor="@color/white"
-            tools:text="@string/first_name" />
-
-        <TextView
-            android:id="@+id/lastName"
-            android:layout_width="167dp"
-            android:layout_height="49dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textColor="@color/white"
-            tools:text="@string/last_name" />
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="370dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/fieldOfStudy"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:layout_editor_absoluteX="24dp">
-
-        <Button
-            android:id="@+id/btnApply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/apply_button"
-            tools:layout_editor_absoluteX="278dp"
-            tools:layout_editor_absoluteY="3dp" />
-
-        <Spinner
-            android:id="@+id/degree"
-            android:layout_width="259dp"
-            android:layout_height="56dp"
-            app:layout_constraintEnd_toStartOf="@+id/btnApply"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="-1dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

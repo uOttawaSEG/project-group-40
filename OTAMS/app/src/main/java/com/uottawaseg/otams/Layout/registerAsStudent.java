@@ -20,8 +20,8 @@ public class registerAsStudent extends AppCompatActivity {
         setContentView(R.layout.student_registration);
 
         // Button "Apply" in tutor_registration
-        Button welcome_returnToHP_button = findViewById(R.id.btnApply);
-        welcome_returnToHP_button.setOnClickListener(view ->
+        Button applyButton = findViewById(R.id.btnApply);
+        applyButton.setOnClickListener(view ->
                 startActivity(new Intent(registerAsStudent.this, login.class)));
 
         // Button "Return to Homepage" in student_registration

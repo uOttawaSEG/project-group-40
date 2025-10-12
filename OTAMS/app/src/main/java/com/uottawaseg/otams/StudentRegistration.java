@@ -30,7 +30,7 @@ public class StudentRegistration extends AppCompatActivity {
         //Intent intent = new Intent(StudentRegistration.this, MainPage.class);
         //    startActivity(intent);
         //});
-        binding.btnApply2.setOnClickListener(v-> {
+        binding.btnApply.setOnClickListener(v-> {
             String username= binding.username.getText().toString().trim();
             String email= binding.email.getText().toString().trim();
             String password= binding.password.getText().toString().trim();
