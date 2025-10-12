@@ -5,16 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#80746C">
-
     <LinearLayout
-<<<<<<< HEAD
         android:layout_width="351dp"
         android:layout_height="102dp"
-        android:orientation="vertical"
-=======
         android:id="@+id/linearLayout3"
-        android:layout_width="386dp"
-        android:layout_height="96dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
@@ -30,7 +24,6 @@
             android:onClick="tutor_registration"
             app:rippleColor="#FFFFFFFF" />
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="383dp"
@@ -75,7 +68,6 @@
         android:layout_width="175dp"
         android:layout_height="53dp"
         android:orientation="horizontal"
->>>>>>> 9857b4ea489010cd189496fb698c54f90bf5087d
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,8 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#8F001A"
-<<<<<<< HEAD
             android:text="Return to Homepage" />
+<!-- <<<<<<< HEAD -->
     </LinearLayout>
 
     <LinearLayout
@@ -143,10 +135,10 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#8F001A"
             android:text="Tutor" />
-=======
+<!--=======
             android:text="Return to homepage"
             android:onClick="main_page"
             app:rippleColor="#FFFFFFFF" />
->>>>>>> 9857b4ea489010cd189496fb698c54f90bf5087d
+>>>>>>> 9857b4ea489010cd189496fb698c54f90bf5087d>-->
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

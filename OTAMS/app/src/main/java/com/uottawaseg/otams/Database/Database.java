@@ -16,6 +16,7 @@ import java.util.Arrays;
 
 public class Database {
     private static boolean _alreadySetup = false;
+    private static Account _currentAccount;
     private static DatabaseReference db;
 
     // These constants are to be used to simplify DB queries,
@@ -36,6 +37,13 @@ public class Database {
     public static final String HIGHEST_DEGREE = "degree";
     public static final String ACCOUNTS = "accounts";
     // Returns false whether or not the database was able to be setup
+
+    private static void setAccount(Account a) {
+        _currentAccount = a;
+    }
+    public static Account getCurrentAccount() {
+        return _currentAccount;
+    }
 
     private static void OnCancelled(DatabaseError e) {
         System.out.println("Firebase error: " + e.getMessage());
@@ -71,14 +79,19 @@ public class Database {
             var pass = GetSHA256(password);
             System.out.println("Bytes == pass: " + checkBytes(bytes, pass));
             if(checkBytes(bytes, pass)) {
-                return makeAccountFromQuery(result);
+                setAccount(makeAccountFromQuery(result));
+                return getCurrentAccount();
             }
         }
         // If the query was unsuccessful it's because there's a problem somewhere...
         // Probably
         return null;
     }
-
+    // This returns whether or not the logout was sucessful
+    public static boolean LogOut() {
+        setAccount(null);
+        return true;
+    }
     // Register a student account
     public static Account Register(String firstName, String lastName,
                                    String username, String password, String phoneNumber,
