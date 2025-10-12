@@ -1,6 +1,7 @@
 package com.uottawaseg.otams;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,20 +23,20 @@ public class TutorRegistration extends AppCompatActivity {
 
     /*
     private void initListeners() {
-        binding.button.setOnClickListener(v -> {
+        binding.btnApply.setOnClickListener(v -> {
             // TODO: add username
-            String username = "";
-            String email = binding.etEmail.getText().toString().trim();
-            String password = binding.etPassword.getText().toString().trim();
-            String phone = binding.etPhone.getText().toString().trim();
-            String firstName = binding.etFirstName.getText().toString().trim();
-            String lastName = binding.etLastName.getText().toString().trim();
-            String degree = binding.etDegree.getText().toString().trim();
+            String username = binding.username.getText().toString().trim();
+            String email = binding.email.getText().toString().trim();
+            String password = binding.password.getText().toString().trim();
+            String phone = binding.phoneNumber.getText().toString().trim();
+            String firstName = binding.firstName.getText().toString().trim();
+            String lastName = binding.lastName.getText().toString().trim();
+            String degree = ((TextView) binding.degree.getSelectedView()).getText().toString();
             // TODO: Change this to field of study
             // Ideally we have a dropdown menu
-            String courses = binding.etCourses.getText().toString().trim();
+            String field = "MATHEMATICS";//((TextView) binding.fieldOfStudy.getSelectedView()).getText().toString();
             var fieldOfStudy = Field.ENGINEERING.toString();
-            if (validateInput(firstName, lastName, email, username, password, phone, degree, courses)) {
+            if (validateInput(firstName, lastName, email, username, password, phone)) {
                 registerTutor(firstName, lastName, email, username, password, phone, Degree.fromString(degree), Field.fromString(fieldOfStudy));
             }
         });
@@ -43,58 +44,47 @@ public class TutorRegistration extends AppCompatActivity {
     */
 
     // DB has a function to validate usernames
-    private boolean validateInput(String firstName, String lastName, String email, String username, String password, String phone, String degree, String courses) {
+    private boolean validateInput(String firstName, String lastName, String email, String username, String password, String phone) {
         if (firstName.isEmpty()) {
-            binding.etFirstName.setError("First name is required");
-            binding.etFirstName.requestFocus();
+            binding.firstName.setError("First name is required");
+            binding.firstName.requestFocus();
             return false;
         }
         if (lastName.isEmpty()) {
-            binding.etLastName.setError("Last name is required");
-            binding.etLastName.requestFocus();
+            binding.lastName.setError("Last name is required");
+            binding.lastName.requestFocus();
             return false;
         }
         if (username.isEmpty()) {
-            binding.etUsername.setError("Username is required");
-            binding.etUsername.requestFocus();
-            return false;
+            binding.username.setError("Username is required");
+            binding.username.requestFocus();
+            return Database.CheckUsername(username);
         }
         if (email.isEmpty()) {
-            binding.etEmail.setError("Email is required");
-            binding.etEmail.requestFocus();
+            binding.email.setError("Email is required");
+            binding.email.requestFocus();
             return false;
         }
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.etEmail.setError("Enter a valid email");
-            binding.etEmail.requestFocus();
+            binding.email.setError("Enter a valid email");
+            binding.email.requestFocus();
             return false;
         }
         if (password.isEmpty()) {
-            binding.etPassword.setError("Password is required");
-            binding.etPassword.requestFocus();
+            binding.password.setError("Password is required");
+            binding.password.requestFocus();
             return false;
         }
         if (password.length() < 6) {
-            binding.etPassword.setError("Password must be at least 6 characters");
-            binding.etPassword.requestFocus();
+            binding.password.setError("Password must be at least 6 characters");
+            binding.password.requestFocus();
             return false;
         }
         if (phone.isEmpty()) {
-            binding.etPhone.setError("Phone number is required");
-            binding.etPhone.requestFocus();
+            binding.phoneNumber.setError("Phone number is required");
+            binding.phoneNumber.requestFocus();
             return false;
         }
-        if (degree.isEmpty()) {
-            binding.etDegree.setError("Degree is required");
-            binding.etDegree.requestFocus();
-            return false;
-        }
-        if (courses.isEmpty()) {
-            binding.etCourses.setError("Courses offered are required");
-            binding.etCourses.requestFocus();
-            return false;
-        }
-        //TODO: Check username
         return true;
     }
 

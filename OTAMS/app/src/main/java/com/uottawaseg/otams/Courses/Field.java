@@ -27,6 +27,11 @@ public enum Field {
     Field(int value) {
         _value = value;
     }
+
+    public static String[] getValues() {
+        return new String[] { "Science", "Engineering", "Mathematics", "Medicine", "Arts", "Business" };
+    }
+
     public int getValue() {
         return _value;
     }

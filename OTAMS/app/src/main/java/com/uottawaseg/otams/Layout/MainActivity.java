@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.main_page);
-
-
+        Database.StartDB();
+        Database.RegisterAdmin();
         // Main page "Login" button
         Button main_page_login_button = findViewById(R.id.main_login);
         main_page_login_button.setOnClickListener(view ->
@@ -44,20 +44,5 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
-
-
-        Database.StartDB();
-
-        // Testing register
-        Database.Register("Sebastien", "Gosselin", "sgoss040@uottawaca",
-                "Pass1", "email", "phone num", "101");
-        Database.Register("Sebastien", "Gosselin", "bananas", "pass2",
-                "10490214", "emailtxt", Degree.HIGHSCHOOL, Field.ENGINEERING);
-        // Testing login
-        var acc = Database.Login("bananas", "pass2");
-        System.out.println(acc);
-
     }
 }

@@ -31,13 +31,13 @@ public class StudentRegistration extends AppCompatActivity {
         //    startActivity(intent);
         //});
         binding.btnApply.setOnClickListener(v-> {
-            String username= binding.etUsername.getText().toString().trim();
-            String email= binding.etEmail.getText().toString().trim();
-            String password= binding.etPassword.getText().toString().trim();
-            String phone= binding.etPhone.getText().toString().trim();
-            String firstName= binding.etFirstName.getText().toString().trim();
-            String lastName= binding.etLastName.getText().toString().trim();
-            String program= binding.etProgram.getText().toString().trim();
+            String username = binding.username.getText().toString().trim();
+            String email = binding.email.getText().toString().trim();
+            String password = binding.password.getText().toString().trim();
+            String phone = binding.phoneNumber.getText().toString().trim();
+            String firstName = binding.firstName.getText().toString().trim();
+            String lastName = binding.lastName.getText().toString().trim();
+            String program = "";// binding.program.getText().toString().trim();
 
             if (validateInput(firstName, lastName, username, email, password, phone, program)) {
                 registerStudent(firstName, lastName, username, email, password, phone, program);
@@ -47,50 +47,50 @@ public class StudentRegistration extends AppCompatActivity {
 
     private boolean validateInput(String firstName, String lastName, String username, String email, String password, String phone, String program) {
         if (firstName.isEmpty()) {
-            binding.etFirstName.setError("First name is required");
-            binding.etFirstName.requestFocus();
+            binding.firstName.setError("First name is required");
+            binding.firstName.requestFocus();
             return false;
         }
         if (lastName.isEmpty()) {
-            binding.etLastName.setError("Last name is required");
-            binding.etLastName.requestFocus();
+            binding.lastName.setError("Last name is required");
+            binding.lastName.requestFocus();
             return false;
         }
         if (username.isEmpty()) {
-            binding.etUsername.setError("Username is required");
-            binding.etUsername.requestFocus();
+            binding.username.setError("Username is required");
+            binding.username.requestFocus();
             return false;
         }
         if (email.isEmpty()) {
-            binding.etEmail.setError("Email is required");
-            binding.etEmail.requestFocus();
+            binding.email.setError("email is required");
+            binding.email.requestFocus();
             return false;
         }
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.etEmail.setError("Please enter a valid email");
-            binding.etEmail.requestFocus();
+            binding.email.setError("please enter a valid email");
+            binding.email.requestFocus();
             return false;
         }
         if (password.isEmpty()) {
-            binding.etPassword.setError("Password is required");
-            binding.etPassword.requestFocus();
+            binding.password.setError("password is required");
+            binding.password.requestFocus();
             return false;
         }
         if (password.length() < 6) {
-            binding.etPassword.setError("Password must be at least 6 characters");
-            binding.etPassword.requestFocus();
+            binding.password.setError("password must be at least 6 characters");
+            binding.password.requestFocus();
             return false;
         }
         if (phone.isEmpty()) {
-            binding.etPhone.setError("Phone number is required");
-            binding.etPhone.requestFocus();
+            binding.phoneNumber.setError("phone number is required");
+            binding.phoneNumber.requestFocus();
             return false;
-        }
+        }/*
         if (program.isEmpty()) {
-            binding.etProgram.setError("Program is required");
-            binding.etProgram.requestFocus();
+            binding.program.setError("program is required");
+            binding.program.requestFocus();
             return false;
-        }
+        }*/
 
         return true;
     }

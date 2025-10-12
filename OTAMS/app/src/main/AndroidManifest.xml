@@ -34,9 +34,6 @@
         <activity android:name=".Layout.registerAsStudent" />
         <activity android:name=".Layout.registerAsTutor" />
 
-
-
-
     </application>
 
 </manifest>
