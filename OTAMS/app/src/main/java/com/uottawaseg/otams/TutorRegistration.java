@@ -33,7 +33,7 @@ public class TutorRegistration extends AppCompatActivity {
             String degree = ((TextView) binding.degree.getSelectedView()).getText().toString();
             // TODO: Change this to field of study
             // Ideally we have a dropdown menu
-            String field = ((TextView) binding.fieldOfStudy.getSelectedView()).getText().toString();
+            String field = "MATHEMATICS";//((TextView) binding.fieldOfStudy.getSelectedView()).getText().toString();
             var fieldOfStudy = Field.ENGINEERING.toString();
             if (validateInput(firstName, lastName, email, username, password, phone)) {
                 registerTutor(firstName, lastName, email, username, password, phone, Degree.fromString(degree), Field.fromString(fieldOfStudy));

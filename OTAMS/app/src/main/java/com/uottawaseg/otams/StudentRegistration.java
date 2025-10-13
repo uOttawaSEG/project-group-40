@@ -31,13 +31,13 @@ public class StudentRegistration extends AppCompatActivity {
         //    startActivity(intent);
         //});
         binding.btnApply.setOnClickListener(v-> {
-            String username= binding.username.getText().toString().trim();
-            String email= binding.email.getText().toString().trim();
-            String password= binding.password.getText().toString().trim();
-            String phone= binding.phoneNumber.getText().toString().trim();
-            String firstName= binding.firstName.getText().toString().trim();
-            String lastName= binding.lastName.getText().toString().trim();
-            String program= "";// binding.program.getText().toString().trim();
+            String username = binding.username.getText().toString().trim();
+            String email = binding.email.getText().toString().trim();
+            String password = binding.password.getText().toString().trim();
+            String phone = binding.phoneNumber.getText().toString().trim();
+            String firstName = binding.firstName.getText().toString().trim();
+            String lastName = binding.lastName.getText().toString().trim();
+            String program = "";// binding.program.getText().toString().trim();
 
             if (validateInput(firstName, lastName, username, email, password, phone, program)) {
                 registerStudent(firstName, lastName, username, email, password, phone, program);

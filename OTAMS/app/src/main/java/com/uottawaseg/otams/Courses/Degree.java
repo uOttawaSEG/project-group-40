@@ -49,4 +49,8 @@ public enum Degree {
                 return UNKNOWN;
         }
     }
+
+    public static String[] getValues() {
+        return new String[] {"NONE", "HIGHSCHOOL", "BACHELORS", "MASTERS", "DOCTORATE"};
+    }
 }

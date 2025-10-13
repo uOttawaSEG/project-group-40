@@ -8,7 +8,6 @@ import java.util.Arrays;
 public class Administrator extends Account {
     private final Role _role = Role.ADMIN;
     public Administrator() {
-        super("root", Arrays.toString(Database.GetSHA256("toor")), "8675309", "admin@admin.com");
         _username = "root";
         _password = Database.GetSHA256("toor");
         _firstName = "Sebastien";

@@ -9,14 +9,14 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="program_hint">Program of Study</string>
-    <string-array name="highest_degree">
+    <string-array name="degree_array">
         <item>None</item>
         <item>High school</item>
         <item>Bachelors</item>
         <item>Masters</item>
         <item>Doctorate</item>
     </string-array>
-    <string-array name="Fields_of_study">
+    <string-array name="fields_array">
         <item>Science</item>
         <item>Engineering</item>
         <item>Mathematics</item>

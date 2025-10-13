@@ -18,8 +18,7 @@ public abstract class Account {
 
     // This exists for our administrator. Exclusively the administrator.
     // Do not use
-    public Account(String username, String password, String phoneNumber, String email) {
-        throw new RuntimeException("Missing first and last name.");
+    protected Account() {
     }
 
     public enum Role {
@@ -54,7 +53,7 @@ public abstract class Account {
         public static Role fromString(String s) {
             s = s.toUpperCase();
             switch (s) {
-                case "ADMINISTRATOR":
+                case "ADMIN":
                     return ADMIN;
                 case "TUTOR":
                     return TUTOR;
@@ -93,15 +92,23 @@ public abstract class Account {
         return _email;
     }
 
+    public String getFirstName() {
+        return  _firstName;
+    }
+    public String getLastName() {
+        return _lastName;
+    }
+
     public String getName() {
-        return  _firstName + " " + _lastName;
+        return getFirstName() + " " + getLastName();
     }
     // This will be used publicly not internally, thus the password will be omitted
     // We don't want to print the password at every chance we get
     @NonNull
     public String toString() {
         var sb =  new StringBuilder();
-        sb.append("Name: ").append(getName()).append("\n");
+        sb.append("First name: ").append(getFirstName()).append("\n");
+        sb.append("Last name").append(getLastName()).append("\n");
         sb.append("Username: ").append(getUsername()).append("\n");
         sb.append("Phone Number: ").append(getPhoneNumber()).append("\n");
         sb.append("Email: ").append(getEmail()).append("\n");
