@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,9 +37,15 @@ public class registerAsTutor extends AppCompatActivity {
         var degrees = (Spinner) findViewById(R.id.degree);
         var fields = (Spinner) findViewById(R.id.fields);
 
-        var degreeAdapter = new ArrayAdapter(this, R.id.degree, Degree.getValues());
+        // This setups up the two spinners
+        // This took way too long to get working I'm not even going to lie.
+        var degreeAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Degree.getValues());
         degreeAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        degrees.setAdapter(degreeAdapter);
 
+        var fieldAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Field.getValues());
+        fieldAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        fields.setAdapter(fieldAdapter);
 
         Button tutor_apply = findViewById(R.id.btnApply);
         initListeners(tutor_apply);
@@ -80,12 +87,12 @@ public class registerAsTutor extends AppCompatActivity {
         });
 
         toApply.setOnClickListener(v -> {
-            var fName = findViewById(R.id.firstName).toString().trim();
-            var lName = findViewById(R.id.lastName).toString().trim();
-            var email = findViewById(R.id.email).toString().trim();
-            var username = findViewById(R.id.username).toString().trim();
-            var password = findViewById(R.id.password).toString().trim();
-            var phone = findViewById(R.id.phoneNumber).toString().trim();
+            var fName = ((TextView) findViewById(R.id.firstName)).getText().toString().trim();
+            var lName = ((TextView) findViewById(R.id.lastName)).getText().toString().trim();
+            var email = ((TextView) findViewById(R.id.email)).getText().toString().trim();
+            var username = ((TextView) findViewById(R.id.username)).getText().toString().trim();
+            var password = ((TextView) findViewById(R.id.password)).getText().toString().trim();
+            var phone = ((TextView) findViewById(R.id.phoneNumber)).getText().toString().trim();
             if(validateInput(fName, lName, email, username, password, phone, degreeSelected, fieldOfStudy)) {
                 registerTutor(fName, lName, username, password, phone, email, degreeSelected, fieldOfStudy);
                 startActivity(new Intent(registerAsTutor.this, welcome.class));
@@ -140,8 +147,8 @@ public class registerAsTutor extends AppCompatActivity {
         return true;
     }
 
-    private void registerTutor(String firstName, String lastName, String email, String username,
-                               String password, String phone, Degree degree, Field fieldOfStudy) {
-        Tutor tutor = (Tutor) Database.Register(firstName, lastName, username, password, email, phone, degree, fieldOfStudy);
+    private void registerTutor(String firstName, String lastName, String username, String password,
+                               String phone, String email, Degree degree, Field fieldOfStudy) {
+        Tutor tutor = (Tutor) Database.Register(firstName, lastName, username, password, phone, email, degree, fieldOfStudy);
     }
 }
