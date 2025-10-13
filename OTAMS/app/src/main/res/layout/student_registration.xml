@@ -37,12 +37,15 @@
         android:hint="@string/username_hint"
         android:importantForAutofill="yes"
         android:inputType="text"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
+        android:textColorLink="@color/white"
         app:layout_constraintBottom_toTopOf="@id/password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StudentForm"/>
+        app:layout_constraintTop_toBottomOf="@+id/StudentForm" />
 
     <EditText
         android:id="@+id/password"
@@ -56,12 +59,15 @@
         android:hint="@string/password_hint"
         android:importantForAutofill="yes"
         android:inputType="textPassword"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
+        android:textColorLink="@color/white"
         app:layout_constraintBottom_toTopOf="@id/phoneNumber"
-        app:layout_constraintTop_toBottomOf="@id/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username" />
 
     <EditText
         android:id="@+id/phoneNumber"
@@ -75,13 +81,15 @@
         android:hint="@string/phone_hint"
         android:importantForAutofill="yes"
         android:inputType="phone"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
+        android:textColorLink="@color/white"
         app:layout_constraintBottom_toTopOf="@id/email"
-        app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
 
     <EditText
@@ -96,12 +104,15 @@
         android:hint="@string/email_hint"
         android:importantForAutofill="yes"
         android:inputType="textEmailAddress"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
+        android:textColorLink="@color/white"
         app:layout_constraintBottom_toTopOf="@id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -126,7 +137,10 @@
             android:hint="@string/first_name"
             android:importantForAutofill="yes"
             android:inputType="text"
-            android:textColorHint="@color/white" />
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/white" />
 
         <EditText
             android:id="@+id/lastName"
@@ -138,7 +152,10 @@
             android:hint="@string/last_name"
             android:importantForAutofill="yes"
             android:inputType="text"
-            android:textColorHint="@color/white" />
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/white" />
     </LinearLayout>
 
     <LinearLayout
@@ -159,7 +176,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="@color/UOgray"
-            android:text="@string/apply_button" />
+            android:text="@string/apply_button"
+            app:rippleColor="@color/white" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -180,7 +198,7 @@
             android:layout_height="match_parent"
             android:backgroundTint="@color/UOgray"
             android:text="@string/homepage_button"
-            app:rippleColor="#FFFFFFFF" />
+            app:rippleColor="@color/white" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
