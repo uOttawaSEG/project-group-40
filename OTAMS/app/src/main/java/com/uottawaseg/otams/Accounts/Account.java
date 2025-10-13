@@ -102,6 +102,8 @@ public abstract class Account {
     public String getName() {
         return getFirstName() + " " + getLastName();
     }
+
+    public abstract Role getRole();
     // This will be used publicly not internally, thus the password will be omitted
     // We don't want to print the password at every chance we get
     @NonNull

@@ -21,7 +21,7 @@ public class welcome extends AppCompatActivity {
         setContentView(R.layout.welcome);
         var text = (TextView) findViewById(R.id.loginConfirmation);
         System.out.println(text);
-        var toDisplay = "You are logged in as " + Database.getCurrentAccount().getName();
+        var toDisplay = "You are logged in as " + Database.getCurrentAccount().getName() + ". \n Your role is: " + Database.getCurrentAccount().getRole();
         text.setText(toDisplay);
 
 

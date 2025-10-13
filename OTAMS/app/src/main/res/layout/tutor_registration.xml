@@ -149,7 +149,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/fieldOfStudy"
+        app:layout_constraintBottom_toTopOf="@+id/fields"
         app:layout_constraintTop_toBottomOf="@+id/name">
 
 
