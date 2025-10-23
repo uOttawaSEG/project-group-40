@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
 
 public class StudentRegistration extends AppCompatActivity {
@@ -96,6 +97,6 @@ public class StudentRegistration extends AppCompatActivity {
     }
 
     private void registerStudent(String firstName, String lastName, String email, String username, String password, String phone, String studentID) {
-        Student student = (Student) Database.Register(firstName, lastName, username, password, phone, email, studentID);
+        LoginManager.Register(firstName, lastName, username, password, phone, email, studentID);
     }
 }

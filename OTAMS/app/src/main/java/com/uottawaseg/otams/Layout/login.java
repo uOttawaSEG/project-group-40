@@ -10,6 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
 
@@ -28,15 +29,15 @@ public class login extends AppCompatActivity {
                 {
                     var usrView = (TextView) findViewById(R.id.email_input);
                     var passView = (TextView) findViewById(R.id.password_input);
-                    System.out.println((usrView == null) + ", " + (passView == null));
                     var username = ((TextView) findViewById(R.id.email_input)).getText().toString();
                     var password = ((TextView) findViewById(R.id.password_input)).getText().toString();
-                    var acc = Database.Login(username, password);
+                    var acc = LoginManager.Login(username, password);
                     System.out.println(acc);
                     if (acc != null) {
                         System.out.println("Login successful");
                         startActivity(new Intent(login.this, welcome.class));
                     } else {
+                        System.out.println("Unable to login");
                         Toast.makeText(this.getApplicationContext(), "Unable to login", Toast.LENGTH_LONG);
                     }
                 });

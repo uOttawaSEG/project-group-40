@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Courses.*;
 import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.databinding.TutorRegistrationBinding;
 
 public class TutorRegistration extends AppCompatActivity {
@@ -58,7 +59,7 @@ public class TutorRegistration extends AppCompatActivity {
         if (username.isEmpty()) {
             binding.username.setError("Username is required");
             binding.username.requestFocus();
-            return Database.CheckUsername(username);
+            return LoginManager.CheckUsername(username);
         }
         if (email.isEmpty()) {
             binding.email.setError("Email is required");
@@ -89,6 +90,6 @@ public class TutorRegistration extends AppCompatActivity {
     }
 
     private void registerTutor(String firstName, String lastName, String email, String username, String password, String phone, Degree degree, Field fieldOfStudy) {
-        Tutor tutor = (Tutor) Database.Register(firstName, lastName, username, password, email, phone, degree, fieldOfStudy);
+        LoginManager.Register(firstName, lastName, username, password, email, phone, degree, fieldOfStudy);
     }
 }

@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
 import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
 
@@ -26,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.main_page);
-        Database.StartDB();
-        Database.RegisterAdmin();
+        Database.Database.StartDB();
+        // LoginManager.RegisterAdmin();
         // Main page "Login" button
         Button main_page_login_button = findViewById(R.id.main_login);
         main_page_login_button.setOnClickListener(view ->

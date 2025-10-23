@@ -21,4 +21,11 @@ public class Administrator extends Account {
     }
     // TODO:
     // Add more functionality :D
+
+    /*
+    *
+    *
+    *
+    *
+    * */
 }

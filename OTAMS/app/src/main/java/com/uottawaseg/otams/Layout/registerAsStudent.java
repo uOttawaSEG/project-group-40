@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
 public class registerAsStudent extends AppCompatActivity {
@@ -47,7 +48,10 @@ public class registerAsStudent extends AppCompatActivity {
             var id = "101";
             if(validateInput(fName, lName, email, username, password, phone, id)) {
                 registerStudent(fName, lName, email, username, password, phone, id);
-                startActivity(new Intent(registerAsStudent.this, welcome.class));
+                if(LoginManager.getCurrentAccount() == null)
+                    Toast.makeText(this, "Cannot create account, please try again later", Toast.LENGTH_SHORT).show();
+                else
+                    startActivity(new Intent(registerAsStudent.this, welcome.class));
             }
         });
     }
@@ -68,7 +72,7 @@ public class registerAsStudent extends AppCompatActivity {
             Toast.makeText(this, "Username is required", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(!Database.CheckUsername(username)) {
+        if(!LoginManager.CheckUsername(username)) {
             Toast.makeText(this, "Invalid username", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -96,6 +100,6 @@ public class registerAsStudent extends AppCompatActivity {
     }
     private void registerStudent(String firstName, String lastName, String email, String username,
                                  String password, String phone, String ID) {
-        var stud = (Student) Database.Register(firstName, lastName, username, password, phone, email, ID);
+        LoginManager.Register(firstName, lastName, username, password, phone, email, ID);
     }
 }

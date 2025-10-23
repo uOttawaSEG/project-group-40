@@ -17,6 +17,7 @@ import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
 import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
 public class registerAsTutor extends AppCompatActivity {
@@ -95,7 +96,10 @@ public class registerAsTutor extends AppCompatActivity {
             var phone = ((TextView) findViewById(R.id.phoneNumber)).getText().toString().trim();
             if(validateInput(fName, lName, email, username, password, phone, degreeSelected, fieldOfStudy)) {
                 registerTutor(fName, lName, username, password, phone, email, degreeSelected, fieldOfStudy);
-                startActivity(new Intent(registerAsTutor.this, welcome.class));
+                if(LoginManager.getCurrentAccount() == null)
+                    Toast.makeText(this, "Cannot create account, please try again later", Toast.LENGTH_SHORT).show();
+                else
+                    startActivity(new Intent(registerAsTutor.this, welcome.class));
             }
         });
     }
@@ -116,7 +120,7 @@ public class registerAsTutor extends AppCompatActivity {
             Toast.makeText(this, "Username is required", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(!Database.CheckUsername(username)) {
+        if(!LoginManager.CheckUsername(username)) {
             Toast.makeText(this, "Invalid username", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -149,6 +153,6 @@ public class registerAsTutor extends AppCompatActivity {
 
     private void registerTutor(String firstName, String lastName, String username, String password,
                                String phone, String email, Degree degree, Field fieldOfStudy) {
-        Tutor tutor = (Tutor) Database.Register(firstName, lastName, username, password, phone, email, degree, fieldOfStudy);
+        LoginManager.Register(firstName, lastName, username, password, phone, email, degree, fieldOfStudy);
     }
 }

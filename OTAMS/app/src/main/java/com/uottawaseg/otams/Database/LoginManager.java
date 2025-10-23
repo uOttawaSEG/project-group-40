@@ -36,7 +36,7 @@ public class LoginManager {
     // Returns false whether or not the database was able to be setup
 
     private static Account _currentAccount;
-    private static final DatabaseReference db = Database.getDB();
+    private static final DatabaseReference db = Database.Database.GetDB();
     private static void setAccount(Account a) {
         _currentAccount = a;
     }
@@ -46,29 +46,19 @@ public class LoginManager {
 
 
     public static Account Login(String username, String password) {
-        var query = db.child(ACCOUNTS).child(username);
-
-        var data = query.get();
-        while(!(data.isComplete() || data.isCanceled() || data.isSuccessful())) {
-            try{
-                Thread.sleep(1);
-            } catch (InterruptedException ignored) {
-
-            }
-        }
-        if(data.isSuccessful()) {
-            var result = data.getResult();
-            var bytes = result.child(PASSWORD).getValue();
-            assert bytes != null;
-            var pass = Database.GetSHA256(password);
-            System.out.println("Bytes == pass: " + checkBytes(bytes, pass));
-            if(checkBytes(bytes, pass)) {
-                setAccount(makeAccountFromQuery(result));
-                return getCurrentAccount();
-            }
+        var data = Database.Database.Read(ACCOUNTS + "/" + username);
+        System.out.println(data == null);
+        var bytes = data.child(PASSWORD).getValue();
+        assert bytes != null;
+        var pass = Database.GetSHA256(password);
+        System.out.println("Bytes == pass: " + checkBytes(bytes, pass));
+        if(checkBytes(bytes, pass)) {
+            setAccount(makeAccountFromQuery(data));
+            return getCurrentAccount();
         }
         // If the query was unsuccessful it's because there's a problem somewhere...
         // Probably
+        // OOOOOR they screwed up their password/username
         return null;
     }
     // This returns whether or not the logout was successful
@@ -77,35 +67,37 @@ public class LoginManager {
         return true;
     }
     // Register a student account
-    public static Account Register(String firstName, String lastName,
+    public static void Register(String firstName, String lastName,
                                    String username, String password, String phoneNumber,
                                    String email, String studentNumber) {
         var acc = new Student(firstName, lastName, username, password,
                 phoneNumber, email, studentNumber);
-        return Register(acc);
+        Register(acc);
     }
-    public static Account RegisterAdmin() {
+    public static void RegisterAdmin() {
         var account = new Administrator();
-        return Register(account);
+        Register(account);
     }
-    public static Account Register(String firstName, String lastName,
+    public static void Register(String firstName, String lastName,
                                    String username, String password, String phoneNumber,
                                    String email, Degree highestDegree, Field fieldOfStudy) {
         var acc = new Tutor(firstName, lastName, username, password,
                 phoneNumber, email, highestDegree, fieldOfStudy);
 
-        return Register(acc);
+        Register(acc);
     }
 
-    private static Account Register(Account acc) {
+    private static void Register(Account acc) {
         // Check if the username already exists
         // if it does, ret false
         // otherwise set
 
-        db.child(ACCOUNTS).child(acc.getUsername()).setValue(acc);
+        /*db.child(ACCOUNTS).child(acc.getUsername()).setValue(acc);
         System.out.println(acc);
         setAccount(acc);
-        return acc;
+        return acc; */
+        AccountCreationManager.MakeAccountCreationRequest(acc);
+
     }
 
     @Nullable
