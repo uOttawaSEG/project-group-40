@@ -32,4 +32,17 @@ public class PendingRequestManager {
         }
         return sb.toString();
     }
+
+    public static void AcceptRequest(AccountCreationRequest req) {
+        var newAcc = req.getAccount();
+        Database.Database.WriteAccount(LoginManager.ACCOUNTS, newAcc);
+
+        Database.Database.Delete(PENDING_REQS + "/" + newAcc.getUsername());
+        req.AcceptRequest();
+        // TODO: Email applicant to tell them we accepted them
+    }
+
+    public static void DeclineRequest(AccountCreationRequest req) {
+        DeniedRequestManager.DeclineRequest(req);
+    }
 }

@@ -12,6 +12,7 @@ public abstract class AccountCreationRequest implements Request {
     @Override
     public abstract long GetRequestID();
 
+    // Though implemented, these functions won't actually touch the database!
     @Override
     public abstract void AcceptRequest();
 

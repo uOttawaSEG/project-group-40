@@ -56,13 +56,26 @@ public class Database implements Runnable {
         db.child(path).setValue(req);
     }
 
-    /*
-    *
-    * This function shouldn't be touched for now
-    * This will probably be deleted in favor of some form of "Accept request" function
-    * */
     public void WriteAccount(String path, Account acc) {
         db.child(path).setValue(acc);
+    }
+
+    // This needs to be the exact path
+    public void Delete(String path) {
+        if(!path.contains("/"))
+            throw new IllegalArgumentException("Please don't delete an entire section of the DB");
+
+        if(!canDeletePath(path))
+            throw new IllegalArgumentException("Invalid delete path");
+        db.child(path).removeValue();
+    }
+    // This checks if it's a valid deletion path,
+    // We don't want to delete all the accounts because somebody screwed up
+    // Same for pending requests.
+    private boolean canDeletePath(String path) {
+        // !(all the paths we don't want to delete)
+        return !(path.toUpperCase() == LoginManager.ACCOUNTS.toUpperCase()
+                || path.toUpperCase() == AccountCreationManager.GetRequestDir().toUpperCase());
     }
 
     public DataSnapshot Read(String path) {
