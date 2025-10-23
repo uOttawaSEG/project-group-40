@@ -9,12 +9,10 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.uottawaseg.otams.Accounts.Student;
-import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
-public class registerAsStudent extends AppCompatActivity {
+public class RegisterAsStudent extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +31,7 @@ public class registerAsStudent extends AppCompatActivity {
         // Button "Return to Homepage" in student_registration
         Button returnToHp = findViewById(R.id.btnHomepage);
         returnToHp.setOnClickListener(view ->
-                startActivity(new Intent(registerAsStudent.this, MainActivity.class)));
+                startActivity(new Intent(RegisterAsStudent.this, MainActivity.class)));
     }
 
 
@@ -51,7 +49,7 @@ public class registerAsStudent extends AppCompatActivity {
                 if(LoginManager.getCurrentAccount() == null)
                     Toast.makeText(this, "Cannot create account, please try again later", Toast.LENGTH_SHORT).show();
                 else
-                    startActivity(new Intent(registerAsStudent.this, welcome.class));
+                    startActivity(new Intent(RegisterAsStudent.this, Welcome.class));
             }
         });
     }

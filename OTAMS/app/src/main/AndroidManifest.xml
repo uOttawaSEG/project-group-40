@@ -28,11 +28,11 @@
 
         <!-- Added for switching between activities -->
         <!-- Code now recognizes these layouts -->
-        <activity android:name=".Layout.register" />
-        <activity android:name=".Layout.login" />
-        <activity android:name=".Layout.welcome" />
-        <activity android:name=".Layout.registerAsStudent" />
-        <activity android:name=".Layout.registerAsTutor" />
+        <activity android:name=".Layout.Register" />
+        <activity android:name=".Layout.Login" />
+        <activity android:name=".Layout.Welcome" />
+        <activity android:name=".Layout.RegisterAsStudent" />
+        <activity android:name=".Layout.RegisterAsTutor" />
 
     </application>
 

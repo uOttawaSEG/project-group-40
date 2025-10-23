@@ -13,14 +13,12 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
-import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
-public class registerAsTutor extends AppCompatActivity {
+public class RegisterAsTutor extends AppCompatActivity {
 
     protected Degree degreeSelected = Degree.UNKNOWN;
     protected Field fieldOfStudy = Field.UNKNOWN;
@@ -56,7 +54,7 @@ public class registerAsTutor extends AppCompatActivity {
         // Button "Return to Homepage" in student_registration
         Button returnToHp = findViewById(R.id.btnHomepage);
         returnToHp.setOnClickListener(view ->
-                startActivity(new Intent(registerAsTutor.this, MainActivity.class)));
+                startActivity(new Intent(RegisterAsTutor.this, MainActivity.class)));
 
     }
 
@@ -99,7 +97,7 @@ public class registerAsTutor extends AppCompatActivity {
                 if(LoginManager.getCurrentAccount() == null)
                     Toast.makeText(this, "Cannot create account, please try again later", Toast.LENGTH_SHORT).show();
                 else
-                    startActivity(new Intent(registerAsTutor.this, welcome.class));
+                    startActivity(new Intent(RegisterAsTutor.this, Welcome.class));
             }
         });
     }

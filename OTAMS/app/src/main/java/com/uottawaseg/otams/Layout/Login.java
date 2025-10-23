@@ -9,12 +9,10 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +33,7 @@ public class login extends AppCompatActivity {
                     System.out.println(acc);
                     if (acc != null) {
                         System.out.println("Login successful");
-                        startActivity(new Intent(login.this, welcome.class));
+                        startActivity(new Intent(Login.this, Welcome.class));
                     } else {
                         System.out.println("Unable to login");
                         Toast.makeText(this.getApplicationContext(), "Unable to login", Toast.LENGTH_LONG);
@@ -45,7 +43,7 @@ public class login extends AppCompatActivity {
 
         Button login_returnToHP_button = findViewById(R.id.returnToHomepage_button);
         login_returnToHP_button.setOnClickListener(view ->
-                startActivity(new Intent(login.this, MainActivity.class)));
+                startActivity(new Intent(Login.this, MainActivity.class)));
 
 
 
