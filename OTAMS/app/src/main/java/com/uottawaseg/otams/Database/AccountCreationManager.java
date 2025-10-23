@@ -6,6 +6,10 @@ import com.uottawaseg.otams.Requests.TutorAccountRequest;
 
 public class AccountCreationManager {
     private final static String PENDING_REQUESTS = "pendingReqs";
+
+    public final static String GetRequestDir() {
+        return PENDING_REQUESTS;
+    }
     // This is the equivalent to internal in C# (sorta), but Java doesn't have an explicit keyword for it
     static void MakeAccountCreationRequest(Account acc) {
         switch(acc.getRole()) {
