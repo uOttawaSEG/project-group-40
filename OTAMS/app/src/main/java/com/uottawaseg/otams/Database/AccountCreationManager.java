@@ -31,7 +31,7 @@ public class AccountCreationManager {
         // We need to make the request
         // Then add it to Database/PendingRequests
         var request = new TutorAccountRequest(System.nanoTime(), tut);
-        Database.Database.WriteRequest(PENDING_REQUESTS, request);
+        Database.Database.WriteRequest(PENDING_REQUESTS + "/" + tut.getUsername(), request);
     }
 
     private static void StudentCreation(Student st) {

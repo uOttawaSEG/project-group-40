@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.uottawaseg.otams.Accounts.Account;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
@@ -31,7 +32,12 @@ public class Login extends AppCompatActivity {
                     System.out.println(acc);
                     if (acc != null) {
                         System.out.println("Login successful");
-                        startActivity(new Intent(Login.this, Welcome.class));
+                        if (acc.getRole() == Account.Role.ADMIN){
+                            startActivity(new Intent(Login.this, AdminPendingRequests.class));
+                        } else{
+                            startActivity(new Intent(Login.this, Welcome.class));
+                        }
+
                     } else {
                         System.out.println("Unable to login");
                         Toast.makeText(this.getApplicationContext(), "Unable to login", Toast.LENGTH_LONG);

@@ -6,26 +6,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/admin_title"
-        android:layout_width="350dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="32dp"
-        android:text="You are currently logged in as admin"
-        android:textAlignment="center"
-        android:textColor="@color/UOgray"
-        android:textColorHighlight="@color/UOgray"
-        android:textColorHint="@color/UOgray"
-        android:textColorLink="@color/UOgray"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/title_rejected"
-        app:layout_constraintEnd_toEndOf="@+id/title_rejected"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="@+id/title_rejected" />
-
-    <TextView
         android:id="@+id/title_rejected"
         android:layout_width="357dp"
         android:layout_height="77dp"
+        android:layout_marginTop="116dp"
         android:text="Pending Requests"
         android:textAlignment="center"
         android:textColor="@color/UOgray"
@@ -33,21 +17,22 @@
         android:textColorHint="@color/UOgray"
         android:textColorLink="@color/UOgray"
         android:textSize="35dp"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
-        app:layout_constraintStart_toStartOf="@+id/scrollView2"
-        tools:layout_editor_absoluteY="89dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="363dp"
+        android:layout_width="367dp"
         android:layout_height="386dp"
         android:background="@color/UOgray"
-        app:layout_constraintBottom_toTopOf="@+id/button_goto_rejected"
-        app:layout_constraintEnd_toEndOf="@+id/button_goto_rejected"
+        app:layout_constraintBottom_toTopOf="@+id/button_goto_pending"
+        app:layout_constraintEnd_toEndOf="@+id/button_goto_pending"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button_goto_rejected"
+        app:layout_constraintStart_toStartOf="@+id/button_goto_pending"
         app:layout_constraintTop_toBottomOf="@+id/title_rejected"
-        app:layout_constraintVertical_bias="0.658">
+        app:layout_constraintVertical_bias="0.576">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,7 +41,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button_return_HP"
+        android:id="@+id/btn_return"
         android:layout_width="361dp"
         android:layout_height="45dp"
         android:layout_marginBottom="32dp"
@@ -74,7 +59,7 @@
         app:rippleColor="@color/UOred" />
 
     <Button
-        android:id="@+id/button_goto_rejected"
+        android:id="@+id/button_goto_pending"
         android:layout_width="361dp"
         android:layout_height="45dp"
         android:layout_marginBottom="20dp"
@@ -85,10 +70,10 @@
         android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
         android:textColorLink="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button_return_HP"
-        app:layout_constraintEnd_toEndOf="@+id/button_return_HP"
+        app:layout_constraintBottom_toTopOf="@+id/btn_return"
+        app:layout_constraintEnd_toEndOf="@+id/btn_return"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button_return_HP"
+        app:layout_constraintStart_toStartOf="@+id/btn_return"
         app:rippleColor="@color/UOred" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

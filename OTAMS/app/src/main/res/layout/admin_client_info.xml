@@ -47,10 +47,10 @@
         android:layout_height="59dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button_return_HP"
-        app:layout_constraintEnd_toEndOf="@+id/button_return_HP"
+        app:layout_constraintBottom_toTopOf="@+id/btn_return"
+        app:layout_constraintEnd_toEndOf="@+id/btn_return"
         app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="@+id/button_return_HP">
+        app:layout_constraintStart_toStartOf="@+id/btn_return">
 
         <Button
             android:id="@+id/button_pending"
@@ -80,7 +80,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_return_HP"
+        android:id="@+id/btn_return"
         android:layout_width="361dp"
         android:layout_height="45dp"
         android:layout_marginBottom="60dp"

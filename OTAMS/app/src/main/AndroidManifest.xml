@@ -33,6 +33,10 @@
         <activity android:name=".Layout.Welcome" />
         <activity android:name=".Layout.RegisterAsStudent" />
         <activity android:name=".Layout.RegisterAsTutor" />
+        <activity android:name=".Layout.Status" />
+        <activity android:name=".Layout.AdminClientInfo" />
+        <activity android:name=".Layout.AdminPendingRequests" />
+        <activity android:name=".Layout.AdminRejectedRequests" />
 
     </application>
 

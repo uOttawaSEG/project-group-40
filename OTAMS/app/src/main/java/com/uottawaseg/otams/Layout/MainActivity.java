@@ -23,10 +23,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        setContentView(R.layout.main_page);
+        setContentView(R.layout.main_activity);
         Database.Database.StartDB();
         // LoginManager.RegisterAdmin();
         // Main page "Login" button
+
         Button main_page_login_button = findViewById(R.id.main_login);
         main_page_login_button.setOnClickListener(view ->
                 startActivity(new Intent(MainActivity.this, Login.class)));
@@ -42,5 +43,6 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
 }

@@ -7,9 +7,9 @@
     android:background="#8F001A">
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="301dp"
-        android:layout_height="246dp"
+        android:id="@+id/status_text"
+        android:layout_width="369dp"
+        android:layout_height="350dp"
         android:text="Waiting for admin approval"
         android:textColor="#FAFAFA"
         android:textSize="48sp"
@@ -26,14 +26,26 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_text"
+        app:layout_constraintVertical_bias="0.88">
 
         <Button
-            android:layout_width="332dp"
-            android:layout_height="67dp"
+            android:id="@+id/btn_return"
+            android:layout_width="361dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="60dp"
             android:layout_weight="1"
-            android:backgroundTint="#80746C"
-            android:text="Return to home page"
-            android:textSize="20sp" />
+            android:backgroundTint="@color/UOgray"
+            android:text="Return To Homepage"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="@color/UOred" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

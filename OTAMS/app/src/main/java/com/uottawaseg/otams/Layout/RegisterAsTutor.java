@@ -28,7 +28,7 @@ public class RegisterAsTutor extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         // Display tutor registration form
-        setContentView(R.layout.tutor_registration);
+        setContentView(R.layout.register_as_tutor);
 //
 // Button "Apply" in tutor_registration
 
@@ -97,7 +97,7 @@ public class RegisterAsTutor extends AppCompatActivity {
                 if(LoginManager.getCurrentAccount() == null)
                     Toast.makeText(this, "Cannot create account, please try again later", Toast.LENGTH_SHORT).show();
                 else
-                    startActivity(new Intent(RegisterAsTutor.this, Welcome.class));
+                    startActivity(new Intent(RegisterAsTutor.this, Status.class));
             }
         });
     }

@@ -20,7 +20,7 @@ public class RegisterAsStudent extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         // Display student registration form
-        setContentView(R.layout.student_registration);
+        setContentView(R.layout.register_as_student);
 
         // Button "Apply" in tutor_registration
         Button applyButton = findViewById(R.id.btnApply);
@@ -49,7 +49,7 @@ public class RegisterAsStudent extends AppCompatActivity {
                 if(LoginManager.getCurrentAccount() == null)
                     Toast.makeText(this, "Cannot create account, please try again later", Toast.LENGTH_SHORT).show();
                 else
-                    startActivity(new Intent(RegisterAsStudent.this, Welcome.class));
+                    startActivity(new Intent(RegisterAsStudent.this, Status.class));
             }
         });
     }

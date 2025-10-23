@@ -7,6 +7,7 @@
     android:background="@color/UOred"
     android:id="@+id/main">
 
+
     <TextView
         android:id="@+id/TutorForm"
         android:layout_width="200dp"
@@ -16,17 +17,18 @@
         android:text="@string/tutor_form"
         android:textColor="@color/white"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/username"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/username"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="16dp"
         android:autofillHints="username"
         android:backgroundTint="@color/white"
@@ -36,9 +38,9 @@
         android:inputType="text"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TutorForm" />
-
 
     <EditText
         android:id="@+id/email"
@@ -59,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="232dp" />
+        tools:layout_editor_absoluteY="297dp" />
 
     <LinearLayout
         android:id="@+id/name"
@@ -185,9 +187,10 @@
         android:textColorLink="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintVertical_bias="0.444" />
 
     <EditText
         android:id="@+id/password"
@@ -203,7 +206,8 @@
         android:textColorLink="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintTop_toBottomOf="@+id/username"
-        tools:layout_editor_absoluteX="18dp" />
+        app:layout_constraintVertical_bias="0.482"
+        tools:layout_editor_absoluteX="16dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

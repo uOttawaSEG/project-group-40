@@ -18,7 +18,7 @@ public class Register extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         // Display registration_options page/activity
-        setContentView(R.layout.registration_options);
+        setContentView(R.layout.register);
 
         // Button on registration_options activity "Tutor"
         Button register_tutor_btn = findViewById(R.id.tutor_btn);
