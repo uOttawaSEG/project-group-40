@@ -5,6 +5,7 @@
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 !*.code-workspace
+**/.idea/** */
 
 # Built Visual Studio Code Extensions
 *.vsix
@@ -62,6 +63,7 @@ replay_pid*
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
+
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
