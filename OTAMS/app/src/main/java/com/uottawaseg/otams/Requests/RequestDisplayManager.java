@@ -6,23 +6,28 @@ import com.uottawaseg.otams.Accounts.Account;
 
 public class RequestDisplayManager {
     /** @noinspection rawtypes, unchecked */
-    public static final Pair[] Indices
-            = new Pair[] {
-            new Pair("Title", 0),
-            new Pair("Title", 1),
-            new Pair("RequestID", 2),
-            new Pair("FirstName", 3),
-            new Pair("LastName", 4),
-            new Pair("Username", 5),
-            new Pair("PhoneNumber", 6),
-            new Pair("Email", 7),
-            new Pair("Extra", 8),
-    };
+    public final Pair<String, Integer> Title =
+            new Pair("Title", 0);
+    public final Pair<String, Integer> AccountDetails =
+            new Pair("AccountDetails", 1);
+    public final Pair<String, Integer> FirstName =
+            new Pair("FirstName", 2);
+    public final Pair<String, Integer> LastName =
+            new Pair("LastName", 3);
+    public final Pair<String, Integer> Username =
+            new Pair("Username", 4);
+    public final Pair<String, Integer> PhoneNumber =
+            new Pair("PhoneNumber", 5);
+    public final Pair<String, Integer> Email =
+            new Pair("Email", 6);
+    public final Pair<String, Integer> Extra =
+            new Pair("Extra", 7);
+
 
     public static String[] PrepareRequestToDisplay(AccountCreationRequest req) {
         var isTutor = req.getAccount().getRole() == Account.Role.TUTOR;
         var strs = req.toString().split("\n");
-        var result = new String[9];
+        var result = new String[8];
         /*
         * This string should look like this:
         *                                    newIndex // Old index is just +1 after reqID
@@ -44,7 +49,7 @@ public class RequestDisplayManager {
         * If not we're cooked
         * */
         var index = 0;
-        for(int i = 0; i < 8; i++) {
+        for(int i = 0; i < 7; i++) {
             if(i == 1) continue;
             result[index++] = strs[i];
         }
