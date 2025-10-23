@@ -9,6 +9,7 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="program_hint">Program of Study</string>
+    <string name="client_info">Information Page</string>
     <string-array name="degree_array">
         <item>None</item>
         <item>High school</item>
