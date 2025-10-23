@@ -34,7 +34,7 @@ public class LoginManager {
     public static final String HIGHEST_DEGREE = "degree";
     public static final String ACCOUNTS = "accounts";
     // Returns false whether or not the database was able to be setup
-
+    private static boolean _wasPending = false;
     private static Account _currentAccount;
     private static final DatabaseReference db = Database.Database.GetDB();
     private static void setAccount(Account a) {
@@ -43,11 +43,21 @@ public class LoginManager {
     public static Account getCurrentAccount() {
         return _currentAccount;
     }
-
+    public static boolean WasPending() {
+        return _wasPending;
+    }
 
     public static Account Login(String username, String password) {
         var data = Database.Database.Read(ACCOUNTS + "/" + username);
+        _wasPending = (data == null || !data.exists());
         System.out.println(data == null);
+        if(data == null || !data.exists()) {
+            data = Database.Database.Read(AccountCreationManager.GetRequestDir() + "/" + username + "/" + AccountCreationManager.GetAccountLocation());
+            if(data == null || !data.exists()) {
+                return null;
+            }
+        }
+
         var bytes = data.child(PASSWORD).getValue();
         assert bytes != null;
         var pass = Database.GetSHA256(password);

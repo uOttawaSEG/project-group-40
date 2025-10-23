@@ -25,8 +25,6 @@ public class Login extends AppCompatActivity {
         Button login_login_button = findViewById(R.id.login_button);
         login_login_button.setOnClickListener(view ->
                 {
-                    var usrView = (TextView) findViewById(R.id.email_input);
-                    var passView = (TextView) findViewById(R.id.password_input);
                     var username = ((TextView) findViewById(R.id.email_input)).getText().toString();
                     var password = ((TextView) findViewById(R.id.password_input)).getText().toString();
                     var acc = LoginManager.Login(username, password);

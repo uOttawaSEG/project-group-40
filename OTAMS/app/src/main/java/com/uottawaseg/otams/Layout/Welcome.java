@@ -20,7 +20,14 @@ public class Welcome extends AppCompatActivity {
         setContentView(R.layout.welcome);
         var text = (TextView) findViewById(R.id.loginConfirmation);
         System.out.println(text);
-        var toDisplay = "You are logged in as " + LoginManager.getCurrentAccount().getName() + ". \n Your role is: " + LoginManager.getCurrentAccount().getRole();
+        String toDisplay = LoginManager.WasPending() ?
+
+                ("You are logged in as " + LoginManager.getCurrentAccount().getName()
+                        + ". \nYour application for " + LoginManager.getCurrentAccount().getRole()
+                        + "is still under review, we'll notify you via email when we make our decision") :
+                ("You are logged in as " + LoginManager.getCurrentAccount().getName()
+                        + ". \n Your role is: " + LoginManager.getCurrentAccount().getRole());
+
         text.setText(toDisplay);
 
         Button welcome_returnToHP_button = findViewById(R.id.login_button);
