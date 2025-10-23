@@ -8,12 +8,10 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
 
-public class welcome extends AppCompatActivity {
+public class Welcome extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +25,6 @@ public class welcome extends AppCompatActivity {
 
         Button welcome_returnToHP_button = findViewById(R.id.login_button);
         welcome_returnToHP_button.setOnClickListener(view ->
-                startActivity(new Intent(welcome.this, MainActivity.class)));
+                startActivity(new Intent(Welcome.this, MainActivity.class)));
     }
 }

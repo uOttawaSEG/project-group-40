@@ -48,6 +48,7 @@ public class LoginManager {
     public static Account Login(String username, String password) {
         var data = Database.Database.Read(ACCOUNTS + "/" + username);
         System.out.println(data == null);
+        
         var bytes = data.child(PASSWORD).getValue();
         assert bytes != null;
         var pass = Database.GetSHA256(password);
