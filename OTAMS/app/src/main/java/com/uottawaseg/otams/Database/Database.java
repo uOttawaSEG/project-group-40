@@ -10,6 +10,7 @@ import com.uottawaseg.otams.Requests.AccountCreationRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 public class Database implements Runnable {
     public final static Database Database = new Database();
     private final Thread currentThread;
@@ -92,9 +93,14 @@ public class Database implements Runnable {
     }
 
     // If this throws, just let it.
+    // SHA256 for Password (used to reset passwords)
+    // [-25, -49, 62, -12, -15, 124, 57, -103, -87, 79, 44, 111, 97, 46, -118, -120, -114, 91, 16, 38, -121, -114, 78, 25, 57, -117, 35, -67, 56, -20, 34, 26]
     public static byte[] GetSHA256(String str) throws RuntimeException {
         // Not crazy high security but good enough
-        // Also I know this can throw, just don't worry about it okay
+        // Also I know this can throw, just don't worry about it, it'll be okay
+
+        // Could probably easily make this a one line, but that's kinda hard to follow
+        //  return MessageDigest.getInstance("SHA-256").digest(str.getBytes());
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             return md.digest(str.getBytes());

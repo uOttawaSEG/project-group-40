@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
-import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
+//import com.uottawaseg.otams.databinding.StudentRegistrationBinding;
 
 public class StudentRegistration extends AppCompatActivity {
 
     // UI team, Im new with binding since its not core java feature so sry if something is incorrect.
     // If everything is done right it should allow us to skip manual UI initialization
     // overwise Ill return to my previous manual implementation findViewById(R.id.viewId)(please work)
-    private StudentRegistrationBinding binding;
+/*    private StudentRegistrationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,17 +86,17 @@ public class StudentRegistration extends AppCompatActivity {
             binding.phoneNumber.setError("phone number is required");
             binding.phoneNumber.requestFocus();
             return false;
-        }/*
+        }
         if (program.isEmpty()) {
             binding.program.setError("program is required");
             binding.program.requestFocus();
             return false;
-        }*/
+        }
 
         return true;
     }
 
     private void registerStudent(String firstName, String lastName, String email, String username, String password, String phone, String studentID) {
         LoginManager.Register(firstName, lastName, username, password, phone, email, studentID);
-    }
+    }*/
 }

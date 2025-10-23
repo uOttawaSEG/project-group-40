@@ -9,10 +9,10 @@ import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Courses.*;
 import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
-import com.uottawaseg.otams.databinding.TutorRegistrationBinding;
+//import com.uottawaseg.otams.databinding.TutorRegistrationBinding;
 
 public class TutorRegistration extends AppCompatActivity {
-    private TutorRegistrationBinding binding;
+  /*  private TutorRegistrationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class TutorRegistration extends AppCompatActivity {
         //initListeners();
     }
 
-    /*
+
     private void initListeners() {
         binding.btnApply.setOnClickListener(v -> {
             // TODO: add username
@@ -42,7 +42,7 @@ public class TutorRegistration extends AppCompatActivity {
             }
         });
     }
-    */
+
 
     // DB has a function to validate usernames
     private boolean validateInput(String firstName, String lastName, String email, String username, String password, String phone) {
@@ -91,5 +91,5 @@ public class TutorRegistration extends AppCompatActivity {
 
     private void registerTutor(String firstName, String lastName, String email, String username, String password, String phone, Degree degree, Field fieldOfStudy) {
         LoginManager.Register(firstName, lastName, username, password, email, phone, degree, fieldOfStudy);
-    }
+    }*/
 }
