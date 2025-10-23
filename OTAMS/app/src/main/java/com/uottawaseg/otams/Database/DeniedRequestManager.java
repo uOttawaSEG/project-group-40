@@ -11,7 +11,8 @@ public class DeniedRequestManager {
         var username = req.getAccount().getUsername();
         Database.Database.Delete(AccountCreationManager.GetRequestDir() + "/" + username);
         Database.Database.WriteRequest(DECLINED + "/" + username, req);
-        // TODO: Email the applicant to say it's been declined
+        // When the request is denied, the request will take care of sending the email
+        req.DeclineRequest();
     }
 
 }

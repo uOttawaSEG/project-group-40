@@ -5,10 +5,17 @@ import com.uottawaseg.otams.Accounts.Account;
 public class TutorAccountRequest extends AccountCreationRequest {
     private Account _acc;
     private long _reqID;
+    private RequestStatus _status;
     private final RequestType TYPE = RequestType.TutorAccountCreation;
     public TutorAccountRequest(long ID, Account acc){
         _reqID = ID;
         _acc = acc;
+        _status = RequestStatus.PENDING;
+    }
+
+    @Override
+    public RequestStatus getStatus() {
+        return _status;
     }
 
     @Override
@@ -29,11 +36,13 @@ public class TutorAccountRequest extends AccountCreationRequest {
     // I'll make an email manager class.
     @Override
     public void AcceptRequest() {
+        _status = RequestStatus.ACCEPTED;
         // TODO: Send user an email
     }
 
     @Override
     public void DeclineRequest() {
+        _status = RequestStatus.DENIED;
         // TODO: Send user an email
     }
 

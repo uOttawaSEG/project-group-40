@@ -39,10 +39,10 @@ public class PendingRequestManager {
 
         Database.Database.Delete(PENDING_REQS + "/" + newAcc.getUsername());
         req.AcceptRequest();
-        // TODO: Email applicant to tell them we accepted them
     }
 
     public static void DeclineRequest(AccountCreationRequest req) {
+        // This gets it's own class because there's extra functionality instead of just accepting it.
         DeniedRequestManager.DeclineRequest(req);
     }
 }
