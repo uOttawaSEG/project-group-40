@@ -56,8 +56,8 @@ public class RequestDisplayManager {
         }
 
         if(isTutor) {
-            var field = strs[8];
-            var degree = strs[9];
+            var field = strs[7];
+            var degree = strs[8];
             result[index] = field + ", " + degree;
         } else {
             result[index] = strs[8];
