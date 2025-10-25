@@ -8,21 +8,21 @@ import java.util.List;
 
 public class RequestDisplayManager {
     /** @noinspection rawtypes, unchecked */
-    public final Pair<String, Integer> Title =
+    public static final Pair<String, Integer> TITLE =
             new Pair("Title", 0);
-    public final Pair<String, Integer> AccountDetails =
+    public static final Pair<String, Integer> ACCOUNT_DETAILS =
             new Pair("AccountDetails", 1);
-    public final Pair<String, Integer> FirstName =
+    public static final Pair<String, Integer> FIRST_NAME =
             new Pair("FirstName", 2);
-    public final Pair<String, Integer> LastName =
+    public static final Pair<String, Integer> LAST_NAME =
             new Pair("LastName", 3);
-    public final Pair<String, Integer> Username =
+    public static final Pair<String, Integer> USERNAME =
             new Pair("Username", 4);
-    public final Pair<String, Integer> PhoneNumber =
+    public static final Pair<String, Integer> PHONE_NUMBER =
             new Pair("PhoneNumber", 5);
-    public final Pair<String, Integer> Email =
+    public static final Pair<String, Integer> EMAIL =
             new Pair("Email", 6);
-    public final Pair<String, Integer> Extra =
+    public static final Pair<String, Integer> OTHER =
             new Pair("Extra", 7);
 
 
@@ -32,9 +32,8 @@ public class RequestDisplayManager {
         var result = new String[8];
         /*
         * This string should look like this:
-        *                                    newIndex // Old index is just +1 after reqID
+        *                                    newIndex
         * Title (Request name)                      0
-        * RequestID                                 X
         * Account Details:                          1
         * First name                                2
         * Last name                                 3
@@ -71,14 +70,15 @@ public class RequestDisplayManager {
 
         /*
         * Each string will be like this
-        * Name: AccountType
-        *
+        * Name:             Full name           -> 0
+        * Username:         Username            -> 1
+        * Role requested:   TUTOR || STUDENT    -> 2
         * This is fine because it's not the full request, it's just for the pending page.
         * */
         int i = 0;
         for(var req : reqs) {
             var acc = req.getAccount();
-            arr[i++] = acc.getName() + ";\nRole requested: " + acc.getRole();
+            arr[i++] = acc.getName() + "\nUsername: " + acc.getUsername() + "\nRole requested: " + acc.getRole();
         }
         return arr;
     }

@@ -10,6 +10,8 @@
     <string name="last_name">Last Name</string>
     <string name="program_hint">Program of Study</string>
     <string name="client_info">Information Page</string>
+    <string name="accept_hint">Accept Request</string>
+    <string name="decline_hint">Decline Request</string>
     <string-array name="degree_array">
         <item>None</item>
         <item>High school</item>

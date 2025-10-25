@@ -10,10 +10,35 @@ public class PendingRequestManager {
     private final static String PENDING_REQS = AccountCreationManager.GetRequestDir();
     private static List<AccountCreationRequest> _requests;
 
+    private static AccountCreationRequest _selectedRequest;
+
     // We don't want to accidentally change the data in the requests, so we'll leave it like this
     public static List<AccountCreationRequest> getRequests() {
         UpdateRequests();
         return Collections.unmodifiableList(_requests);
+    }
+
+
+    /*
+    *
+    * @returns boolean Returns true if the database request worked, otherwise false.
+    * */
+    public static boolean SelectRequest(String username) {
+        // Query DB
+        // Make account from snapshot
+        var data = Database.Database.Read(PENDING_REQS + "/" + username);
+        if(!data.exists() || data == null) {
+            return false;
+        }
+        SelectRequest(AccountCreationManager.MakeAccountCreationRequest(data));
+        return true;
+    }
+
+    public static void SelectRequest(AccountCreationRequest req) {
+        _selectedRequest = req;
+    }
+    public static AccountCreationRequest GetSelectedRequest() {
+        return _selectedRequest;
     }
 
     public static void UpdateRequests() {
