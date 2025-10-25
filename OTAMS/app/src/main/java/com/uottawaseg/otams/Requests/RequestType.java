@@ -20,4 +20,12 @@ public enum RequestType {
         }
     }
 
+    public static RequestType fromString(String str) {
+        switch(str.toUpperCase()) {
+            case "TUTORACCOUNTCREATION": return TutorAccountCreation;
+            case "STUDENTACCOUNTCREATION": return StudentAccountCreation;
+            default: return Unknown;
+        }
+    }
+
 }

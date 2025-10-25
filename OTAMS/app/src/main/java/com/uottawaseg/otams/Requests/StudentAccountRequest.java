@@ -4,11 +4,9 @@ import com.uottawaseg.otams.Accounts.Account;
 
 public class StudentAccountRequest extends AccountCreationRequest {
     private Account _acc;
-    private long _reqID;
     private RequestStatus _status;
     private final RequestType TYPE = RequestType.StudentAccountCreation;
-    public StudentAccountRequest(long ID, Account acc){
-        _reqID = ID;
+    public StudentAccountRequest(Account acc) {
         _acc = acc;
         _status = RequestStatus.PENDING;
     }
@@ -26,11 +24,6 @@ public class StudentAccountRequest extends AccountCreationRequest {
     @Override
     public Account getAccount() {
         return _acc;
-    }
-
-    @Override
-    public long GetRequestID() {
-        return _reqID;
     }
 
     // I'll make an email manager class.
@@ -51,7 +44,6 @@ public class StudentAccountRequest extends AccountCreationRequest {
         // StringBuilder not at all required here but it keeps things nice.
         var sb = new StringBuilder();
         sb.append("Tutor account creation request:\n");
-        sb.append("Request ID: ").append(GetRequestID());
         sb.append("\n Account details:\n").append(getAccount().toString());
         return sb.toString();
     }

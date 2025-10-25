@@ -52,7 +52,8 @@ public class LoginManager {
         _wasPending = (data == null || !data.exists());
         System.out.println(data == null);
         if(data == null || !data.exists()) {
-            data = Database.Database.Read(AccountCreationManager.GetRequestDir() + "/" + username + "/" + AccountCreationManager.GetAccountLocation());
+            data = Database.Database.Read(
+                    AccountCreationManager.GetRequestDir() + "/" + username + "/" + AccountCreationManager.GetAccountLocation());
             if(data == null || !data.exists()) {
                 return null;
             }
@@ -111,7 +112,7 @@ public class LoginManager {
     }
 
     @Nullable
-    private static Account makeAccountFromQuery(DataSnapshot data) throws ClassCastException {
+    public static Account makeAccountFromQuery(DataSnapshot data) throws ClassCastException {
         Account.Role type = Account.Role.fromString(data.child(TYPE).getValue().toString());
         System.out.println(type);
         if(type == null || type == Account.Role.UNDEFINED) {

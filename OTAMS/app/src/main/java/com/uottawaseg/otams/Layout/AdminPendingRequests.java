@@ -2,14 +2,25 @@ package com.uottawaseg.otams.Layout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Database.PendingRequestManager;
+import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.AccountCreationRequest;
+import com.uottawaseg.otams.Requests.RequestDisplayManager;
+
+import java.util.List;
 
 public class AdminPendingRequests extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +36,13 @@ public class AdminPendingRequests extends AppCompatActivity {
         Button go_home = findViewById(R.id.btn_return);
         go_home.setOnClickListener(view ->
                 startActivity(new Intent(AdminPendingRequests.this, MainActivity.class)));
+
+        List<AccountCreationRequest> requests = PendingRequestManager.getRequests();
+
+        var recycleView = (RecyclerView) findViewById(R.id.pending_recycler);
+        var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage(requests));
+        recycleView.setAdapter(adapter);
+
 
     }
 

@@ -32,9 +32,10 @@ public class Login extends AppCompatActivity {
                     System.out.println(acc);
                     if (acc != null) {
                         System.out.println("Login successful");
-                        if (acc.getRole() == Account.Role.ADMIN){
+
+                        if (acc.getRole() == Account.Role.ADMIN) {
                             startActivity(new Intent(Login.this, AdminPendingRequests.class));
-                        } else{
+                        } else {
                             startActivity(new Intent(Login.this, Welcome.class));
                         }
 

@@ -22,24 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="367dp"
-        android:layout_height="386dp"
-        android:background="@color/UOgray"
-        app:layout_constraintBottom_toTopOf="@+id/button_goto_pending"
-        app:layout_constraintEnd_toEndOf="@+id/button_goto_pending"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button_goto_pending"
-        app:layout_constraintTop_toBottomOf="@+id/title_rejected"
-        app:layout_constraintVertical_bias="0.576">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
-
     <Button
         android:id="@+id/btn_return"
         android:layout_width="361dp"
@@ -75,5 +57,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btn_return"
         app:rippleColor="@color/UOred" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pending_recycler"
+        android:layout_width="341dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_goto_pending"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_rejected" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

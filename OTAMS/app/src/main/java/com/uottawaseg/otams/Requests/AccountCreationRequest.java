@@ -15,9 +15,6 @@ public abstract class AccountCreationRequest implements Request {
     public abstract Account getAccount();
 
     @Override
-    public abstract long GetRequestID();
-
-    @Override
     public abstract void AcceptRequest();
 
     @Override

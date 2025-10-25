@@ -4,6 +4,8 @@ import android.util.Pair;
 
 import com.uottawaseg.otams.Accounts.Account;
 
+import java.util.List;
+
 public class RequestDisplayManager {
     /** @noinspection rawtypes, unchecked */
     public final Pair<String, Integer> Title =
@@ -62,5 +64,22 @@ public class RequestDisplayManager {
             result[index] = strs[8];
         }
         return result;
+    }
+
+    public static String[] GetRequestForPendingPage(List<AccountCreationRequest> reqs) {
+        var arr = new String[reqs.size()];
+
+        /*
+        * Each string will be like this
+        * Name: AccountType
+        *
+        * This is fine because it's not the full request, it's just for the pending page.
+        * */
+        int i = 0;
+        for(var req : reqs) {
+            var acc = req.getAccount();
+            arr[i++] = acc.getName() + "; Role requested: " + acc.getRole();
+        }
+        return arr;
     }
 }

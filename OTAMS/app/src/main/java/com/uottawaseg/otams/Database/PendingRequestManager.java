@@ -2,6 +2,7 @@ package com.uottawaseg.otams.Database;
 
 import com.uottawaseg.otams.Requests.AccountCreationRequest;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,14 +12,18 @@ public class PendingRequestManager {
 
     // We don't want to accidentally change the data in the requests, so we'll leave it like this
     public static List<AccountCreationRequest> getRequests() {
+        UpdateRequests();
         return Collections.unmodifiableList(_requests);
     }
 
     public static void UpdateRequests() {
+        if(_requests == null) _requests = new ArrayList<>();
         var data = Database.Database.Read(PENDING_REQS);
         var children = data.getChildren();
         for(var snapShot : children) {
-            _requests.add((AccountCreationRequest) snapShot.getValue());
+            var accountRequest = AccountCreationManager.MakeAccountCreationRequest(snapShot);
+            System.out.println(accountRequest);
+            _requests.add(accountRequest);
         }
     }
     // Contrary to its name, this only actually gives us the string of requests,
@@ -26,6 +31,7 @@ public class PendingRequestManager {
     // This will probably be transformed into a slightly nicer way of getting things
     // So that we can have an actually functional list.
     public static String PrintRequests() {
+        if(_requests == null) UpdateRequests();
         var sb = new StringBuilder();
         for(var req : _requests) {
             sb.append(req).append("\n");
@@ -39,6 +45,9 @@ public class PendingRequestManager {
 
         Database.Database.Delete(PENDING_REQS + "/" + newAcc.getUsername());
         req.AcceptRequest();
+
+        if(_requests == null) UpdateRequests();
+        else _requests.remove(req);
     }
 
     public static void DeclineRequest(AccountCreationRequest req) {
