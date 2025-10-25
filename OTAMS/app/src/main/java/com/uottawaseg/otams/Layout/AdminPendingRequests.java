@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.uottawaseg.otams.Database.PendingRequestManager;
@@ -40,6 +41,7 @@ public class AdminPendingRequests extends AppCompatActivity {
         List<AccountCreationRequest> requests = PendingRequestManager.getRequests();
 
         var recycleView = (RecyclerView) findViewById(R.id.pending_recycler);
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
         var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage(requests));
         recycleView.setAdapter(adapter);
 

@@ -6,8 +6,17 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Database.DeniedRequestManager;
+import com.uottawaseg.otams.Database.PendingRequestManager;
+import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.AccountCreationRequest;
+import com.uottawaseg.otams.Requests.RequestDisplayManager;
+
+import java.util.List;
 
 public class AdminRejectedRequests extends AppCompatActivity {
 
@@ -25,6 +34,12 @@ public class AdminRejectedRequests extends AppCompatActivity {
         Button go_home = findViewById(R.id.btn_return);
         go_home.setOnClickListener(view ->
                 startActivity(new Intent(AdminRejectedRequests.this, MainActivity.class)));
+        List<AccountCreationRequest> requests = DeniedRequestManager.getRequests();
+
+        var recycleView = (RecyclerView) findViewById(R.id.denied_recycler);
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
+        var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage(requests));
+        recycleView.setAdapter(adapter);
 
     }
 

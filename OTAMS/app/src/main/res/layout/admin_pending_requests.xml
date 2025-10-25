@@ -64,9 +64,10 @@
         android:layout_height="360dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
+        android:background="@color/UOgray"
         app:layout_constraintBottom_toTopOf="@+id/button_goto_pending"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_rejected" />
+        app:layout_constraintTop_toBottomOf="@+id/title_rejected"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

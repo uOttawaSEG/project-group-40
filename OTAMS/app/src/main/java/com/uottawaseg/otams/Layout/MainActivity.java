@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.main_activity);
         Database.Database.StartDB();
+        LoginManager.LogOut();
         // LoginManager.RegisterAdmin();
         // Main page "Login" button
 

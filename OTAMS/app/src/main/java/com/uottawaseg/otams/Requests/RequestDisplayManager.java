@@ -78,7 +78,7 @@ public class RequestDisplayManager {
         int i = 0;
         for(var req : reqs) {
             var acc = req.getAccount();
-            arr[i++] = acc.getName() + "; Role requested: " + acc.getRole();
+            arr[i++] = acc.getName() + ";\nRole requested: " + acc.getRole();
         }
         return arr;
     }

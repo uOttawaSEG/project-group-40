@@ -21,16 +21,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView text;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
+        public ViewHolder(View view) {
+            super(view);
+            text = view.findViewById(R.id.textView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    System.out.println("Element " + getAbsoluteAdapterPosition() + " clicked");
-                }
-            });
         }
 
         public void setText(TextView t) {
@@ -42,8 +36,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
     @NonNull
     @Override
-    public RecycleViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        var view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_text, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        var view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_text, parent, false);
         return new ViewHolder(view);
     }
 

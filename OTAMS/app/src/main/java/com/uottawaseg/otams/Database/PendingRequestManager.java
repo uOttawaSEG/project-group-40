@@ -17,7 +17,7 @@ public class PendingRequestManager {
     }
 
     public static void UpdateRequests() {
-        if(_requests == null) _requests = new ArrayList<>();
+        _requests = new ArrayList<>();
         var data = Database.Database.Read(PENDING_REQS);
         var children = data.getChildren();
         for(var snapShot : children) {
