@@ -24,15 +24,6 @@ public class Administrator extends Account {
     public Role getRole() {
         return _role;
     }
-    // TODO:
-    // Add more functionality :D
-
-    /*
-    *
-    *
-    *
-    *
-    * */
 
     public void UpdateRequests() {
         _requests = PendingRequestManager.getRequests();

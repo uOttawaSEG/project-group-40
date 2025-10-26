@@ -13,10 +13,21 @@ public class AccountCreationManager {
     public final static String STATUS = "status";
     public final static String TYPE = "type";
 
+    /**
+     * @return The request location in the database
+     */
     public final static String GetRequestDir() {
         return PENDING_REQUESTS;
     }
+
+    /**
+     * @return The account location under the pendingRequests.
+     */
     public final static String GetAccountLocation() { return ACCOUNT_LOCATION; }
+
+    /**
+     * @param acc The account to use in the AccountCreationRequest
+     */
     // This is the equivalent to internal in C# (sorta), but Java doesn't have an explicit keyword for it
     static void MakeAccountCreationRequest(Account acc) {
         switch(acc.getRole()) {
@@ -32,6 +43,11 @@ public class AccountCreationManager {
         }
     }
 
+    /**
+     * @param data The data to make the account creation request from,
+     *             i.e. making one from a database query.
+     * @return The AccountCreationRequest made from the data.
+     */
     // This is an overload
     // It takes in DB information, so we won't bother writing to the DB
     static AccountCreationRequest MakeAccountCreationRequest(DataSnapshot data) {
@@ -45,6 +61,9 @@ public class AccountCreationManager {
         }
     }
 
+    /**
+     * @param tut The tutor account to make the request from & write to the database
+     */
     // These functions could be inlined but honestly it's cleaner this way
     private static void TutorCreation(Tutor tut) {
         // We need to make the request
@@ -53,6 +72,9 @@ public class AccountCreationManager {
         Database.Database.WriteRequest(PENDING_REQUESTS + "/" + tut.getUsername(), request);
     }
 
+    /**
+     * @param st The student account to make the request from & write to the database
+     */
     private static void StudentCreation(Student st) {
         var request = new StudentAccountRequest(st);
         Database.Database.WriteRequest(PENDING_REQUESTS + "/" + st.getUsername(), request);

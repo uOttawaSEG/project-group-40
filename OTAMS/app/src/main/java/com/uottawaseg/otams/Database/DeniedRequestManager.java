@@ -13,6 +13,10 @@ public class DeniedRequestManager {
     // Package-only functions
     // We will not be giving them reasons.
 
+    /**
+     * It just declines the request -> Moving it from pending to declined.
+     * @param req The request to decline
+     */
     static void DeclineRequest(AccountCreationRequest req) {
         var username = req.getAccount().getUsername();
         Database.Database.Delete(AccountCreationManager.GetRequestDir() + "/" + username);
@@ -21,19 +25,24 @@ public class DeniedRequestManager {
         req.DeclineRequest();
     }
 
+    /**
+     * @return An unmodifiable list of the requests as we don't want to accidentally modify them.
+     */
     // We don't want to accidentally change the data in the requests, so we'll leave it like this
     public static List<AccountCreationRequest> getRequests() {
         UpdateRequests();
         return Collections.unmodifiableList(_requests);
     }
 
+    /**
+     * Pulls the declined requests from the database.
+     */
     public static void UpdateRequests() {
         _requests = new ArrayList<>();
         var data = Database.Database.Read(DECLINED);
         var children = data.getChildren();
         for(var snapShot : children) {
             var accountRequest = AccountCreationManager.MakeAccountCreationRequest(snapShot);
-            System.out.println(accountRequest);
             _requests.add(accountRequest);
         }
     }
@@ -51,6 +60,10 @@ public class DeniedRequestManager {
     }
 
 
+    /**
+     * @param username The username of the account to select
+     * @return Whether or not we were able to find the given request.
+     */
     public static boolean SelectRequest(String username) {
         var data = Database.Database.Read(DECLINED + "/" + username);
         if(!data.exists() || data == null) {

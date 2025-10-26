@@ -43,14 +43,24 @@ public class LoginManager {
     public static Account getCurrentAccount() {
         return _currentAccount;
     }
+
+
+    /**
+     * @return Whether or not the account found was a pending request or not.
+     */
     public static boolean WasPending() {
         return _wasPending;
     }
 
+    /**
+     * This checks both the pending requests and the actual accounts.
+     * @param username The username to attempt to login with
+     * @param password The password that should be associated with that username.
+     * @return
+     */
     public static Account Login(String username, String password) {
         var data = Database.Database.Read(ACCOUNTS + "/" + username);
         _wasPending = (data == null || !data.exists());
-        System.out.println(data == null);
         if(data == null || !data.exists()) {
             data = Database.Database.Read(
                     AccountCreationManager.GetRequestDir() + "/" + username + "/" + AccountCreationManager.GetAccountLocation());
@@ -72,11 +82,24 @@ public class LoginManager {
         // OOOOOR they screwed up their password/username
         return null;
     }
-    // This returns whether or not the logout was successful
-    public static boolean LogOut() {
+
+    /**
+     * Sets the current account to null -> Effectively logging out the user.
+     */
+    public static void LogOut() {
         setAccount(null);
-        return true;
     }
+
+    /**
+     * Registers a student account
+     * @param firstName The students first name
+     * @param lastName The students last name
+     * @param username The students username
+     * @param password The students password
+     * @param phoneNumber The students phone number
+     * @param email The students email
+     * @param studentNumber The students student number
+     */
     // Register a student account
     public static void Register(String firstName, String lastName,
                                    String username, String password, String phoneNumber,
@@ -85,10 +108,27 @@ public class LoginManager {
                 phoneNumber, email, studentNumber);
         Register(acc);
     }
-    public static void RegisterAdmin() {
+
+    /**
+     *  Registers an administrator in the database
+     *  This can be made unprivate if the administrator ever gets deleted.
+     */
+    private static void RegisterAdmin() {
         var account = new Administrator();
         Database.Database.WriteAccount(ACCOUNTS + "/" + account.getUsername(), account);
     }
+
+    /**
+     * Overload for the tutor registration.
+     * @param firstName The tutors first name
+     * @param lastName The tutors last name
+     * @param username The tutors username
+     * @param password The tutors password name
+     * @param phoneNumber The tutors phone number name
+     * @param email The tutors email name
+     * @param highestDegree The tutors highest degree of study
+     * @param fieldOfStudy The tutors field of study
+     */
     public static void Register(String firstName, String lastName,
                                    String username, String password, String phoneNumber,
                                    String email, Degree highestDegree, Field fieldOfStudy) {
@@ -98,20 +138,26 @@ public class LoginManager {
         Register(acc);
     }
 
+    /**
+     * Generates an AccountCreationRequest and adds it to the database
+     * @param acc The account to register
+     */
     private static void Register(Account acc) {
         // Check if the username already exists
         // if it does, ret false
         // otherwise set
 
-        /*db.child(ACCOUNTS).child(acc.getUsername()).setValue(acc);
-        System.out.println(acc);
-        setAccount(acc);
-        return acc; */
         _currentAccount = acc;
         AccountCreationManager.MakeAccountCreationRequest(acc);
 
     }
 
+    /**
+     * Generates an account from a DataSnapshot.
+     * @param data Data to analyse to make the account
+     * @return The account made from the data
+     * @throws ClassCastException this should never actually throw.
+     */
     @Nullable
     public static Account makeAccountFromQuery(DataSnapshot data) throws ClassCastException {
         Account.Role type = Account.Role.fromString(data.child(TYPE).getValue().toString());
@@ -173,11 +219,20 @@ public class LoginManager {
         return null;
     }
 
+    /**
+     * @param bytes The password, from the database
+     * @param pass the SHA256 of the users entered password
+     * @return Whether or not they're equal.
+     */
     private static boolean checkBytes(Object bytes, byte[] pass) {
         var str = Arrays.toString(pass);
         return bytes.equals(str);
     }
 
+    /**
+     * @param username Username to check
+     * @return Whether or not the username is permitted
+     */
     public static boolean CheckUsername(String username) {
         var chars = username.toCharArray();
         for(char c : chars) {
@@ -189,6 +244,10 @@ public class LoginManager {
         return true;
     }
 
+    /**
+     * @param c Char to check
+     * @return Whether or not firebase allows that character for a username char.
+     */
     private static boolean usernameCharIsAllowed(char c) {
         return !(
                 c == '.' || c == ',' || c == '@' || c == '<' || c == '>' ||

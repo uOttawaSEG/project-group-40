@@ -28,6 +28,9 @@ public enum Field {
         _value = value;
     }
 
+    /**
+     * @return An array of all the values, as strings
+     */
     public static String[] getValues() {
         return new String[] { "Science", "Engineering", "Mathematics", "Medicine", "Arts", "Business" };
     }
@@ -35,6 +38,10 @@ public enum Field {
     public int getValue() {
         return _value;
     }
+
+    /**
+     * @return The current Field as a string
+     */
     @NotNull
     public String toString() {
         switch (_value) {
@@ -54,6 +61,11 @@ public enum Field {
                 return "UNKNOWN";
         }
     }
+
+    /**
+     * @param s The string to convert to a field of study
+     * @return the field of study associated with the given string
+     */
     public static Field fromString(String s) {
         switch(s.toUpperCase()) {
             case "SCIENCE":

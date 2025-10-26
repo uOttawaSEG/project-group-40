@@ -11,6 +11,9 @@ public enum RequestType {
 
     public int getValue() { return _val; }
 
+    /**
+     * @return A string for the given request type.
+     */
     public String toString() {
 
         switch(_val) {
@@ -20,6 +23,10 @@ public enum RequestType {
         }
     }
 
+    /**
+     * @param str the string to transform into a RequestType
+     * @return The RequestType associated with the string.
+     */
     public static RequestType fromString(String str) {
         switch(str.toUpperCase()) {
             case "TUTORACCOUNTCREATION": return TutorAccountCreation;

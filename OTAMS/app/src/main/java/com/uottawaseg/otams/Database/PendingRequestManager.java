@@ -12,17 +12,19 @@ public class PendingRequestManager {
 
     private static AccountCreationRequest _selectedRequest;
 
-    // We don't want to accidentally change the data in the requests, so we'll leave it like this
+    /**
+     * @return Updates the requests and returns an unmodifiable list containing them
+     */
     public static List<AccountCreationRequest> getRequests() {
         UpdateRequests();
         return Collections.unmodifiableList(_requests);
     }
 
 
-    /*
-    *
-    * @returns boolean Returns true if the database request worked, otherwise false.
-    * */
+    /**
+     * @param username The username of the request to find
+     * @return Whether or not we were able to find the request associated with the username.
+     */
     public static boolean SelectRequest(String username) {
         // Query DB
         // Make account from snapshot
@@ -41,6 +43,9 @@ public class PendingRequestManager {
         return _selectedRequest;
     }
 
+    /**
+     * Updates the pending requests.
+     */
     public static void UpdateRequests() {
         _requests = new ArrayList<>();
         var data = Database.Database.Read(PENDING_REQS);
@@ -51,10 +56,10 @@ public class PendingRequestManager {
             _requests.add(accountRequest);
         }
     }
-    // Contrary to its name, this only actually gives us the string of requests,
-    // Not each individual requested, printed to a console.
-    // This will probably be transformed into a slightly nicer way of getting things
-    // So that we can have an actually functional list.
+
+    /**
+     * @return A string to be printed for our request list.
+     */
     public static String PrintRequests() {
         if(_requests == null) UpdateRequests();
         var sb = new StringBuilder();
@@ -64,6 +69,9 @@ public class PendingRequestManager {
         return sb.toString();
     }
 
+    /**
+     * @param req The request to accept
+     */
     public static void AcceptRequest(AccountCreationRequest req) {
         var newAcc = req.getAccount();
         Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/" + newAcc.getUsername(), newAcc);
@@ -75,6 +83,9 @@ public class PendingRequestManager {
         else _requests.remove(req);
     }
 
+    /**
+     * @param req The request to decline
+     */
     public static void DeclineRequest(AccountCreationRequest req) {
         // This gets it's own class because there's extra functionality instead of just accepting it.
         DeniedRequestManager.DeclineRequest(req);
