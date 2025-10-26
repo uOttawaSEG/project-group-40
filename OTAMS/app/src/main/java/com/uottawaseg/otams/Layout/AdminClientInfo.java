@@ -2,7 +2,6 @@ package com.uottawaseg.otams.Layout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawaseg.otams.Database.PendingRequestManager;
+import com.uottawaseg.otams.EmailManager;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.RequestDisplayManager;
 
@@ -63,8 +63,14 @@ public class AdminClientInfo extends AppCompatActivity {
         var deniedButton = (Button) findViewById(R.id.button_rejected);
         var returnButton = (Button) findViewById(R.id.btn_return);
 
+        EmailManager emailManager = new EmailManager(this);
+
         acceptButton.setOnClickListener(v -> {
             PendingRequestManager.AcceptRequest(selected);
+            emailManager.sendAcceptanceEmail(
+                    selected.getAccount().getEmail(),
+                    selected.getAccount().getName()
+            );
             Toast.makeText(this,
                     "Accepted request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
                     Toast.LENGTH_LONG);
@@ -73,6 +79,10 @@ public class AdminClientInfo extends AppCompatActivity {
 
         denyButton.setOnClickListener(v -> {
             PendingRequestManager.DeclineRequest(selected);
+            emailManager.sendRejectionEmail(
+                    selected.getAccount().getEmail(),
+                    selected.getAccount().getName()
+            );
             Toast.makeText(this,
                     "Denied request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
                     Toast.LENGTH_LONG);
