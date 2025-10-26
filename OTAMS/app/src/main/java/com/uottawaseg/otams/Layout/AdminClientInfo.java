@@ -10,7 +10,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawaseg.otams.Database.PendingRequestManager;
-import com.uottawaseg.otams.EmailManager;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.RequestDisplayManager;
 
@@ -21,6 +20,7 @@ public class AdminClientInfo extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.admin_client_info);
+        System.out.println("Admin Client Info on " + Thread.currentThread());
         var selected = PendingRequestManager.GetSelectedRequest();
 
         var fName = (TextView) findViewById(R.id.first_name);
@@ -30,25 +30,6 @@ public class AdminClientInfo extends AppCompatActivity {
         // Other is either a student# or their degree + field of study.
         var other = (TextView) findViewById(R.id.other);
 
-        /*
-         * This string should look like this:
-         *                                    newIndex
-         * Title (Request name)                      0
-         * Account Details:                          1
-         * First name                                2
-         * Last name                                 3
-         * Username                                  4
-         * Phone Number                              5
-         * Email                                     6
-         * If it's a tutor this is where we'd get their
-         * Field of Study                        7
-         * Highest degree of study               8
-
-         * Otherwise it's a student account
-         * Student ID                            7
-
-         * If not we're cooked
-         * */
         var strings = RequestDisplayManager.PrepareRequestToDisplay(selected);
 
         fName.setText(strings[RequestDisplayManager.FIRST_NAME.second]);
@@ -63,14 +44,8 @@ public class AdminClientInfo extends AppCompatActivity {
         var deniedButton = (Button) findViewById(R.id.button_rejected);
         var returnButton = (Button) findViewById(R.id.btn_return);
 
-        EmailManager emailManager = new EmailManager(this);
-
         acceptButton.setOnClickListener(v -> {
             PendingRequestManager.AcceptRequest(selected);
-            emailManager.sendAcceptanceEmail(
-                    selected.getAccount().getEmail(),
-                    selected.getAccount().getName()
-            );
             Toast.makeText(this,
                     "Accepted request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
                     Toast.LENGTH_LONG);
@@ -79,10 +54,6 @@ public class AdminClientInfo extends AppCompatActivity {
 
         denyButton.setOnClickListener(v -> {
             PendingRequestManager.DeclineRequest(selected);
-            emailManager.sendRejectionEmail(
-                    selected.getAccount().getEmail(),
-                    selected.getAccount().getName()
-            );
             Toast.makeText(this,
                     "Denied request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
                     Toast.LENGTH_LONG);

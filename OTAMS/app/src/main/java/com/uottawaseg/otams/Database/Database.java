@@ -9,22 +9,29 @@ import com.uottawaseg.otams.Requests.AccountCreationRequest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.atomic.AtomicReference;
 
 
-public class Database implements Runnable {
+public class Database {
     public final static Database Database = new Database();
-    private final Thread currentThread;
+    private Thread currentThread;
     private boolean _alreadySetup = false;
     private DatabaseReference db;
 
     private Database() {
-        currentThread = new Thread(this);
+        currentThread = new Thread(() -> {
+            StartDB();
+        });
         // Sets it to a daemon so it runs in the background.
-        currentThread.setDaemon(true);
-        currentThread.run();
-
+        currentThread.start();
     }
+    public static String GetMailAPIKey() {
+        if(!Database._alreadySetup) {
+           Database.StartDB();
+        }
 
+        return (String) (Database.Read("mailAPIkey").getValue());
+    }
     // Callbacks
     private void OnCancelled(DatabaseError e) {
         System.out.println("Firebase error: " + e.getMessage());
@@ -114,7 +121,7 @@ public class Database implements Runnable {
      * @param path Path to read
      * @return The data snapshot of what's read at the given path
      */
-    public DataSnapshot Read(String path) {
+    public synchronized DataSnapshot Read(String path) {
         var query = db.child(path);
         var data = query.get();
         while(!(data.isComplete() || data.isCanceled() || data.isSuccessful())) {
@@ -150,8 +157,4 @@ public class Database implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        StartDB();
-    }
 }

@@ -21,4 +21,11 @@ public class Student extends Account {
         return _role;
     }
 
+    @Override
+    public String toString() {
+        var s = super.toString();
+        s += "Student Number: " + _studentNumber;
+        return s;
+    }
+
 }
