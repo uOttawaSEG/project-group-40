@@ -66,15 +66,16 @@ public abstract class Account {
         }
     }
     protected static Role _role;
-    // At some point, this will be protected and only done through the DB.
+
     public Account(String firstName, String lastName, String username, String password, String phone_Number, String email){
         _username = username;
-        // Passwords should never be stored as plain text.
-        _password = Database.GetSHA256(password);
         _phoneNumber = phone_Number;
         _email = email;
         _firstName = firstName;
         _lastName = lastName;
+
+        // Passwords should never be stored as plain text.
+        _password = Database.GetSHA256(password);
     }
 
     public String getUsername() {
@@ -104,8 +105,10 @@ public abstract class Account {
     }
 
     public abstract Role getRole();
-    // This will be used publicly not internally, thus the password will be omitted
-    // We don't want to print the password at every chance we get
+
+    /**
+     * @return A string containing the first name, last name, username, phone number, and email. Does not include password.
+     */
     @NonNull
     public String toString() {
         var sb =  new StringBuilder();

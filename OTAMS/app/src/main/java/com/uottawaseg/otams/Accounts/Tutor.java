@@ -27,7 +27,11 @@ public class Tutor extends Account {
         return _role;
     }
 
-    // We should have to manually fix any degree screw ups
+
+    /**
+     * @param newHighest The degree to set as the new degree
+     * @return Whether or not we were able to update the degree
+     */
     public boolean updateDegree(Degree newHighest) {
         if(newHighest.getValue() < _highestDegreeOfStudy.getValue()) {
             return false;

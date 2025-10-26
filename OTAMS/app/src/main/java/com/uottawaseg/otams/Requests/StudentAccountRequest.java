@@ -1,6 +1,7 @@
 package com.uottawaseg.otams.Requests;
 
 import com.uottawaseg.otams.Accounts.Account;
+import com.uottawaseg.otams.EmailManager;
 
 public class StudentAccountRequest extends AccountCreationRequest {
     private Account _acc;
@@ -26,7 +27,6 @@ public class StudentAccountRequest extends AccountCreationRequest {
         return _acc;
     }
 
-    // I'll make an email manager class.
     @Override
     public void AcceptRequest() {
         _status = RequestStatus.ACCEPTED;
@@ -44,7 +44,7 @@ public class StudentAccountRequest extends AccountCreationRequest {
         // StringBuilder not at all required here but it keeps things nice.
         var sb = new StringBuilder();
         sb.append("Tutor account creation request:\n");
-        sb.append("\n Account details:\n").append(getAccount().toString());
+        sb.append("\nAccount details:\n").append(getAccount().toString());
         return sb.toString();
     }
 }

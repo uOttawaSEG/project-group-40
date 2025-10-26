@@ -4,7 +4,6 @@ import com.uottawaseg.otams.Accounts.Account;
 
 public class TutorAccountRequest extends AccountCreationRequest {
     private Account _acc;
-    private long _reqID;
     private RequestStatus _status;
     private final RequestType TYPE = RequestType.TutorAccountCreation;
     public TutorAccountRequest(Account acc) {

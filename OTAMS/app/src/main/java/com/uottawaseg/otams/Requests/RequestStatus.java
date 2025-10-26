@@ -8,6 +8,10 @@ public enum RequestStatus {
     }
 
     public int GetValue() { return _val; }
+
+    /**
+     * @return The string associated with the current request status
+     */
     public String toString() {
         switch(_val) {
             case 1:

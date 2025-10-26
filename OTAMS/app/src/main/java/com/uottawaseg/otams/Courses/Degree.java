@@ -14,6 +14,9 @@ public enum Degree {
         return _value;
     }
 
+    /**
+     * @return The string associated with the current Degree
+     */
     @NonNull
     public String toString() {
         switch (getValue()) {
@@ -32,6 +35,10 @@ public enum Degree {
         }
     }
 
+    /**
+     * @param s The string to transform into a Degree
+     * @return The Degree associated with the given string
+     */
     public static Degree fromString(String s) {
         switch (s.toUpperCase()) {
             case "NONE":
@@ -50,6 +57,9 @@ public enum Degree {
         }
     }
 
+    /**
+     * @return The array of values, as strings.
+     */
     public static String[] getValues() {
         return new String[] {"NONE", "HIGHSCHOOL", "BACHELORS", "MASTERS", "DOCTORATE"};
     }

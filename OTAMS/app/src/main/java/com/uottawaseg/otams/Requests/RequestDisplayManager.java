@@ -28,6 +28,11 @@ public class RequestDisplayManager {
             new Pair("Extra", 7);
 
 
+    /**
+     * Prepares a single request to be displayed on the admin_client_info page.
+     * @param req The request to display
+     * @return A string[] with constant indexes for given values
+     */
     public static String[] PrepareRequestToDisplay(AccountCreationRequest req) {
         var isTutor = req.getAccount().getRole() == Account.Role.TUTOR;
         var strs = req.toString().split("\n");
@@ -67,10 +72,18 @@ public class RequestDisplayManager {
         return result;
     }
 
+    /**
+     * @return A string[] of all pending requests
+     */
     public static String[] GetRequestForPendingPage() {
         return GetRequestForPage(PendingRequestManager.getRequests());
     }
-    public static String[] GetRequestForPage(List<AccountCreationRequest> reqs) {
+
+    /**
+     * @param reqs A list of AccountCreationRequests to change into a string[]
+     * @return A string[] to display on the admin_pending_request or admin_rejected_requests pages
+     */
+    private static String[] GetRequestForPage(List<AccountCreationRequest> reqs) {
         var arr = new String[reqs.size()];
 
         /*
@@ -88,6 +101,9 @@ public class RequestDisplayManager {
         return arr;
     }
 
+    /**
+     * @return A string[] of all the denied requests
+     */
     public static String[] GetRequestForDeniedPage() {
         return GetRequestForPage(DeniedRequestManager.getRequests());
     }

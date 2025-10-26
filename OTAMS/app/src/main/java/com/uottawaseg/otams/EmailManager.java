@@ -34,6 +34,7 @@ public class EmailManager {
      * @param registrantName the name of the registrant
      */
     public void sendAcceptanceEmail(String recipientEmail, String registrantName) {
+        System.out.println(recipientEmail);
         String subject = "Request Accepted";
         String message = "Dear " + registrantName + ",\n\n" +
                 "Your registration request has been accepted.\n\n" +
@@ -55,7 +56,7 @@ public class EmailManager {
         String subject = "Request Denied";
         String message = "Dear " + registrantName + ",\n\n" +
                 "Your registration request has been denied.\n" +
-                "If you have any questions, please contact our support line at (420) 696-6767.\n\n" +
+                "If you have any questions, please contact our support line at +1 (613) 737-1111.\n\n" +
                 "Sincerely,\n" +
                 "The Administration";
 
