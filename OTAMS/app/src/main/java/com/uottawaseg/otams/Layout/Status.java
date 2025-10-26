@@ -24,7 +24,7 @@ public class Status extends AppCompatActivity {
 
                 ("You are logged in as " + LoginManager.getCurrentAccount().getName()
                         + ". \nYour application for " + LoginManager.getCurrentAccount().getRole()
-                        + "is still under review, we'll notify you via email when we make our decision") :
+                        + " is still under review, we'll notify you via email when we make our decision") :
                 ("You are logged in as " + LoginManager.getCurrentAccount().getName()
                         + ". \n Your role is: " + LoginManager.getCurrentAccount().getRole());
 

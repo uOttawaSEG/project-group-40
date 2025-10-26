@@ -52,7 +52,6 @@ public class PendingRequestManager {
         var children = data.getChildren();
         for(var snapShot : children) {
             var accountRequest = AccountCreationManager.MakeAccountCreationRequest(snapShot);
-            System.out.println(accountRequest);
             _requests.add(accountRequest);
         }
     }
@@ -74,6 +73,10 @@ public class PendingRequestManager {
      */
     public static void AcceptRequest(AccountCreationRequest req) {
         var newAcc = req.getAccount();
+
+        //TODO:
+        //  Check if the account was declined previously
+        //  We should have done this already but w/e
         Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/" + newAcc.getUsername(), newAcc);
 
         Database.Database.Delete(PENDING_REQS + "/" + newAcc.getUsername());

@@ -29,7 +29,6 @@ public class Login extends AppCompatActivity {
                     var username = ((TextView) findViewById(R.id.email_input)).getText().toString();
                     var password = ((TextView) findViewById(R.id.password_input)).getText().toString();
                     var acc = LoginManager.Login(username, password);
-                    System.out.println(acc);
                     if (acc != null) {
                         System.out.println("Login successful");
 

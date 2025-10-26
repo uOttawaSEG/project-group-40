@@ -113,7 +113,7 @@ public abstract class Account {
     public String toString() {
         var sb =  new StringBuilder();
         sb.append("First name: ").append(getFirstName()).append("\n");
-        sb.append("Last name").append(getLastName()).append("\n");
+        sb.append("Last name: ").append(getLastName()).append("\n");
         sb.append("Username: ").append(getUsername()).append("\n");
         sb.append("Phone Number: ").append(getPhoneNumber()).append("\n");
         sb.append("Email: ").append(getEmail()).append("\n");

@@ -13,19 +13,19 @@ public class RequestDisplayManager {
     public static final Pair<String, Integer> TITLE =
             new Pair("Title", 0);
     public static final Pair<String, Integer> ACCOUNT_DETAILS =
-            new Pair("AccountDetails", 1);
+            new Pair("AccountDetails", 2);
     public static final Pair<String, Integer> FIRST_NAME =
-            new Pair("FirstName", 2);
+            new Pair("FirstName", 3);
     public static final Pair<String, Integer> LAST_NAME =
-            new Pair("LastName", 3);
+            new Pair("LastName", 4);
     public static final Pair<String, Integer> USERNAME =
-            new Pair("Username", 4);
+            new Pair("Username", 5);
     public static final Pair<String, Integer> PHONE_NUMBER =
-            new Pair("PhoneNumber", 5);
+            new Pair("PhoneNumber", 6);
     public static final Pair<String, Integer> EMAIL =
-            new Pair("Email", 6);
+            new Pair("Email", 7);
     public static final Pair<String, Integer> OTHER =
-            new Pair("Extra", 7);
+            new Pair("Extra", 8);
 
 
     /**
@@ -36,38 +36,36 @@ public class RequestDisplayManager {
     public static String[] PrepareRequestToDisplay(AccountCreationRequest req) {
         var isTutor = req.getAccount().getRole() == Account.Role.TUTOR;
         var strs = req.toString().split("\n");
-        var result = new String[8];
+        var result = new String[strs.length];
         /*
         * This string should look like this:
-        *                                    newIndex
-        * Title (Request name)                      0
-        * Account Details:                          1
-        * First name                                2
-        * Last name                                 3
-        * Username                                  4
-        * Phone Number                              5
-        * Email                                     6
+        *                                            newIndex
+        * Title (Request name)                              0
+        * \n                                                1
+        * Account Details:                                  2
+        * First name                                        3
+        * Last name                                         4
+        * Username                                          5
+        * Phone Number                                      6
+        * Email                                             7
         * If it's a tutor this is where we'd get their
-            * Field of Study                        7
-            * Highest degree of study               8
+            * Highest degree of study + Field of study      8
 
         * Otherwise it's a student account
-            * Student ID                            7
+            * Student ID                                    8
 
         * If not we're cooked
         * */
         var index = 0;
-        for(int i = 0; i < 7; i++) {
-            if(i == 1) continue;
+        for(int i = 0; i < 8; i++) {
             result[index++] = strs[i];
         }
 
         if(isTutor) {
-            var field = strs[7];
             var degree = strs[8];
-            result[index] = field + ", " + degree;
+            result[index] = degree;
         } else {
-            result[index] = strs[7];
+            result[index] = strs[8];
         }
         return result;
     }

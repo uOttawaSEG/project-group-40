@@ -61,7 +61,7 @@ public class LoginManager {
     public static Account Login(String username, String password) {
         var data = Database.Database.Read(ACCOUNTS + "/" + username);
         _wasPending = (data == null || !data.exists());
-        if(data == null || !data.exists()) {
+        if(_wasPending) {
             data = Database.Database.Read(
                     AccountCreationManager.GetRequestDir() + "/" + username + "/" + AccountCreationManager.GetAccountLocation());
             if(data == null || !data.exists()) {
@@ -72,7 +72,6 @@ public class LoginManager {
         var bytes = data.child(PASSWORD).getValue();
         assert bytes != null;
         var pass = Database.GetSHA256(password);
-        System.out.println("Bytes == pass: " + checkBytes(bytes, pass));
         if(checkBytes(bytes, pass)) {
             setAccount(makeAccountFromQuery(data));
             return getCurrentAccount();
@@ -146,7 +145,7 @@ public class LoginManager {
         // Check if the username already exists
         // if it does, ret false
         // otherwise set
-
+        _wasPending = true;
         _currentAccount = acc;
         AccountCreationManager.MakeAccountCreationRequest(acc);
 
@@ -161,7 +160,6 @@ public class LoginManager {
     @Nullable
     public static Account makeAccountFromQuery(DataSnapshot data) throws ClassCastException {
         Account.Role type = Account.Role.fromString(data.child(TYPE).getValue().toString());
-        System.out.println(type);
         if(type == null || type == Account.Role.UNDEFINED) {
             return null;
         }
@@ -237,7 +235,6 @@ public class LoginManager {
         var chars = username.toCharArray();
         for(char c : chars) {
             if(!usernameCharIsAllowed(c)) {
-                System.out.println(username);
                 return false;
             }
         }
