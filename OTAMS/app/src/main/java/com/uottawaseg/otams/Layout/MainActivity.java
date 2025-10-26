@@ -31,13 +31,18 @@ public class MainActivity extends AppCompatActivity {
         // Main page "Login" button
 
         Button main_page_login_button = findViewById(R.id.main_login);
-        main_page_login_button.setOnClickListener(view ->
-                startActivity(new Intent(MainActivity.this, Login.class)));
+        main_page_login_button.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, Login.class));
+
+            this.finish();
+        });
 
         // Main page "Sign-up" button
         Button main_page_register_button = findViewById(R.id.main_signup);
-        main_page_register_button.setOnClickListener(view ->
-                startActivity(new Intent(MainActivity.this, Register.class)));
+        main_page_register_button.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, Register.class));
+            this.finish();
+        });
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_page), (v, insets) -> {

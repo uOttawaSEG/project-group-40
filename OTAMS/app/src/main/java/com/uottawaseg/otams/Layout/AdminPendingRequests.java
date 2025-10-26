@@ -38,14 +38,18 @@ public class AdminPendingRequests extends AppCompatActivity {
         go_home.setOnClickListener(view ->
                 startActivity(new Intent(AdminPendingRequests.this, MainActivity.class)));
 
-        List<AccountCreationRequest> requests = PendingRequestManager.getRequests();
-
         var recycleView = (RecyclerView) findViewById(R.id.pending_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
-        var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage(requests));
+        var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
         recycleView.setAdapter(adapter);
+    }
 
-
+    @Override
+    public void recreate() {
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
 }

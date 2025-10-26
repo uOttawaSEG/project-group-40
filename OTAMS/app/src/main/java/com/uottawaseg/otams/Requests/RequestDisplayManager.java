@@ -3,6 +3,8 @@ package com.uottawaseg.otams.Requests;
 import android.util.Pair;
 
 import com.uottawaseg.otams.Accounts.Account;
+import com.uottawaseg.otams.Database.DeniedRequestManager;
+import com.uottawaseg.otams.Database.PendingRequestManager;
 
 import java.util.List;
 
@@ -60,12 +62,15 @@ public class RequestDisplayManager {
             var degree = strs[8];
             result[index] = field + ", " + degree;
         } else {
-            result[index] = strs[8];
+            result[index] = strs[7];
         }
         return result;
     }
 
-    public static String[] GetRequestForPendingPage(List<AccountCreationRequest> reqs) {
+    public static String[] GetRequestForPendingPage() {
+        return GetRequestForPage(PendingRequestManager.getRequests());
+    }
+    public static String[] GetRequestForPage(List<AccountCreationRequest> reqs) {
         var arr = new String[reqs.size()];
 
         /*
@@ -81,5 +86,9 @@ public class RequestDisplayManager {
             arr[i++] = acc.getName() + "\nUsername: " + acc.getUsername() + "\nRole requested: " + acc.getRole();
         }
         return arr;
+    }
+
+    public static String[] GetRequestForDeniedPage() {
+        return GetRequestForPage(DeniedRequestManager.getRequests());
     }
 }

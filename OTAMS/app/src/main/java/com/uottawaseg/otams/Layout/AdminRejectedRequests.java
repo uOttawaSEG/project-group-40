@@ -34,11 +34,10 @@ public class AdminRejectedRequests extends AppCompatActivity {
         Button go_home = findViewById(R.id.btn_return);
         go_home.setOnClickListener(view ->
                 startActivity(new Intent(AdminRejectedRequests.this, MainActivity.class)));
-        List<AccountCreationRequest> requests = DeniedRequestManager.getRequests();
 
         var recycleView = (RecyclerView) findViewById(R.id.denied_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
-        var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage(requests));
+        var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
         recycleView.setAdapter(adapter);
 
     }

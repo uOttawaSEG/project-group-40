@@ -66,7 +66,7 @@ public class PendingRequestManager {
 
     public static void AcceptRequest(AccountCreationRequest req) {
         var newAcc = req.getAccount();
-        Database.Database.WriteAccount(LoginManager.ACCOUNTS, newAcc);
+        Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/" + newAcc.getUsername(), newAcc);
 
         Database.Database.Delete(PENDING_REQS + "/" + newAcc.getUsername());
         req.AcceptRequest();

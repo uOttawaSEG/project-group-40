@@ -35,8 +35,10 @@ public class Login extends AppCompatActivity {
 
                         if (acc.getRole() == Account.Role.ADMIN) {
                             startActivity(new Intent(Login.this, AdminPendingRequests.class));
+                            this.finish();
                         } else {
-                            startActivity(new Intent(Login.this, Welcome.class));
+                            startActivity(new Intent(Login.this, Status.class));
+                            this.finish();
                         }
 
                     } else {
@@ -47,10 +49,9 @@ public class Login extends AppCompatActivity {
 
 
         Button login_returnToHP_button = findViewById(R.id.returnToHomepage_button);
-        login_returnToHP_button.setOnClickListener(view ->
-                startActivity(new Intent(Login.this, MainActivity.class)));
-
-
-
+        login_returnToHP_button.setOnClickListener(view -> {
+            startActivity(new Intent(Login.this, MainActivity.class));
+            this.finish();
+        });
     }
 }

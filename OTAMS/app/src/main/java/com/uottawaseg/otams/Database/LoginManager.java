@@ -87,7 +87,7 @@ public class LoginManager {
     }
     public static void RegisterAdmin() {
         var account = new Administrator();
-        Register(account);
+        Database.Database.WriteAccount(ACCOUNTS + "/" + account.getUsername(), account);
     }
     public static void Register(String firstName, String lastName,
                                    String username, String password, String phoneNumber,
@@ -107,6 +107,7 @@ public class LoginManager {
         System.out.println(acc);
         setAccount(acc);
         return acc; */
+        _currentAccount = acc;
         AccountCreationManager.MakeAccountCreationRequest(acc);
 
     }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Database.DeniedRequestManager;
 import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Layout.AdminClientInfo;
 import com.uottawaseg.otams.Layout.AdminPendingRequests;
@@ -62,7 +63,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 var usernameText = text[1].split(": ")[1].trim();
                 // Now that we have the username we can find the request very quickly.
 
-                if(PendingRequestManager.SelectRequest(usernameText)) {
+                if(PendingRequestManager.SelectRequest(usernameText)
+                        || DeniedRequestManager.SelectRequest(usernameText)) {
                     v.getContext().startActivity(new Intent(v.getContext(), AdminClientInfo.class));
                 } else {
                     Toast.makeText(v.getContext(), "Error getting the selected request", Toast.LENGTH_LONG).show();

@@ -1,7 +1,11 @@
 package com.uottawaseg.otams.Layout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,5 +56,43 @@ public class AdminClientInfo extends AppCompatActivity {
         usrnm.setText(strings[RequestDisplayManager.USERNAME.second]);
         email.setText(strings[RequestDisplayManager.EMAIL.second]);
         other.setText(strings[RequestDisplayManager.OTHER.second]);
+
+        var acceptButton = (Button) findViewById(R.id.accept_button);
+        var denyButton = (Button) findViewById(R.id.decline_button);
+        var pendingButton = (Button) findViewById(R.id.button_pending);
+        var deniedButton = (Button) findViewById(R.id.button_rejected);
+        var returnButton = (Button) findViewById(R.id.btn_return);
+
+        acceptButton.setOnClickListener(v -> {
+            PendingRequestManager.AcceptRequest(selected);
+            Toast.makeText(this,
+                    "Accepted request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
+                    Toast.LENGTH_LONG);
+            finish();
+        });
+
+        denyButton.setOnClickListener(v -> {
+            PendingRequestManager.DeclineRequest(selected);
+            Toast.makeText(this,
+                    "Denied request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
+                    Toast.LENGTH_LONG);
+            finish();
+        });
+
+        pendingButton.setOnClickListener(v -> {
+            startActivity(new Intent(AdminClientInfo.this, AdminPendingRequests.class));
+            finish();
+        });
+
+        deniedButton.setOnClickListener(v -> {
+            startActivity(new Intent(AdminClientInfo.this, AdminRejectedRequests.class));
+            finish();
+        });
+        returnButton.setOnClickListener(v -> {
+            startActivity(new Intent(AdminClientInfo.this, AdminPendingRequests.class));
+            finish();
+        });
+
+
     }
 }

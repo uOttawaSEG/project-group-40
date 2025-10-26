@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DeniedRequestManager {
-    public static final String DECLINED = "declined";
+    public static final String DECLINED = "denied";
     private static List<AccountCreationRequest> _requests;
 
     // Package-only functions
@@ -51,4 +51,12 @@ public class DeniedRequestManager {
     }
 
 
+    public static boolean SelectRequest(String username) {
+        var data = Database.Database.Read(DECLINED + "/" + username);
+        if(!data.exists() || data == null) {
+            return false;
+        }
+        PendingRequestManager.SelectRequest(AccountCreationManager.MakeAccountCreationRequest(data));
+        return true;
+    }
 }
