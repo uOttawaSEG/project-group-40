@@ -190,20 +190,11 @@ public class LoginManager {
         var email = (String)(data.child(EMAIL).getValue());
 
         if (type == Account.Role.STUDENT) {
-            /*
-             * var superMap = super.ConvertToMap();
-             * superMap.put("StudentNumber", _studentNumber);
-             * */
             var studentNum = (String)(data.child(STUDENT_NUMBER).getValue());
             return new Student(fName, lName, username,
                     pass, phoneNum, email, studentNum);
         }
         if (type == Account.Role.TUTOR) {
-            /*
-             * var superMap = super.ConvertToMap();
-             * superMap.put("FieldOfStudy", _fieldOfStudy);
-             * superMap.put("HighestDegree", _highestDegreeOfStudy);
-             * */
 
             var FoS = Field.fromString((String) (data.child(FIELD_OF_STUDY).getValue()));
             var Deg = Degree.fromString((String) (data.child(HIGHEST_DEGREE).getValue()));
