@@ -21,6 +21,7 @@ import com.uottawaseg.otams.Requests.RequestDisplayManager;
 import java.util.List;
 
 public class AdminPendingRequests extends AppCompatActivity {
+    public static RecycleViewAdapter adapter;
 
 
     @Override
@@ -35,21 +36,29 @@ public class AdminPendingRequests extends AppCompatActivity {
                 startActivity(new Intent(AdminPendingRequests.this, AdminRejectedRequests.class)));
 
         Button go_home = findViewById(R.id.btn_return);
-        go_home.setOnClickListener(view ->
-                startActivity(new Intent(AdminPendingRequests.this, MainActivity.class)));
+        go_home.setOnClickListener(view -> {
+                startActivity(new Intent(AdminPendingRequests.this, MainActivity.class));
+                finish();
+                });
 
         var recycleView = (RecyclerView) findViewById(R.id.pending_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
-        var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
+        if(adapter == null) {
+            adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
+        }
         recycleView.setAdapter(adapter);
     }
 
+
     @Override
-    public void recreate() {
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+    public void onResume() {
+        super.onResume();
+        var recycleView = (RecyclerView) findViewById(R.id.pending_recycler);
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
+        if(adapter == null) {
+            adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+        }
+        recycleView.setAdapter(adapter);
     }
 
 }

@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
 
                     } else {
                         System.out.println("Unable to login");
-                        Toast.makeText(this.getApplicationContext(), "Unable to login", Toast.LENGTH_LONG);
+                        Toast.makeText(this.getApplicationContext(), "Unable to login", Toast.LENGTH_LONG).show();
                     }
                 });
 

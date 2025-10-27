@@ -10,6 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawaseg.otams.Database.PendingRequestManager;
+import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.RequestDisplayManager;
 
@@ -49,6 +50,8 @@ public class AdminClientInfo extends AppCompatActivity {
             Toast.makeText(this,
                     "Accepted request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
                     Toast.LENGTH_LONG);
+            AdminPendingRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
+            AdminRejectedRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
             finish();
         });
 
@@ -57,6 +60,9 @@ public class AdminClientInfo extends AppCompatActivity {
             Toast.makeText(this,
                     "Denied request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
                     Toast.LENGTH_LONG);
+
+            AdminPendingRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
+            AdminRejectedRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
             finish();
         });
 

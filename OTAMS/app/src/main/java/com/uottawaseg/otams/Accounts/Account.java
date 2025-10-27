@@ -75,9 +75,40 @@ public abstract class Account {
         _lastName = lastName;
 
         // Passwords should never be stored as plain text.
-        _password = Database.GetSHA256(password);
+        if(!password.startsWith("[") && !password.endsWith("]"))
+            _password = Database.GetSHA256(password);
+        else
+            _password = strToByteArr(password);
     }
+    private byte[] strToByteArr(String str) {
+        var splitStr = str.split(", ");
+        var result = new byte[splitStr.length];
+        var i = 0;
+        System.out.println(splitStr);
+        for(String s : splitStr) {
+            if(i == 0) {
+                // We need to exclude the [
+                var data = s.split("");
+                var sb = new StringBuilder();
+                for(int x = 1; x < data.length; x++) {
+                    sb.append(data[x]);
+                }
+                result[i++] = Byte.parseByte(sb.toString());
+            } else if(i == splitStr.length - 1) {
 
+                // We need to exclude the ]
+                var data = s.split("");
+                var sb = new StringBuilder();
+                for(int x = 0; x < data.length - 1; x++) {
+                    sb.append(data[x]);
+                }
+                result[i++] = Byte.parseByte(sb.toString());
+            } else {
+                result[i++] = Byte.parseByte(s);
+            }
+        }
+        return result;
+    }
     public String getUsername() {
         return _username;
     }
