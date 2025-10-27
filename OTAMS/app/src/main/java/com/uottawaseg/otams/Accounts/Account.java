@@ -84,7 +84,6 @@ public abstract class Account {
         var splitStr = str.split(", ");
         var result = new byte[splitStr.length];
         var i = 0;
-        System.out.println(splitStr);
         for(String s : splitStr) {
             if(i == 0) {
                 // We need to exclude the [
