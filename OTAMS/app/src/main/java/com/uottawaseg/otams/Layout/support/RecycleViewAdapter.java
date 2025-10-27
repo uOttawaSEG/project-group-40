@@ -1,7 +1,5 @@
 package com.uottawaseg.otams.Layout.support;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.uottawaseg.otams.Database.DeniedRequestManager;
 import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Layout.AdminClientInfo;
-import com.uottawaseg.otams.Layout.AdminPendingRequests;
-import com.uottawaseg.otams.Layout.Login;
 import com.uottawaseg.otams.R;
-
-import java.util.Arrays;
 
 // Based off
 // https://github.com/android/views-widgets-samples/blob/main/RecyclerView/Application/src/main/java/com/example/android/recyclerview/CustomAdapter.java

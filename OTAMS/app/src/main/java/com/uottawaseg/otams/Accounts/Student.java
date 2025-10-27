@@ -1,8 +1,6 @@
 
 package com.uottawaseg.otams.Accounts;
 
-import java.util.HashMap;
-
 public class Student extends Account {
     private final String _studentNumber;
     private final Role _role = Role.STUDENT;

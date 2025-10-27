@@ -19,7 +19,6 @@ public class Welcome extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.welcome);
         var text = (TextView) findViewById(R.id.loginConfirmation);
-        System.out.println(text);
         String toDisplay = LoginManager.WasPending() ?
 
                 ("You are logged in as " + LoginManager.getCurrentAccount().getName()

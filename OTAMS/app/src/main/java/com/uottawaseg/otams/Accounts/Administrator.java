@@ -5,7 +5,6 @@ import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Requests.AccountCreationRequest;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Administrator extends Account {

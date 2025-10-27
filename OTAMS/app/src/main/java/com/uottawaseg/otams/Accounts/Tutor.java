@@ -3,9 +3,8 @@ package com.uottawaseg.otams.Accounts;
 
 import androidx.annotation.NonNull;
 
-import com.uottawaseg.otams.Courses.*;
-
-import java.util.HashMap;
+import com.uottawaseg.otams.Courses.Degree;
+import com.uottawaseg.otams.Courses.Field;
 
 public class Tutor extends Account {
     private Degree _highestDegreeOfStudy;

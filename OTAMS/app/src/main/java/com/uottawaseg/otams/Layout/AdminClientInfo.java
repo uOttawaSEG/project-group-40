@@ -21,7 +21,6 @@ public class AdminClientInfo extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.admin_client_info);
-        System.out.println("Admin Client Info on " + Thread.currentThread());
         var selected = PendingRequestManager.GetSelectedRequest();
 
         var fName = (TextView) findViewById(R.id.first_name);
