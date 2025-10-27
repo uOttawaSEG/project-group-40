@@ -59,6 +59,7 @@ public class LoginManager {
      * @return
      */
     public static Account Login(String username, String password) {
+
         var data = Database.Database.Read(ACCOUNTS + "/" + username);
         _wasPending = (data == null || !data.exists());
         if(_wasPending) {
@@ -72,6 +73,7 @@ public class LoginManager {
         var bytes = data.child(PASSWORD).getValue();
         assert bytes != null;
         var pass = Database.GetSHA256(password);
+        System.out.println(checkBytes(bytes, pass));
         if(checkBytes(bytes, pass)) {
             setAccount(makeAccountFromQuery(data));
             return getCurrentAccount();
@@ -186,6 +188,7 @@ public class LoginManager {
         var lName = (String)(data.child(LAST_NAME).getValue());
         var username = (String)(data.child(USERNAME).getValue());
         var pass = (String)(data.child(PASSWORD).getValue());
+        System.out.println(data.child(PASSWORD).getValue());
         var phoneNum = (String)(data.child(PHONE_NUMBER).getValue());
         var email = (String)(data.child(EMAIL).getValue());
 

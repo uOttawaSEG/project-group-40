@@ -20,6 +20,8 @@ import java.util.List;
 
 public class AdminRejectedRequests extends AppCompatActivity {
 
+    public static RecycleViewAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +34,28 @@ public class AdminRejectedRequests extends AppCompatActivity {
                 startActivity(new Intent(AdminRejectedRequests.this, AdminPendingRequests.class)));
 
         Button go_home = findViewById(R.id.btn_return);
-        go_home.setOnClickListener(view ->
-                startActivity(new Intent(AdminRejectedRequests.this, MainActivity.class)));
+        go_home.setOnClickListener(view -> {
+            startActivity(new Intent(AdminRejectedRequests.this, MainActivity.class));
+        });
 
         var recycleView = (RecyclerView) findViewById(R.id.denied_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
-        var adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+        if(adapter == null) {
+            adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+        }
         recycleView.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        var recycleView = (RecyclerView) findViewById(R.id.denied_recycler);
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
+        if(adapter == null) {
+            adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+        }
+        recycleView.setAdapter(adapter);
     }
 
 }

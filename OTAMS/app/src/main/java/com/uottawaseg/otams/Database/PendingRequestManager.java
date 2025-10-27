@@ -80,6 +80,7 @@ public class PendingRequestManager {
         Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/" + newAcc.getUsername(), newAcc);
 
         Database.Database.Delete(PENDING_REQS + "/" + newAcc.getUsername());
+        Database.Database.Delete(DeniedRequestManager.DECLINED + "/" + newAcc.getUsername());
         req.AcceptRequest();
 
         if(_requests == null) UpdateRequests();
