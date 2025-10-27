@@ -2,23 +2,16 @@ package com.uottawaseg.otams.Layout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.Requests.AccountCreationRequest;
 import com.uottawaseg.otams.Requests.RequestDisplayManager;
-
-import java.util.List;
 
 public class AdminPendingRequests extends AppCompatActivity {
     public static RecycleViewAdapter adapter;

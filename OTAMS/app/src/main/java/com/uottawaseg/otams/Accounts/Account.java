@@ -5,11 +5,7 @@ import androidx.annotation.NonNull;
 
 import com.uottawaseg.otams.Database.Database;
 
-import org.json.JSONObject;
-
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Account {
     protected String _username, _phoneNumber,

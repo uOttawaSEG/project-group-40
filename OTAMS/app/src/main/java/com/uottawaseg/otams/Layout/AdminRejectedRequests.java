@@ -9,14 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uottawaseg.otams.Database.DeniedRequestManager;
-import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.Requests.AccountCreationRequest;
 import com.uottawaseg.otams.Requests.RequestDisplayManager;
-
-import java.util.List;
 
 public class AdminRejectedRequests extends AppCompatActivity {
 

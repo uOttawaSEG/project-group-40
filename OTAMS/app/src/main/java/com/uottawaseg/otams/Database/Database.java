@@ -9,7 +9,6 @@ import com.uottawaseg.otams.Requests.AccountCreationRequest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Database {

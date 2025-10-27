@@ -1,7 +1,9 @@
 package com.uottawaseg.otams.Database;
 
 import com.google.firebase.database.DataSnapshot;
-import com.uottawaseg.otams.Accounts.*;
+import com.uottawaseg.otams.Accounts.Account;
+import com.uottawaseg.otams.Accounts.Student;
+import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.AccountCreationRequest;
 import com.uottawaseg.otams.Requests.RequestType;
 import com.uottawaseg.otams.Requests.StudentAccountRequest;

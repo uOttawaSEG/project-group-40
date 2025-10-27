@@ -19,7 +19,6 @@ public class Status extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.status);
         var text = (TextView) findViewById(R.id.status_text);
-        System.out.println(text);
         String toDisplay = LoginManager.WasPending() ?
 
                 ("You are logged in as " + LoginManager.getCurrentAccount().getName()
