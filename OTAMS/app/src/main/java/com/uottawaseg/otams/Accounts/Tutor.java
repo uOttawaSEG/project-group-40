@@ -3,9 +3,8 @@ package com.uottawaseg.otams.Accounts;
 
 import androidx.annotation.NonNull;
 
-import com.uottawaseg.otams.Courses.*;
-
-import java.util.HashMap;
+import com.uottawaseg.otams.Courses.Degree;
+import com.uottawaseg.otams.Courses.Field;
 
 public class Tutor extends Account {
     private Degree _highestDegreeOfStudy;
@@ -27,7 +26,11 @@ public class Tutor extends Account {
         return _role;
     }
 
-    // We should have to manually fix any degree screw ups
+
+    /**
+     * @param newHighest The degree to set as the new degree
+     * @return Whether or not we were able to update the degree
+     */
     public boolean updateDegree(Degree newHighest) {
         if(newHighest.getValue() < _highestDegreeOfStudy.getValue()) {
             return false;

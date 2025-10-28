@@ -5,11 +5,7 @@ import androidx.annotation.NonNull;
 
 import com.uottawaseg.otams.Database.Database;
 
-import org.json.JSONObject;
-
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Account {
     protected String _username, _phoneNumber,
@@ -66,17 +62,48 @@ public abstract class Account {
         }
     }
     protected static Role _role;
-    // At some point, this will be protected and only done through the DB.
+
     public Account(String firstName, String lastName, String username, String password, String phone_Number, String email){
         _username = username;
-        // Passwords should never be stored as plain text.
-        _password = Database.GetSHA256(password);
         _phoneNumber = phone_Number;
         _email = email;
         _firstName = firstName;
         _lastName = lastName;
-    }
 
+        // Passwords should never be stored as plain text.
+        if(!password.startsWith("[") && !password.endsWith("]"))
+            _password = Database.GetSHA256(password);
+        else
+            _password = strToByteArr(password);
+    }
+    private byte[] strToByteArr(String str) {
+        var splitStr = str.split(", ");
+        var result = new byte[splitStr.length];
+        var i = 0;
+        for(String s : splitStr) {
+            if(i == 0) {
+                // We need to exclude the [
+                var data = s.split("");
+                var sb = new StringBuilder();
+                for(int x = 1; x < data.length; x++) {
+                    sb.append(data[x]);
+                }
+                result[i++] = Byte.parseByte(sb.toString());
+            } else if(i == splitStr.length - 1) {
+
+                // We need to exclude the ]
+                var data = s.split("");
+                var sb = new StringBuilder();
+                for(int x = 0; x < data.length - 1; x++) {
+                    sb.append(data[x]);
+                }
+                result[i++] = Byte.parseByte(sb.toString());
+            } else {
+                result[i++] = Byte.parseByte(s);
+            }
+        }
+        return result;
+    }
     public String getUsername() {
         return _username;
     }
@@ -104,13 +131,15 @@ public abstract class Account {
     }
 
     public abstract Role getRole();
-    // This will be used publicly not internally, thus the password will be omitted
-    // We don't want to print the password at every chance we get
+
+    /**
+     * @return A string containing the first name, last name, username, phone number, and email. Does not include password.
+     */
     @NonNull
     public String toString() {
         var sb =  new StringBuilder();
         sb.append("First name: ").append(getFirstName()).append("\n");
-        sb.append("Last name").append(getLastName()).append("\n");
+        sb.append("Last name: ").append(getLastName()).append("\n");
         sb.append("Username: ").append(getUsername()).append("\n");
         sb.append("Phone Number: ").append(getPhoneNumber()).append("\n");
         sb.append("Email: ").append(getEmail()).append("\n");

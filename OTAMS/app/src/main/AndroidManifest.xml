@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,19 +21,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".StudentRegistration" />
-        <activity
-            android:name=".TutorRegistration" />
 
 
         <!-- Added for switching between activities -->
         <!-- Code now recognizes these layouts -->
-        <activity android:name=".Layout.register" />
-        <activity android:name=".Layout.login" />
-        <activity android:name=".Layout.welcome" />
-        <activity android:name=".Layout.registerAsStudent" />
-        <activity android:name=".Layout.registerAsTutor" />
+        <activity android:name=".Layout.Register" />
+        <activity android:name=".Layout.Login" />
+        <activity android:name=".Layout.Welcome" />
+        <activity android:name=".Layout.RegisterAsStudent" />
+        <activity android:name=".Layout.RegisterAsTutor" />
+        <activity android:name=".Layout.Status" />
+        <activity android:name=".Layout.AdminClientInfo" />
+        <activity android:name=".Layout.AdminPendingRequests" />
+        <activity android:name=".Layout.AdminRejectedRequests" />
 
     </application>
 
