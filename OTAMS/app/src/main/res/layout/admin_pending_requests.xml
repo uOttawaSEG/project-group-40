@@ -24,19 +24,19 @@
 
     <Button
         android:id="@+id/btn_return"
-        android:layout_width="361dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="69dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="16dp"
         android:layout_weight="1"
         android:backgroundTint="#E8E8E8"
-        android:text="Return To Homepage"
+        android:text="🏠"
         android:textColor="@color/UOgray"
         android:textColorHighlight="@color/UOgray"
         android:textColorHint="@color/UOgray"
         android:textColorLink="@color/UOgray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/UOred" />
 
@@ -44,7 +44,7 @@
         android:id="@+id/button_goto_pending"
         android:layout_width="361dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="28dp"
         android:layout_weight="1"
         android:backgroundTint="@color/UOred"
         android:text="Go to rejected requests"
@@ -53,9 +53,9 @@
         android:textColorHint="@color/white"
         android:textColorLink="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/btn_return"
-        app:layout_constraintEnd_toEndOf="@+id/btn_return"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/btn_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/UOred" />
 
     <androidx.recyclerview.widget.RecyclerView

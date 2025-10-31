@@ -21,23 +21,24 @@
 
     <LinearLayout
         android:id="@+id/linearLayout9"
-        android:layout_width="373dp"
-        android:layout_height="87dp"
+        android:layout_width="65dp"
+        android:layout_height="71dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/status_text"
-        app:layout_constraintVertical_bias="0.88">
+        app:layout_constraintVertical_bias="0.917">
 
         <Button
             android:id="@+id/btn_return"
-            android:layout_width="361dp"
+            android:layout_width="113dp"
             android:layout_height="45dp"
             android:layout_marginBottom="60dp"
             android:layout_weight="1"
             android:backgroundTint="@color/UOgray"
-            android:text="Return To Homepage"
+            android:text="🏠"
             android:textColor="@color/white"
             android:textColorHighlight="@color/white"
             android:textColorHint="@color/white"
