@@ -48,7 +48,7 @@ public class AdminClientInfo extends AppCompatActivity {
             PendingRequestManager.AcceptRequest(selected);
             Toast.makeText(this,
                     "Accepted request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
-                    Toast.LENGTH_LONG);
+                    Toast.LENGTH_LONG).show();
             AdminPendingRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
             AdminRejectedRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
             finish();
@@ -58,7 +58,7 @@ public class AdminClientInfo extends AppCompatActivity {
             PendingRequestManager.DeclineRequest(selected);
             Toast.makeText(this,
                     "Denied request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
-                    Toast.LENGTH_LONG);
+                    Toast.LENGTH_LONG).show();
 
             AdminPendingRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
             AdminRejectedRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
