@@ -66,19 +66,21 @@
 
     <LinearLayout
         android:id="@+id/linearLayout13"
-        android:layout_width="364dp"
-        android:layout_height="28dp"
+        android:layout_width="268dp"
+        android:layout_height="15dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout11"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.438">
+        app:layout_constraintVertical_bias="0.228">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="337dp"
+            android:layout_height="7dp"
             android:layout_weight="1"
-            android:text="Add availability" />
+            android:text="Button" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
