@@ -30,4 +30,6 @@
     </string-array>
     <string name="apply_button">Apply</string>
     <string name="homepage_button">Return to Homepage</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forward"><![CDATA[->]]></string>
 </resources>
