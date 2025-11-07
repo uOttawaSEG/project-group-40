@@ -78,7 +78,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         var view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_text, parent, false);
+                .inflate(R.layout.do_not_delete_recycler_view_text, parent, false);
         return new ViewHolder(view);
     }
 
