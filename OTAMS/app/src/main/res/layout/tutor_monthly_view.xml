@@ -21,16 +21,23 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-<<<<<<< HEAD
+            android:id="@+id/btnAddAvailability"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#8F001A"
+            android:text="@string/add_availability_button" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+
             android:id="@+id/btn_back1"
             android:layout_width="113dp"
             android:layout_height="45dp"
             android:layout_marginBottom="60dp"
-=======
             android:id="@+id/btnAddAvailability"
             android:layout_width="0dp"
             android:layout_height="match_parent"
->>>>>>> 718066c27eddc5f24fc9a394503112936658e740
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
             android:text="@string/add_availability_button" />
@@ -41,6 +48,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="#8F001A"
+
             android:text="@string/view_upcoming_button" />
     </LinearLayout>
 
@@ -64,7 +72,10 @@
         android:layout_marginBottom="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:id="@+id/linearLayout2"
         android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintTop_toBottomOf="@+id/calendarView"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,6 +89,7 @@
             android:backgroundTint="#8F001A"
             android:text="@string/weekly_view_button" />
     </LinearLayout>
+
 
 
     <LinearLayout
