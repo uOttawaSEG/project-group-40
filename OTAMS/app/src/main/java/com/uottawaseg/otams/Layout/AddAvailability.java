@@ -40,9 +40,9 @@ public class AddAvailability extends AppCompatActivity {
         Button addAvailabilityButton = findViewById(R.id.button2);
         Button viewCalendarButton = findViewById(R.id.button);
 
-        // load existing slots from database pls
+        //load existing slots from database pls
 
-        // when add availability button is clicked
+        //when add availability button is clicked
         addAvailabilityButton.setOnClickListener(view -> {
             String dateStr = dateInput.getText().toString().trim();
             String startTimeStr = startTimeInput.getText().toString().trim();
@@ -91,21 +91,21 @@ public class AddAvailability extends AppCompatActivity {
 
         //check time format cause sometimes it's weird
         if (!isValidTimeFormat(startTimeStr)) {
-            Toast.makeText(this, "Start time must be in HH:MM format (e.g., 09:00)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Start time must be in HH:MM format (ex., 09:00)", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (!isValidTimeFormat(endTimeStr)) {
-            Toast.makeText(this, "End time must be in HH:MM format (e.g., 17:00)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "End time must be in HH:MM format (ex., 17:00)", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         //times are in 30mins increment
         if (!isThirtyMinuteIncrement(startTimeStr)) {
-            Toast.makeText(this, "Start time must be in 30-minute increments (e.g., 09:00, 09:30)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Start time must be in 30-minute increments (ex., 09:00, 09:30)", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (!isThirtyMinuteIncrement(endTimeStr)) {
-            Toast.makeText(this, "End time must be in 30-minute increments (e.g., 09:00, 09:30)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "End time must be in 30-minute increments (ex., 09:00, 09:30)", Toast.LENGTH_SHORT).show();
             return false;
         }
 
