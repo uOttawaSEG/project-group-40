@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.other_main_page);
         Database.Database.StartDB();
         LoginManager.LogOut();
         // LoginManager.RegisterAdmin();

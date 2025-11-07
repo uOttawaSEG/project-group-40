@@ -1,6 +1,5 @@
 package com.uottawaseg.otams.Layout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,7 +30,7 @@ public class AddAvailability extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        setContentView(R.layout.add_availability);
+        setContentView(R.layout.tutor_add_availability);
 
         // grab all the stuff from the layout
         EditText dateInput = findViewById(R.id.date_input);

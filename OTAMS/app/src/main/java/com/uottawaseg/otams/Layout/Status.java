@@ -17,7 +17,7 @@ public class Status extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.status);
+        setContentView(R.layout.other_status);
         var text = (TextView) findViewById(R.id.status_text);
         String toDisplay = LoginManager.WasPending() ?
 
