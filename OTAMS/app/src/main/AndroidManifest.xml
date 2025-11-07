@@ -32,6 +32,8 @@
         <activity android:name=".Layout.RegisterAsTutor" />
         <activity android:name=".Layout.Status" />
         <activity android:name=".Layout.AdminClientInfo" />
+        <activity android:name=".Layout.AddAvailability" />
+        <activity android:name=".Layout.ViewAvailability" />
         <activity android:name=".Layout.AdminPendingRequests" />
         <activity android:name=".Layout.AdminRejectedRequests" />
 
