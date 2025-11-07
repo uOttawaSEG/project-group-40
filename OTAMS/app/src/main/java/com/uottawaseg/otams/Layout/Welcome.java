@@ -17,7 +17,7 @@ public class Welcome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.welcome);
+        setContentView(R.layout.other_welcome);
         var text = (TextView) findViewById(R.id.loginConfirmation);
         String toDisplay = LoginManager.WasPending() ?
 

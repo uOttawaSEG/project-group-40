@@ -20,7 +20,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        setContentView(R.layout.login);
+        setContentView(R.layout.other_login);
 
 
         Button login_login_button = findViewById(R.id.login_button);
