@@ -38,6 +38,8 @@
         <activity android:name=".Layout.AdminRejectedRequests" />
         <activity android:name=".Layout.TutorViewUpcoming" />
         <activity android:name=".Layout.TutorViewPastSessions" />
+        <activity android:name=".Layout.WeeklyViewActivity" />
+        <activity android:name=".Layout.DailyViewActivity" />
 
     </application>
 

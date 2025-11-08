@@ -71,6 +71,9 @@ public class WeeklyViewActivity extends AppCompatActivity {
         btnAddAvailability.setOnClickListener(v ->
                 startActivity(new Intent(this, AddAvailability.class)));
 
+        btnViewUpcoming.setOnClickListener(v ->
+                startActivity(new Intent(this, TutorViewUpcoming.class)));
+
         btnDailyView.setOnClickListener(v ->
                 startActivity(new Intent(this, DailyViewActivity.class)));
 
