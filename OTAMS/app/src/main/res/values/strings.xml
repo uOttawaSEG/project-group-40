@@ -34,6 +34,7 @@
     <string name="add_availability_button">Add Availability</string>
     <string name="weekly_view_button">Weekly View</string>
     <string name="monthly_view_button">Monthly View</string>
+    <string name="daily_view_button">Daily View</string>
     <string name="homepage_button">Return to Homepage</string>
     <string name="back"><![CDATA[<-]]></string>
     <string name="forward"><![CDATA[->]]></string>
