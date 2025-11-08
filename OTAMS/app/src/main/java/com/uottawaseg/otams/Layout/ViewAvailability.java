@@ -1,6 +1,5 @@
 package com.uottawaseg.otams.Layout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,7 @@ public class ViewAvailability extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //back button goes to calendar
-        Button backButton = findViewById(R.id.btn_return);
+        Button backButton = findViewById(R.id.btn_back1);
         backButton.setOnClickListener(v -> {
             //replace with actual calendar activity class name
             finish();

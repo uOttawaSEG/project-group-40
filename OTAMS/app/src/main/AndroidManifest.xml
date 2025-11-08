@@ -36,6 +36,8 @@
         <activity android:name=".Layout.ViewAvailability" />
         <activity android:name=".Layout.AdminPendingRequests" />
         <activity android:name=".Layout.AdminRejectedRequests" />
+        <activity android:name=".Layout.TutorViewUpcoming" />
+        <activity android:name=".Layout.TutorViewPastSessions" />
 
     </application>
 

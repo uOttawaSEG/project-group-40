@@ -42,7 +42,7 @@ public class AdminClientInfo extends AppCompatActivity {
         var denyButton = (Button) findViewById(R.id.decline_button);
         var pendingButton = (Button) findViewById(R.id.button_pending);
         var deniedButton = (Button) findViewById(R.id.button_rejected);
-        var returnButton = (Button) findViewById(R.id.btn_return);
+        var returnButton = (Button) findViewById(R.id.btn_back1);
 
         acceptButton.setOnClickListener(v -> {
             PendingRequestManager.AcceptRequest(selected);
