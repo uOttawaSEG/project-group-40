@@ -55,9 +55,8 @@ public class DailyViewActivity extends AppCompatActivity {
         //Button listeners
         btnAddAvailability.setOnClickListener(v ->
                 startActivity(new Intent(this, AddAvailability.class)));
-        //In case I forgot please remove "//"
-        //btnViewUpcoming.setOnClickListener(v ->
-        //        startActivity(new Intent(this, TutorViewUpcoming.class)));
+        btnViewUpcoming.setOnClickListener(v ->
+               startActivity(new Intent(this, TutorViewUpcoming.class)));
         btnPrevMonth.setOnClickListener(v -> changeMonth(-1));
         btnNextMonth.setOnClickListener(v -> changeMonth(1));
         btnPrevDay.setOnClickListener(v -> changeDay(-1));
