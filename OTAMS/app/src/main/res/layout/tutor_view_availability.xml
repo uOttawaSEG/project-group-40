@@ -6,7 +6,7 @@
     android:background="#80746C">
 
     <Button
-        android:id="@+id/btn_return2"
+        android:id="@+id/home2"
         android:layout_width="69dp"
         android:layout_height="46dp"
         android:layout_marginBottom="16dp"
@@ -44,13 +44,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_return"
+        app:layout_constraintBottom_toTopOf="@+id/btn_back1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
     <Button
-        android:id="@+id/btn_return"
+        android:id="@+id/btn_back1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"

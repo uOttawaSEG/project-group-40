@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title_rejected"/>
 
     <Button
-        android:id="@+id/btn_return"
+        android:id="@+id/btn_back1"
         android:layout_width="72dp"
         android:layout_height="46dp"
         android:layout_marginBottom="24dp"
@@ -64,7 +64,7 @@
         android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
         android:textColorLink="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btn_return"
+        app:layout_constraintBottom_toTopOf="@+id/btn_back1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

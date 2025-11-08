@@ -28,7 +28,7 @@ public class AdminPendingRequests extends AppCompatActivity {
         goto_rejected.setOnClickListener(view ->
                 startActivity(new Intent(AdminPendingRequests.this, AdminRejectedRequests.class)));
 
-        Button go_home = findViewById(R.id.btn_return);
+        Button go_home = findViewById(R.id.btn_back1);
         go_home.setOnClickListener(view -> {
                 startActivity(new Intent(AdminPendingRequests.this, MainActivity.class));
                 finish();
