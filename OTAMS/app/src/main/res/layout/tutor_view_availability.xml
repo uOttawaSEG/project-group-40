@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#80746C">
 
+<<<<<<< HEAD
     <Button
         android:id="@+id/home2"
         android:layout_width="69dp"
@@ -23,12 +24,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/UOred" />
 
+=======
+>>>>>>> 718066c27eddc5f24fc9a394503112936658e740
     <TextView
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Your Availability"
+        android:text="My Availability"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
