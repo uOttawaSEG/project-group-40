@@ -5,7 +5,7 @@ plugins {
 }
 android {
     buildFeatures {
-        viewBinding = true
+        viewBinding = false
     }
     namespace = "com.uottawaseg.otams"
     compileSdk = 36
