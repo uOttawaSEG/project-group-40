@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     android:background="#80746C">
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 19a688ed6e0e5e2a02d4a584871b631ffe4bc051
     <Button
         android:id="@+id/home2"
         android:layout_width="69dp"
@@ -28,7 +32,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+<<<<<<< HEAD
         android:text="My Availability"
+=======
+        android:text="Your Availability"
+>>>>>>> 19a688ed6e0e5e2a02d4a584871b631ffe4bc051
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
