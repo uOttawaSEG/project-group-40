@@ -32,6 +32,9 @@ public class TutorViewUpcoming extends AppCompatActivity {
         btn_back.setOnClickListener(view ->
                 finish());
 
+        Button btn_past_sessions= findViewById(R.id.pastSessions);
+        btn_past_sessions.setOnClickListener(v -> startActivity(new Intent(TutorViewUpcoming.this, TutorViewPastSessions.class)));
+
 
         Button home = findViewById(R.id.home2);
         // Modify this as needed
@@ -40,8 +43,7 @@ public class TutorViewUpcoming extends AppCompatActivity {
 
         Button viewPending = findViewById(R.id.viewPending);
         viewPending.setOnClickListener(view -> startActivity(
-                new Intent(TutorViewUpcoming.this, TutorViewPending.class)
-        ));
+                new Intent(this, TutorViewPending.class)));
 
         var recycler = (RecyclerView)findViewById(R.id.availability_recycler);
 
