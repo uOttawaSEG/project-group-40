@@ -3,20 +3,22 @@ package com.uottawaseg.otams.Layout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.FrameLayout;
 import android.view.Gravity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class DailyViewActivity extends AppCompatActivity {
+public class TutorDailyViewActivity extends AppCompatActivity {
 
     //UI elements
     private Button btnAddAvailability, btnViewUpcoming;
@@ -62,9 +64,9 @@ public class DailyViewActivity extends AppCompatActivity {
         btnPrevDay.setOnClickListener(v -> changeDay(-1));
         btnNextDay.setOnClickListener(v -> changeDay(1));
         btnWeeklyView.setOnClickListener(v ->
-                startActivity(new Intent(this, WeeklyViewActivity.class)));
+                startActivity(new Intent(this, TutorWeeklyViewActivity.class)));
         btnViewAvailability.setOnClickListener(v ->
-                startActivity(new Intent(this, ViewAvailability.class)));
+                startActivity(new Intent(this, TutorViewAvailability.class)));
         btnHomepage.setOnClickListener(v ->
                 startActivity(new Intent(this, MainActivity.class)));
 
@@ -120,11 +122,11 @@ public class DailyViewActivity extends AppCompatActivity {
 
         //Gets the instance of CalendarEventManager
         CalendarEventManager eventManager = CalendarEventManager.getInstance();
-
+        GenerateEvents();
         //Loops through 24 hours to check if there are any events for each hour
         for (int hour = 0; hour < 24; hour++) {
             //Build key for the event at this hour
-            String key = currentDayKey + "-" + String.format("%02d", hour);
+            String key = "event_" + hour + "_daily";
             CalendarEventManager.Event event = eventManager.getEvent(key);
 
             //Gets the corresponding FrameLayout(slot) for this hour
@@ -132,20 +134,13 @@ public class DailyViewActivity extends AppCompatActivity {
             FrameLayout slotView = findViewById(slotResId);
 
             if (slotView != null) {
+                System.out.println(event != null);
                 //Clears any previous content inside the slot
                 slotView.removeAllViews();
 
                 //If there's an event displays the event's note/message in the slot
                 if (event != null) {
-                    TextView eventNoteTextView= new TextView(this); //TextView to display the event note
-                    eventNoteTextView.setText(event.note); // Displays the event's actual note
-                    eventNoteTextView.setTextSize(14); //Adjusts the text size to fit within the slot
-                    eventNoteTextView.setGravity(Gravity.CENTER);
-                    eventNoteTextView.setPadding(8, 8, 8, 8);//Padding for better spacing
-
-                    //Background/border for the event note
-                    eventNoteTextView.setBackgroundResource(R.drawable.grid_cell_border);
-
+                    TextView eventNoteTextView = getTextView(event);
                     //Adds the note to the slot view
                     slotView.addView(eventNoteTextView);
                 }
@@ -153,9 +148,45 @@ public class DailyViewActivity extends AppCompatActivity {
         }
     }
 
+    @NonNull
+    private TextView getTextView(CalendarEventManager.Event event) {
+        TextView eventNoteTextView= new TextView(this); //TextView to display the event note
+        eventNoteTextView.setText(event.symbol); // Displays the event's actual note
+        eventNoteTextView.setTextSize(14); //Adjusts the text size to fit within the slot
+        eventNoteTextView.setGravity(Gravity.CENTER);
+        eventNoteTextView.setPadding(8, 8, 8, 8);//Padding for better spacing
+
+        //Background/border for the event note
+        eventNoteTextView.setBackgroundResource(R.drawable.grid_cell_border);
+        return eventNoteTextView;
+    }
+
     //this is for time format
     private String getTimeForHour(int hour) {
         return String.format(Locale.getDefault(), "%02d:00", hour);
+    }
+
+    private void GenerateEvents() {
+        var tut = (Tutor) LoginManager.getCurrentAccount();
+        var accepted = tut.getAcceptedSessions();
+        var currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        var eventManager = CalendarEventManager.getInstance();
+        for(var s : accepted) {
+            if(s.getDate().getDayOfMonth() != currentDay)
+                continue;
+
+            var endH = s.getEndTime().getHour();
+            var startH = s.getStartTime().getHour();
+
+            // It starts at 1, we start at 0
+            var date = s.getDate().getDayOfWeek().getValue() - 1;
+
+            //
+            for(int i = startH; i <= endH; i++) {
+                var eventID = "event_" + i + "_daily";
+                eventManager.addEvent(eventID, new CalendarEventManager.Event("Tutoring " + s.getStudent(), ""));
+            }
+        }
     }
 }
 

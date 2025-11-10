@@ -18,10 +18,9 @@ import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.Availability;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ViewAvailability extends AppCompatActivity {
+public class TutorViewAvailability extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private AvailabilityAdapter adapter;
@@ -94,7 +93,7 @@ public class ViewAvailability extends AppCompatActivity {
 
                     //delete from database too maybe?
 
-                    Toast.makeText(ViewAvailability.this,
+                    Toast.makeText(TutorViewAvailability.this,
                             "Availability deleted",
                             Toast.LENGTH_SHORT).show();
                 }

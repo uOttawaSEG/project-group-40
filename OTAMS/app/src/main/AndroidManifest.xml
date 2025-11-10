@@ -33,13 +33,13 @@
         <activity android:name=".Layout.Status" />
         <activity android:name=".Layout.AdminClientInfo" />
         <activity android:name=".Layout.AddAvailability" />
-        <activity android:name=".Layout.ViewAvailability" />
+        <activity android:name=".Layout.TutorViewAvailability" />
         <activity android:name=".Layout.AdminPendingRequests" />
         <activity android:name=".Layout.AdminRejectedRequests" />
         <activity android:name=".Layout.TutorViewUpcoming" />
         <activity android:name=".Layout.TutorViewPastSessions" />
-        <activity android:name=".Layout.WeeklyViewActivity" />
-        <activity android:name=".Layout.DailyViewActivity" />
+        <activity android:name=".Layout.TutorWeeklyViewActivity" />
+        <activity android:name=".Layout.TutorDailyViewActivity" />
         <activity android:name = ".Layout.TutorViewPending" />
         <activity android:name=".Layout.TutorSessionInfo" />
 

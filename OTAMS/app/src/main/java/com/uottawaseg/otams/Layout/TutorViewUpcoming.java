@@ -36,7 +36,7 @@ public class TutorViewUpcoming extends AppCompatActivity {
         Button home = findViewById(R.id.home2);
         // Modify this as needed
         home.setOnClickListener(view ->
-                startActivity(new Intent(TutorViewUpcoming.this, WeeklyViewActivity.class)));
+                startActivity(new Intent(TutorViewUpcoming.this, TutorWeeklyViewActivity.class)));
 
         Button viewPending = findViewById(R.id.viewPending);
         viewPending.setOnClickListener(view -> startActivity(

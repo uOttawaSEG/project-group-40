@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class WeeklyViewActivity extends AppCompatActivity {
+public class TutorWeeklyViewActivity extends AppCompatActivity {
 
     //UI Elements
     private Button btnAddAvailability, btnViewUpcoming;
@@ -78,10 +78,10 @@ public class WeeklyViewActivity extends AppCompatActivity {
                 startActivity(new Intent(this, TutorViewUpcoming.class)));
 
         btnDailyView.setOnClickListener(v ->
-                startActivity(new Intent(this, DailyViewActivity.class)));
+                startActivity(new Intent(this, TutorDailyViewActivity.class)));
 
         btnViewAvailability.setOnClickListener(v ->
-                startActivity(new Intent(this, ViewAvailability.class)));
+                startActivity(new Intent(this, TutorViewAvailability.class)));
 
         btnHomepage.setOnClickListener(v ->
                 startActivity(new Intent(this, MainActivity.class)));
