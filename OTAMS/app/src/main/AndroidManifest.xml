@@ -41,6 +41,7 @@
         <activity android:name=".Layout.WeeklyViewActivity" />
         <activity android:name=".Layout.DailyViewActivity" />
         <activity android:name = ".Layout.TutorViewPending" />
+        <activity android:name=".Layout.TutorSessionInfo" />
 
     </application>
 

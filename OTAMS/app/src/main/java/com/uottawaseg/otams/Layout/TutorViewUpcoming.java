@@ -1,13 +1,22 @@
 package com.uottawaseg.otams.Layout;
 
+import static com.uottawaseg.otams.Layout.TutorViewPending.adapter;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Database.LoginManager;
+import com.uottawaseg.otams.Database.SessionRequestManager;
+import com.uottawaseg.otams.Layout.support.TutorViewAdapter;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.TutorSessionRequestDisplayManager;
 
 public class TutorViewUpcoming extends AppCompatActivity {
 
@@ -28,5 +37,23 @@ public class TutorViewUpcoming extends AppCompatActivity {
         // Modify this as needed
         home.setOnClickListener(view ->
                 startActivity(new Intent(TutorViewUpcoming.this, WeeklyViewActivity.class)));
+
+        Button viewPending = findViewById(R.id.viewPending);
+        viewPending.setOnClickListener(view -> startActivity(
+                new Intent(TutorViewUpcoming.this, TutorViewPending.class)
+        ));
+
+        var recycler = (RecyclerView)findViewById(R.id.availability_recycler);
+
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        if(adapter == null) {
+            var tut = (Tutor) LoginManager.getCurrentAccount();
+            adapter = new TutorViewAdapter(TutorSessionRequestDisplayManager.GetPendingRequests(
+                    SessionRequestManager.GenerateSessions(
+                            tut.getUsername()
+                    )
+            ));
+        }
+        recycler.setAdapter(adapter);
     }
 }

@@ -3,8 +3,6 @@ package com.uottawaseg.otams.Database;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.AccountCreationRequest;
 import com.uottawaseg.otams.Requests.Availability;
-import com.uottawaseg.otams.Requests.SessionRequest;
-import com.uottawaseg.otams.Requests.TutorSessionRequestDisplayManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,7 +104,4 @@ public class PendingRequestManager {
                 avails);
     }
 
-    public static String[] GetTutorSessionRequests(List<SessionRequest> sessions) {
-        return TutorSessionRequestDisplayManager.GetPendingRequests(sessions);
-    }
 }

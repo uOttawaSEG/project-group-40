@@ -19,6 +19,7 @@ import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.Availability;
+import com.uottawaseg.otams.Requests.SessionRequest;
 
 import java.time.DayOfWeek;
 import java.time.OffsetTime;
@@ -59,7 +60,20 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        var avails = new ArrayList<Availability>();
+        avails.add(new Availability(false, OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), DayOfWeek.MONDAY));
+        var tutor = new Tutor(
+                "first", "last", "user", "pass", "12345", "no@no.com", Degree.BACHELORS, Field.ENGINEERING,
+                avails);
+        var sessionRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 10, 11, 2025);
+        tutor.AddSession(sessionRequest);
 
+        var secondRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 2, 1, 2026);
+        tutor.AddSession(secondRequest);
+        Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/user", tutor);
 
     }
 }

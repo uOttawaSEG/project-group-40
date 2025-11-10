@@ -5,7 +5,9 @@ import androidx.annotation.NonNull;
 
 import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
+import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.PendingRequestManager;
+import com.uottawaseg.otams.Database.SessionRequestManager;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
@@ -21,7 +23,7 @@ public class Tutor extends Account {
     private final Role _role = Role.TUTOR;
 
     private ArrayList<Availability> _availabilities;
-    private ArrayList<SessionRequest> _requests;
+    private ArrayList<SessionRequest> _sessions;
 
     // SOOO MANY THNIGS AAAAAAH
     // Also overloads make me sad please give me back default parameters!
@@ -48,9 +50,9 @@ public class Tutor extends Account {
             _availabilities = avails;
 
         if(requests == null)
-            _requests = new ArrayList<>();
+            _sessions = new ArrayList<>();
         else
-            _requests = requests;
+            _sessions = requests;
     }
 
     public Degree getDegree() {
@@ -70,9 +72,9 @@ public class Tutor extends Account {
     /**
      * @return A list of approved sessions
      */
-    public List<SessionRequest> getSessions() {
-        var temp = new ArrayList<SessionRequest>(_requests.size());
-        for(var req : _requests) {
+    public List<SessionRequest> getAcceptedSessions() {
+        var temp = new ArrayList<SessionRequest>(_sessions.size());
+        for(var req : _sessions) {
             if(req.GetRequestStatus() == RequestStatus.ACCEPTED) {
                 temp.add(req);
             }
@@ -83,8 +85,8 @@ public class Tutor extends Account {
     /**
      * @return A list of all session requests
      */
-    public List<SessionRequest> GetAllSessions() {
-        return Collections.unmodifiableList(_requests);
+    public List<SessionRequest> getSessions() {
+        return Collections.unmodifiableList(_sessions);
     }
     /**
      * @param newHighest The degree to set as the new degree
@@ -131,5 +133,23 @@ public class Tutor extends Account {
     public void removeAvailability(Availability avail) {
         _availabilities.remove(avail);
         PendingRequestManager.UpdateAvailability(this, _availabilities);
+    }
+
+    public void AddSession(SessionRequest sessionRequest) {
+        _sessions.add(sessionRequest);
+        SessionRequestManager.UpdateSessions(this, getSessions());
+    }
+
+    public void AcceptSession(SessionRequest s) {
+        for(var sess : _sessions) {
+            if(sess.equals(s)) {
+                sess.setStatus(RequestStatus.ACCEPTED);
+                return;
+            }
+        }
+    }
+
+    public void DeclineSession(SessionRequest s) {
+        _sessions.remove(s);
     }
 }

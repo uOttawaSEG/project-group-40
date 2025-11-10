@@ -10,8 +10,6 @@ import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
-import com.uottawaseg.otams.Requests.Availability;
-import com.uottawaseg.otams.Requests.SessionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -203,7 +201,7 @@ public class LoginManager {
             var FoS = Field.fromString((String) (data.child(FIELD_OF_STUDY).getValue()));
             var Deg = Degree.fromString((String) (data.child(HIGHEST_DEGREE).getValue()));
             var avails = new ArrayList<>(AvailabilityReader.GenerateAvailability(username));
-            var sessions = new ArrayList<>(SessionRequestReader.GenerateSessions(username));
+            var sessions = new ArrayList<>(SessionRequestManager.GenerateSessions(username));
 
             /*
             * Basically I don't know

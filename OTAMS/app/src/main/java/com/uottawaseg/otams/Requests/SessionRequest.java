@@ -16,6 +16,16 @@ public class SessionRequest implements Request {
     private final RequestType _type;
 
     // Constructor
+
+    /**
+     * @param student Students Username
+     * @param tutor Tutors username
+     * @param startTime The starting time
+     * @param endTime The ending time
+     * @param day The day of the month
+     * @param month The month of the year
+     * @param year The year
+     */
     public SessionRequest(String student, String tutor, OffsetTime startTime, OffsetTime endTime, int day, int month, int year) {
         if (student == null || tutor == null || startTime == null || endTime == null) {
             throw new IllegalArgumentException("Do not leave anything null. :(");
@@ -76,7 +86,10 @@ public class SessionRequest implements Request {
     public String getTutor() {
         return _tutor;
     }
-
+    //This one is needed for the DB
+    public RequestStatus getStatus() {
+        return _status;
+    }
     public OffsetTime getStartTime() {
         return _startTime;
     }
@@ -89,4 +102,7 @@ public class SessionRequest implements Request {
         return OffsetDateTime.of(_year, _month, _day, 0, 0, 0, 0, _startTime.getOffset());
     }
 
+    public void setStatus(RequestStatus requestStatus) {
+        _status = requestStatus;
+    }
 }

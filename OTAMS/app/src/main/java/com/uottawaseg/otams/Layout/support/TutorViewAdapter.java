@@ -10,13 +10,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uottawaseg.otams.Database.DeniedRequestManager;
-import com.uottawaseg.otams.Database.PendingRequestManager;
-import com.uottawaseg.otams.Layout.AdminClientInfo;
+import com.uottawaseg.otams.Database.SessionRequestManager;
+import com.uottawaseg.otams.Layout.MainActivity;
+import com.uottawaseg.otams.Layout.TutorSessionInfo;
+import com.uottawaseg.otams.Layout.TutorViewPending;
 import com.uottawaseg.otams.R;
 
-// Based off
-// https://github.com/android/views-widgets-samples/blob/main/RecyclerView/Application/src/main/java/com/example/android/recyclerview/CustomAdapter.java
 public class TutorViewAdapter extends RecyclerView.Adapter<TutorViewAdapter.ViewHolder> {
     protected String[] dataset;
     public TutorViewAdapter(String[] data) {
@@ -30,7 +29,16 @@ public class TutorViewAdapter extends RecyclerView.Adapter<TutorViewAdapter.View
             super(view);
             text = view.findViewById(R.id.textView);
             text.setOnClickListener(v -> {
-
+                var str = text.getText().toString().split("\n");
+                var username = str[1];
+                var dateStr = str[2];
+                var found = SessionRequestManager.Select(username, dateStr);
+                if(found) {
+                    v.getContext().startActivity(new Intent(v.getContext(), TutorSessionInfo.class));
+                }
+                else {
+                    Toast.makeText(v.getContext(), "Unable to select request", Toast.LENGTH_SHORT);
+                }
             });
         }
 

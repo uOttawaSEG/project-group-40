@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.Database.PendingRequestManager;
+import com.uottawaseg.otams.Database.SessionRequestManager;
 import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.Layout.support.TutorViewAdapter;
 import com.uottawaseg.otams.R;
@@ -39,7 +40,9 @@ public class TutorViewPending extends AppCompatActivity {
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         if(adapter == null) {
             var tut = (Tutor) LoginManager.getCurrentAccount();
-            adapter = new TutorViewAdapter(PendingRequestManager.GetTutorSessionRequests(tut.getSessions()));
+            adapter = new TutorViewAdapter(TutorSessionRequestDisplayManager.GetPendingRequests(
+                    SessionRequestManager.GeneratePendingRequests(tut.getUsername()
+                    )));
         }
         recycleView.setAdapter(adapter);
     }
@@ -51,11 +54,13 @@ public class TutorViewPending extends AppCompatActivity {
         var recycleView = (RecyclerView) findViewById(R.id.pending_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         if(adapter == null) {
-
             var tut = (Tutor) LoginManager.getCurrentAccount();
-            adapter = new TutorViewAdapter(TutorSessionRequestDisplayManager.GetPendingRequests(tut.getSessions()));
+            adapter = new TutorViewAdapter(TutorSessionRequestDisplayManager.GetPendingRequests(
+                    SessionRequestManager.GeneratePendingRequests(tut.getUsername()
+                    )));
         }
         recycleView.setAdapter(adapter);
+
     }
 
 }
