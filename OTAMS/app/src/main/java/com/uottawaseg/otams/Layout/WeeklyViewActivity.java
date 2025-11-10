@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -133,6 +136,7 @@ public class WeeklyViewActivity extends AppCompatActivity {
     //Refreshes grid with correct events
     private void updateCalendarView() {
         Calendar startOfWeek= getStartOfCurrentWeek();
+        GenerateEvents();
 
         for (int hour = 0; hour < 24; hour++) {
             for (int day = 0; day < 7; day++) {
@@ -145,9 +149,7 @@ public class WeeklyViewActivity extends AppCompatActivity {
                     slotTime.add(Calendar.DAY_OF_MONTH, day);
                     slotTime.set(Calendar.HOUR_OF_DAY, hour);
 
-                    String key= new SimpleDateFormat("yyyy-MM-dd-HH", Locale.getDefault())
-                            .format(slotTime.getTime());
-                    CalendarEventManager.Event event= eventManager.getEvent(key);
+                    CalendarEventManager.Event event= eventManager.getEvent(viewId);
 
                     if (event != null) {
                         slotView.setText(event.symbol); //Only displays a symbol in Weekly view
@@ -181,5 +183,23 @@ public class WeeklyViewActivity extends AppCompatActivity {
         c.add(Calendar.DAY_OF_MONTH, (currentWeek - 1) * 7);
 
         return c;
+    }
+
+    private void GenerateEvents() {
+        var tut = (Tutor) LoginManager.getCurrentAccount();
+        var accepted = tut.getAcceptedSessions();
+        for(var s : accepted) {
+            var endH = s.getEndTime().getHour();
+            var startH = s.getStartTime().getHour();
+
+            // It starts at 1, we start at 0
+            var date = s.getDate().getDayOfWeek().getValue() - 1;
+
+            //
+            for(int i = startH; i <= endH; i++) {
+                var eventID = "event_" + i + "_" + date;
+                eventManager.addEvent(eventID, new CalendarEventManager.Event("Tutoring " + s.getStudent(), ""));
+            }
+        }
     }
 }

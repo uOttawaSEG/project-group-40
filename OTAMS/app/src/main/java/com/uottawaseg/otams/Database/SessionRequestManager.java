@@ -20,6 +20,7 @@ public class SessionRequestManager {
     private final static String START_TIME = "startTime";
     private final static String END_TIME = "endTime";
     private final static String DATE = "date";
+    private final static String STATUS = "status";
     private static SessionRequest _selected;
 
     /**
@@ -42,8 +43,9 @@ public class SessionRequestManager {
             var start = readOffsetTime((HashMap) d.child(START_TIME).getValue());
             var end = readOffsetTime((HashMap) d.child(END_TIME).getValue());
             var date = readOffsetDateTime((HashMap) d.child(DATE).getValue());
+            var status = RequestStatus.fromString((String)d.child(STATUS).getValue());
 
-            list.add(new SessionRequest(stud, tut, start, end, date[DAY], date[MONTH], date[YEAR]));
+            list.add(new SessionRequest(stud, tut, start, end, date[DAY], date[MONTH], date[YEAR], status));
         }
         return Collections.unmodifiableList(list);
     }

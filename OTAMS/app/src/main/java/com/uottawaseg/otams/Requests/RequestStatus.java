@@ -23,4 +23,17 @@ public enum RequestStatus {
             default: return "Unknown";
         }
     }
+
+    public static RequestStatus fromString(String s) {
+        switch(s.toUpperCase()) {
+            case "PENDING":
+                return PENDING;
+            case "DENIED":
+                return DENIED;
+            case "ACCEPTED":
+                return ACCEPTED;
+            default:
+                return UNKNOWN;
+        }
+    }
 }

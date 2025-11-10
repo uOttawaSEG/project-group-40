@@ -91,6 +91,7 @@ public class Tutor extends Account {
     public List<SessionRequest> getAcceptedSessions() {
         var temp = new ArrayList<SessionRequest>(_sessions.size());
         for(var req : getSessions()) {
+            System.out.println(req);
             if(req.GetRequestStatus() == RequestStatus.ACCEPTED) {
                 temp.add(req);
             }

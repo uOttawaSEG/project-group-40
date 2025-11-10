@@ -28,7 +28,8 @@ public class SessionRequest implements Request {
      * @param month The month of the year
      * @param year The year
      */
-    public SessionRequest(String student, String tutor, OffsetTime startTime, OffsetTime endTime, int day, int month, int year) {
+    public SessionRequest(String student, String tutor, OffsetTime startTime,
+                          OffsetTime endTime, int day, int month, int year, RequestStatus status) {
         if (student == null || tutor == null || startTime == null || endTime == null) {
             throw new IllegalArgumentException("Do not leave anything null. :(");
         }
@@ -43,7 +44,11 @@ public class SessionRequest implements Request {
         _day = day;
         _month = month;
         _year = year;
-
+        _status = status;
+    }
+    public SessionRequest(String student, String tutor, OffsetTime startTime,
+                          OffsetTime endTime, int day, int month, int year) {
+        this(student, tutor, startTime, endTime, day, month, year, RequestStatus.PENDING);
     }
 
     // Interface methods
