@@ -50,7 +50,7 @@ public class TutorViewUpcoming extends AppCompatActivity {
         recycler.setLayoutManager(new LinearLayoutManager(this));
         if(adapter == null) {
             var tut = (Tutor) LoginManager.getCurrentAccount();
-            adapter = new TutorViewAdapter(TutorSessionRequestDisplayManager.GetPendingRequests(
+            adapter = new TutorViewAdapter(TutorSessionRequestDisplayManager.GetUpcomingRequests(
                     SessionRequestManager.GenerateSessions(
                             tut.getUsername()
                     )

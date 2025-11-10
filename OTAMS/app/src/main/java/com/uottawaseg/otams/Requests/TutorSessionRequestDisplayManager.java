@@ -1,5 +1,7 @@
 package com.uottawaseg.otams.Requests;
 
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 // Long ass name
@@ -36,5 +38,37 @@ public class TutorSessionRequestDisplayManager {
                 .append("\nStarts at: ").append(s.getStartTime())
                 .append("\nEnd at: ").append(s.getEndTime());
         return sb.toString().split("\n");
+    }
+
+    public static String[] GetPastSessions(List<SessionRequest> sessionRequests) {
+        var temp = new ArrayList<SessionRequest>(sessionRequests.size());
+        var rightNow = OffsetDateTime.now();
+        for(var s : sessionRequests) {
+            var sessDate = s.getDate();
+            var sessEnd = s.getEndTime();
+            // If the date is in the past, we add it
+            if(sessDate.compareTo(rightNow) < 0)
+               temp.add(s);
+            // If it's today but the end time is in the past, we add it
+            else if(sessDate.compareTo(rightNow) == 0 && sessEnd.compareTo(rightNow.toOffsetTime()) < 1)
+                temp.add(s);
+        }
+        return GetPendingRequests(temp);
+    }
+
+    public static String[] GetUpcomingRequests(List<SessionRequest> sessionRequests) {
+        var temp = new ArrayList<SessionRequest>(sessionRequests.size());
+        var rightNow = OffsetDateTime.now();
+        for(var s : sessionRequests) {
+            var sessDate = s.getDate();
+            var sessEnd = s.getEndTime();
+            // If the date is in the future, we add it
+            if(sessDate.compareTo(rightNow) > 0)
+                temp.add(s);
+                // If it's today but the end time is in the future, we add it
+            else if(sessDate.compareTo(rightNow) == 0 && sessEnd.compareTo(rightNow.toOffsetTime()) > 0)
+                temp.add(s);
+        }
+        return GetPendingRequests(temp);
     }
 }
