@@ -21,6 +21,12 @@ public class SessionRequestManager {
     private final static String END_TIME = "endTime";
     private final static String DATE = "date";
     private static SessionRequest _selected;
+
+    /**
+     * @param username Username of the tutor account
+     * @return An UnmodifiableList of SessionRequests if any are found,
+     * otherwise empty ArrayList<SessionRequest> if nothing was found
+     */
     public static List<SessionRequest> GenerateSessions(String username) {
         var data = Database.Database.Read(LoginManager.ACCOUNTS + "/" + username + "/" + SESSIONS);
         if (!data.exists()) {
@@ -44,15 +50,26 @@ public class SessionRequestManager {
     public static SessionRequest GetSelected() {
         return _selected;
     }
+
+    /**
+     * @param s The session to accept
+     */
     public static void Accept(SessionRequest s) {
         System.out.println(getTutor().getSessions());
         getTutor().AcceptSession(s);
     }
 
+    /**
+     * @param s The session to decline
+     */
     public static void Decline(SessionRequest s) {
         getTutor().DeclineSession(s);
     }
 
+    /**
+     * @param map A hashmap from the database to read
+     * @return An int[] of {day, month, year}
+     */
     private static int[] readOffsetDateTime(HashMap map) {
         var day = Integer.valueOf(String.valueOf(map.get("dayOfMonth")));
         var month = Integer.valueOf(String.valueOf(map.get("monthValue")));
@@ -60,10 +77,17 @@ public class SessionRequestManager {
         return new int[] {day, month, year};
     }
 
+    /** Just a wrapper function
+     * @param map A hash map from the database to read
+     * @return OffsetTime acquired from said hashmap
+     */
     private static OffsetTime readOffsetTime(HashMap map) {
         return AvailabilityReader.readOffsetTime(map);
     }
 
+    /**
+     * @param tut The tutor whose sessions should be updated
+     */
     public static void UpdateSessions(Tutor tut) {
         Database.Database.Write(
                 LoginManager.ACCOUNTS + "/" + tut.getUsername() + "/" + SESSIONS,
@@ -85,6 +109,11 @@ public class SessionRequestManager {
         }
         return false;
     }
+
+    /** Filters requests and returns a list of the pending requests
+     * @param username The tutors username
+     * @return A list of pending requests.
+     */
     public static List<SessionRequest> GeneratePendingRequests(String username) {
         var totalSes = GenerateSessions(username);
         var list = new ArrayList<SessionRequest>(totalSes.size());
@@ -94,5 +123,8 @@ public class SessionRequestManager {
         return Collections.unmodifiableList(list);
     }
 
+    /** Acquires the account from the login manager and casts it to tutor.
+     * @return The tutor from LoginManager
+     */
     private static Tutor getTutor() { return (Tutor)LoginManager.getCurrentAccount(); }
 }

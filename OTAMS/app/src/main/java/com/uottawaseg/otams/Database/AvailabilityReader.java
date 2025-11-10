@@ -18,13 +18,28 @@ public class AvailabilityReader {
     public static final String DAY = "day";
     public static final String START = "start";
     public static final String END = "end";
+
+    /** Public wrapper function
+     * @param tut The tutor account whose availabilities need to be read
+     * @return an unmodifiable list of Availabilities from the account
+     */
     public static List<Availability> GenerateAvailability(Tutor tut) {
         return GenerateAvailability(tut.getUsername());
     }
+
+    /** Public wrapper function
+     * @param username The username of the account whose availabilities need to be read
+     * @return an unmodifiable list of Availabilities from the account
+     */
     public static List<Availability> GenerateAvailability(String username) {
         var data = Database.Database.Read(LoginManager.ACCOUNTS + "/" + username + "/" + AVAILABILITIES);
         return GenerateAvailability(data);
     }
+
+    /** Generates an Unmodifiable list of availabilities from a DataSnapshot
+     * @param ds The DataSnapshot
+     * @return UnmodifiableList<Availabilities> read from the DB
+     */
     private static List<Availability> GenerateAvailability(DataSnapshot ds) {
         var children = ds.getChildren();
         var list = new ArrayList<Availability>();
@@ -43,6 +58,11 @@ public class AvailabilityReader {
         }
         return Collections.unmodifiableList(list);
     }
+
+    /** Reads a hashmap and returns an Offset time
+     * @param map Hashmap provided by the database to read
+     * @return An OffsetTime from that hashmap
+     */
     // This is to be exclusively used when using the database
     public static OffsetTime readOffsetTime(HashMap map) {
         var hours = Integer.parseInt(String.valueOf((long)map.get("hour")));

@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), DayOfWeek.MONDAY));
         var tutor = new Tutor(
                 "first", "last", "user", "pass", "12345", "no@no.com", Degree.BACHELORS, Field.ENGINEERING,
-                avails);
+                avails, null);
         var sessionRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
                 OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 10, 11, 2025);
         tutor.AddSession(sessionRequest);

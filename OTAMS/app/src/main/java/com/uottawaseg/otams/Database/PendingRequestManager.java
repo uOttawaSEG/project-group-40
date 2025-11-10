@@ -97,6 +97,10 @@ public class PendingRequestManager {
         DeniedRequestManager.DeclineRequest(req);
     }
 
+    /** Writes a list of availabilities to the database.
+     * @param tut The tutor whose availability needs to be updated
+     * @param avails The list of availabilities to write to the DB
+     */
     public static void UpdateAvailability(Tutor tut, List<Availability> avails) {
         System.out.println(avails);
         Database.Database.WriteAvailability(

@@ -9,6 +9,11 @@ public class TutorSessionRequestDisplayManager {
     public static final int DATE = 2;
     public static final int STARTS_AT = 3;
     public static final int ENDS_AT = 4;
+
+    /**
+     * @param sessions The sessions to make a list out of
+     * @return A String[] to populate a recyclerview
+     */
     public static String[] GetPendingRequests(List<SessionRequest> sessions) {
         var arr = new String[sessions.size()];
         int i = 0;
@@ -19,6 +24,10 @@ public class TutorSessionRequestDisplayManager {
         return arr;
     }
 
+    /**
+     * @param s The session request that needs to be displayed
+     * @return A string[] with various fields for the actual display.
+     */
     public static String[] Display(SessionRequest s) {
         var sb = new StringBuilder();
         sb.append("Session with:\n")

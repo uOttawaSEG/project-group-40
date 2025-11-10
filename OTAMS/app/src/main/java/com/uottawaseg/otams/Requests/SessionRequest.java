@@ -108,6 +108,10 @@ public class SessionRequest implements Request {
         _status = requestStatus;
     }
 
+    /**
+     * @param other Session Request to compare against
+     * @return whether or not the two are equal
+     */
     public boolean equals(SessionRequest other) {
         return         _student.equals(other._student) && _tutor.equals(other._tutor)
                 &&  getDate().isEqual(other.getDate()) &&   _status == other._status;
