@@ -1,20 +1,23 @@
 package com.uottawaseg.otams.Requests;
 
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 
 public class SessionRequest implements Request {
 
     private final String _student;
     private final String _tutor;
-    private final OffsetDateTime _startTime;
-    private final OffsetDateTime _endTime;
-    private final OffsetDateTime _date;
+    private final OffsetTime _startTime;
+    private final OffsetTime _endTime;
+    private final int _day;
+    private final int _month;
+    private final int _year;
     private RequestStatus _status;
     private final RequestType _type;
 
     // Constructor
-    public SessionRequest(String student, String tutor, OffsetDateTime startTime, OffsetDateTime endTime, OffsetDateTime date) {
-        if (student == null || tutor == null || startTime == null || endTime == null || date == null) {
+    public SessionRequest(String student, String tutor, OffsetTime startTime, OffsetTime endTime, int day, int month, int year) {
+        if (student == null || tutor == null || startTime == null || endTime == null) {
             throw new IllegalArgumentException("Do not leave anything null. :(");
         }
 
@@ -22,9 +25,13 @@ public class SessionRequest implements Request {
         _tutor = tutor;
         _startTime = startTime;
         _endTime = endTime;
-        _date = date;
         _status = RequestStatus.PENDING;
-        _type = RequestType.Unknown;
+        _type = RequestType.TutorSessionRequest;
+
+        _day = day;
+        _month = month;
+        _year = year;
+
     }
 
     // Interface methods
@@ -54,7 +61,7 @@ public class SessionRequest implements Request {
         return "SessionRequest{" +
                 "Student: " + _student +
                 ", Tutor: " + _tutor +
-                ", Date: " + _date +
+                ", Date: " + getDate() +
                 ", Start time: " + _startTime +
                 ", End time: " + _endTime +
                 ", Status: " + _status +
@@ -70,16 +77,16 @@ public class SessionRequest implements Request {
         return _tutor;
     }
 
-    public OffsetDateTime getStartTime() {
+    public OffsetTime getStartTime() {
         return _startTime;
     }
 
-    public OffsetDateTime getEndTime() {
+    public OffsetTime getEndTime() {
         return _endTime;
     }
 
     public OffsetDateTime getDate() {
-        return _date;
+        return OffsetDateTime.of(_year, _month, _day, 0, 0, 0, 0, _startTime.getOffset());
     }
 
 }

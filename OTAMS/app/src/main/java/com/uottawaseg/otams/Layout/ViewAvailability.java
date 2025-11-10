@@ -13,7 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.Availability;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,7 @@ public class ViewAvailability extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private AvailabilityAdapter adapter;
-    private List<AddAvailability.AvailabilitySlot> availabilityList;
+    private List<Availability> availabilityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class ViewAvailability extends AppCompatActivity {
         //availability slots from database
 
         //empty list cause no database
-        availabilityList = new ArrayList<>();
+        availabilityList = ((Tutor) LoginManager.getCurrentAccount()).getAvailabilities();
 
         //set up adapter
         adapter = new AvailabilityAdapter(availabilityList);
@@ -55,9 +58,9 @@ public class ViewAvailability extends AppCompatActivity {
     // adapter for showing the list of availability slots
     private class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapter.ViewHolder> {
 
-        private List<AddAvailability.AvailabilitySlot> slots;
+        private List<Availability> slots;
 
-        public AvailabilityAdapter(List<AddAvailability.AvailabilitySlot> slots) {
+        public AvailabilityAdapter(List<Availability> slots) {
             this.slots = slots;
         }
 
@@ -70,12 +73,12 @@ public class ViewAvailability extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            AddAvailability.AvailabilitySlot slot = slots.get(position);
+            var slot = slots.get(position);
 
             //fill in the text
-            holder.dateText.setText("Date: " + slot.date);
-            holder.timeText.setText("Time: " + slot.startTime + " - " + slot.endTime);
-            holder.approvalText.setText("Auto-approve: " + (slot.autoApprove ? "Yes" : "No"));
+            holder.dateText.setText("Date: " + slot.getDay());
+            holder.timeText.setText("Time: " + slot.getStart().toLocalTime() + " - " + slot.getEnd().toLocalTime());
+            holder.approvalText.setText("Auto-approve: " + (slot.getAutoApprove() ? "Yes" : "No"));
 
             //when delete button is clicked
             holder.deleteButton.setOnClickListener(v -> {
@@ -84,7 +87,7 @@ public class ViewAvailability extends AppCompatActivity {
 
                 if (currentPosition != RecyclerView.NO_POSITION) {
                     //remove it from the list
-                    slots.remove(currentPosition);
+                    ((Tutor)LoginManager.getCurrentAccount()).removeAvailability(slot);
 
                     //update the display
                     notifyItemRemoved(currentPosition);

@@ -11,10 +11,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Courses.Degree;
+import com.uottawaseg.otams.Courses.Field;
+import com.uottawaseg.otams.Database.AvailabilityReader;
 import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.Availability;
 
+import java.time.DayOfWeek;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 
     }
 }

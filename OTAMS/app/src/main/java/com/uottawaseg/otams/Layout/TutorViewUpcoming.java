@@ -21,12 +21,12 @@ public class TutorViewUpcoming extends AppCompatActivity {
         Button btn_back = findViewById(R.id.btn_back);
         // Modify this as needed
         btn_back.setOnClickListener(view ->
-                startActivity(new Intent(TutorViewUpcoming.this, TutorViewUpcoming.class)));
+                finish());
 
 
         Button home = findViewById(R.id.home2);
         // Modify this as needed
         home.setOnClickListener(view ->
-                startActivity(new Intent(TutorViewUpcoming.this, TutorViewUpcoming.class)));
+                startActivity(new Intent(TutorViewUpcoming.this, WeeklyViewActivity.class)));
     }
 }

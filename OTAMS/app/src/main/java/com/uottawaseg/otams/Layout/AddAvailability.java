@@ -9,21 +9,23 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.Availability;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.DayOfWeek;
+import java.time.OffsetTime;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 
 public class AddAvailability extends AppCompatActivity {
 
-    //should store all the existing slots, database pls
-    private List<AvailabilitySlot> existingSlots = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +53,13 @@ public class AddAvailability extends AppCompatActivity {
 
             if (validateInput(dateStr, startTimeStr, endTimeStr)) {
                 // make the new slot
-                AvailabilitySlot newSlot = new AvailabilitySlot(dateStr, startTimeStr, endTimeStr, autoApprove);
 
+                var dayOfWeek = getDateFromStr(dateStr);
+                var startTime = getTime(startTimeStr);
+                var endTime = getTime(endTimeStr);
+                var avail = new Availability(autoApprove, startTime, endTime, dayOfWeek);
                 //save this in database i think
-
+                ((Tutor)LoginManager.getCurrentAccount()).AddAvailability(avail);
                 Toast.makeText(this, "Availability added successfully!", Toast.LENGTH_SHORT).show();
 
                 //go back to the previous page
@@ -67,6 +72,17 @@ public class AddAvailability extends AppCompatActivity {
             // make calendar view page
             Toast.makeText(this, "Calendar view coming soon!", Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private OffsetTime getTime(String startTimeStr) {
+        //We know its hh:mm
+        // Or h:mm
+        // or h:m
+        var split = startTimeStr.split(":");
+        var hour = split[0];
+        var minutes = split[1];
+        return OffsetTime.of(Integer.parseInt(hour), Integer.parseInt(minutes),
+                0, 0, ZonedDateTime.now().getOffset());
     }
 
     private boolean validateInput(String dateStr, String startTimeStr, String endTimeStr) {
@@ -133,10 +149,7 @@ public class AddAvailability extends AppCompatActivity {
 
             //get the date for tdy
             Calendar today = Calendar.getInstance();
-            today.set(Calendar.HOUR_OF_DAY, 0);
-            today.set(Calendar.MINUTE, 0);
-            today.set(Calendar.SECOND, 0);
-            today.set(Calendar.MILLISECOND, 0);
+            today.set(today.get(Calendar.YEAR), 0, 0, 0, 0, 0);
 
             //not allowed to go back in time
             if (inputDate.before(today.getTime())) {
@@ -169,11 +182,7 @@ public class AddAvailability extends AppCompatActivity {
             if (hours < 0 || hours > 23) {
                 return false;
             }
-            if (minutes < 0 || minutes > 59) {
-                return false;
-            }
-
-            return true;
+            return minutes >= 0 && minutes <= 59;
         } catch (NumberFormatException e) {
             //if it can't convert to numbers, it's not valid
             return false;
@@ -185,7 +194,7 @@ public class AddAvailability extends AppCompatActivity {
         String[] parts = timeStr.split(":");
         int minutes = Integer.parseInt(parts[1]);
 
-        //basically the minutes can only be 00 or 30 if that makes sense
+        //basically the minutes can only be 00 or 30
         return minutes == 0 || minutes == 30;
     }
 
@@ -206,17 +215,18 @@ public class AddAvailability extends AppCompatActivity {
 
     private boolean hasOverlap(String dateStr, String startTimeStr, String endTimeStr) {
         //check if new slot overlaps with ones on the same date
-        for (AvailabilitySlot slot : existingSlots) {
+        var availabilities = ((Tutor)LoginManager.getCurrentAccount()).getAvailabilities();
+        for (Availability slot : availabilities) {
             //skip if not the same date
-            if (!slot.date.equals(dateStr)) {
+            if (!slot.getDay().equals(dateStr)) {
                 continue;
             }
 
             //convert the times to minutes to make the check easier
             int newStart = timeToMinutes(startTimeStr);
             int newEnd = timeToMinutes(endTimeStr);
-            int existingStart = timeToMinutes(slot.startTime);
-            int existingEnd = timeToMinutes(slot.endTime);
+            int existingStart = timeToMinutes(slot.getStart());
+            int existingEnd = timeToMinutes(slot.getEnd());
 
             //check for overlap
             //the times overlap if one starts before the other ends
@@ -234,21 +244,21 @@ public class AddAvailability extends AppCompatActivity {
         int minutes = Integer.parseInt(parts[1]);
         return hours * 60 + minutes;
     }
-
-    //holds the availability info
-    //you guys are prob gonna have to replace w database stuff sorry
-    public static class AvailabilitySlot {
-        String date;
-        String startTime;
-        String endTime;
-        boolean autoApprove;
-
-        public AvailabilitySlot(String date, String startTime, String endTime, boolean autoApprove) {
-            this.date = date;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.autoApprove = autoApprove;
+    private int timeToMinutes(OffsetTime time) {
+        return time.getHour() * 60 + time.getMinute();
+    }
+    private DayOfWeek getDateFromStr(String s) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        sdf.setLenient(false);
+        Date date;
+        try {
+            date = sdf.parse(s);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
+        var cal = Calendar.getInstance();
+        cal.setTime(date);
+        return DayOfWeek.of(cal.get(Calendar.DAY_OF_WEEK));
     }
 }
 

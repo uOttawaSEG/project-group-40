@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.Requests.RequestDisplayManager;
+import com.uottawaseg.otams.Requests.AccountRequestDisplayManager;
 
 public class AdminPendingRequests extends AppCompatActivity {
     public static RecycleViewAdapter adapter;
@@ -37,7 +37,7 @@ public class AdminPendingRequests extends AppCompatActivity {
         var recycleView = (RecyclerView) findViewById(R.id.pending_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         if(adapter == null) {
-            adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
+            adapter = new RecycleViewAdapter(AccountRequestDisplayManager.GetRequestForPendingPage());
         }
         recycleView.setAdapter(adapter);
     }
@@ -49,7 +49,7 @@ public class AdminPendingRequests extends AppCompatActivity {
         var recycleView = (RecyclerView) findViewById(R.id.pending_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         if(adapter == null) {
-            adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+            adapter = new RecycleViewAdapter(AccountRequestDisplayManager.GetRequestForDeniedPage());
         }
         recycleView.setAdapter(adapter);
     }
