@@ -1,5 +1,7 @@
 package com.uottawaseg.otams.Requests;
 
+import androidx.annotation.Nullable;
+
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 
@@ -104,5 +106,15 @@ public class SessionRequest implements Request {
 
     public void setStatus(RequestStatus requestStatus) {
         _status = requestStatus;
+    }
+
+    public boolean equals(SessionRequest other) {
+        return         _student.equals(other._student) && _tutor.equals(other._tutor)
+                &&  getDate().isEqual(other.getDate()) &&   _status == other._status;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return super.equals(obj);
     }
 }

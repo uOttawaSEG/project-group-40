@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Database.SessionRequestManager;
 import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;

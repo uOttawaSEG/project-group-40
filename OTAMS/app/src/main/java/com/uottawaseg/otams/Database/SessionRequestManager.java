@@ -4,9 +4,7 @@ import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
 
-import java.time.OffsetDateTime;
 import java.time.OffsetTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,9 +22,9 @@ public class SessionRequestManager {
     private final static String DATE = "date";
     private static SessionRequest _selected;
     public static List<SessionRequest> GenerateSessions(String username) {
-        //public SessionRequest(String student, String tutor, OffsetDateTime startTime, OffsetDateTime endTime, OffsetDateTime date) {
         var data = Database.Database.Read(LoginManager.ACCOUNTS + "/" + username + "/" + SESSIONS);
         if (!data.exists()) {
+            Database.Database.Write(LoginManager.ACCOUNTS + "/" + username + "/" + SESSIONS, new ArrayList<>());
             return new ArrayList<>();
         }
         var list = new ArrayList<SessionRequest>((int) data.getChildrenCount());
@@ -47,14 +45,14 @@ public class SessionRequestManager {
         return _selected;
     }
     public static void Accept(SessionRequest s) {
+        System.out.println(getTutor().getSessions());
         getTutor().AcceptSession(s);
-        UpdateSessions(getTutor(), getTutor().getSessions());
     }
 
     public static void Decline(SessionRequest s) {
         getTutor().DeclineSession(s);
-        UpdateSessions(getTutor(), getTutor().getSessions());
     }
+
     private static int[] readOffsetDateTime(HashMap map) {
         var day = Integer.valueOf(String.valueOf(map.get("dayOfMonth")));
         var month = Integer.valueOf(String.valueOf(map.get("monthValue")));
@@ -66,10 +64,10 @@ public class SessionRequestManager {
         return AvailabilityReader.readOffsetTime(map);
     }
 
-    public static void UpdateSessions(Tutor tut, List<SessionRequest> sessions) {
+    public static void UpdateSessions(Tutor tut) {
         Database.Database.Write(
                 LoginManager.ACCOUNTS + "/" + tut.getUsername() + "/" + SESSIONS,
-                sessions);
+                tut.getSessions());
     }
 
     public static boolean Select(String username, String date) {

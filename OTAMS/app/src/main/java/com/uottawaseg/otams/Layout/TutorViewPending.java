@@ -29,7 +29,6 @@ public class TutorViewPending extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.admin_pending_requests);
-
         Button go_home = findViewById(R.id.btn_back1);
         go_home.setOnClickListener(view -> {
             startActivity(new Intent(TutorViewPending.this, MainActivity.class));

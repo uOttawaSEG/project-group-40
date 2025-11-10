@@ -208,7 +208,7 @@ public class LoginManager {
             *
             * */
             return new Tutor(fName, lName, username,
-                    pass, phoneNum, email, Deg, FoS, avails);
+                    pass, phoneNum, email, Deg, FoS, avails, sessions);
         }
         // We should never get here, all of our options are exhausted.
         // If we somehow get here, we can safely assume something went wrong,

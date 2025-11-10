@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 
 import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
-import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Database.SessionRequestManager;
 import com.uottawaseg.otams.Requests.Availability;
@@ -74,7 +73,7 @@ public class Tutor extends Account {
      */
     public List<SessionRequest> getAcceptedSessions() {
         var temp = new ArrayList<SessionRequest>(_sessions.size());
-        for(var req : _sessions) {
+        for(var req : getSessions()) {
             if(req.GetRequestStatus() == RequestStatus.ACCEPTED) {
                 temp.add(req);
             }
@@ -137,13 +136,14 @@ public class Tutor extends Account {
 
     public void AddSession(SessionRequest sessionRequest) {
         _sessions.add(sessionRequest);
-        SessionRequestManager.UpdateSessions(this, getSessions());
+        SessionRequestManager.UpdateSessions(this);
     }
 
     public void AcceptSession(SessionRequest s) {
-        for(var sess : _sessions) {
+        for(var sess : getSessions()) {
             if(sess.equals(s)) {
                 sess.setStatus(RequestStatus.ACCEPTED);
+                SessionRequestManager.UpdateSessions(this);
                 return;
             }
         }
@@ -151,5 +151,6 @@ public class Tutor extends Account {
 
     public void DeclineSession(SessionRequest s) {
         _sessions.remove(s);
+        SessionRequestManager.UpdateSessions(this);
     }
 }
