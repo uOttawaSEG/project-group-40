@@ -64,7 +64,6 @@ public class TutorSessionRequestDisplayManager {
         var rightNow = OffsetDateTime.now();
         for (var s : sessionRequests) {
             if (s.getStatus().equals(RequestStatus.ACCEPTED)) {
-                System.out.println(s);
                 var sessDate = s.getDate();
                 var sessEnd = s.getEndTime();
                 // If the date is in the future, we add it

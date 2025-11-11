@@ -15,6 +15,7 @@ import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -167,20 +168,19 @@ public class TutorDailyViewActivity extends AppCompatActivity {
 
     private void GenerateEvents() {
         var tut = (Tutor) LoginManager.getCurrentAccount();
-        var accepted = tut.getAcceptedSessions();
-        var currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        var accepted = tut.getSessions();
+        var currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+        var offsetDate = OffsetDateTime.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0, 0,
+                OffsetDateTime.now().getOffset()
+        );
         var eventManager = CalendarEventManager.getInstance();
         for(var s : accepted) {
-            if(s.getDate().getDayOfMonth() != currentDay)
-                continue;
-
+            if(s.getDate().getDayOfYear() != currentDay || s.getDate().compareTo(offsetDate) < 0) continue;
+            System.out.println(s);
             var endH = s.getEndTime().getHour();
             var startH = s.getStartTime().getHour();
 
-            // It starts at 1, we start at 0
-            var date = s.getDate().getDayOfWeek().getValue() - 1;
-
-            //
             for(int i = startH; i <= endH; i++) {
                 var eventID = "event_" + i + "_daily";
                 eventManager.addEvent(eventID, new CalendarEventManager.Event("Tutoring " + s.getStudent(), ""));

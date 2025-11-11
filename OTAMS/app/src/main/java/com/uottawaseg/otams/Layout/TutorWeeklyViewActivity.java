@@ -91,15 +91,13 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
 
         //Month btn
         btnNextMonth.setOnClickListener(v -> {
-            currentMonth++;
-            if (currentMonth > 12) currentMonth= 1;
+            incrMonth();
             updateHeaderLabels();
             updateCalendarView();
         });
 
         btnPrevMonth.setOnClickListener(v -> {
-            currentMonth--;
-            if (currentMonth < 1) currentMonth= 12;
+            decrMonth();
             updateHeaderLabels();
             updateCalendarView();
         });
@@ -108,9 +106,8 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
         btnNextWeek.setOnClickListener(v -> {
             currentWeek++;
             if (currentWeek > 4) {
-                currentWeek= 1;
-                currentMonth++;
-                if (currentMonth > 12) currentMonth= 1;
+                currentWeek = 1;
+                incrMonth();
             }
             updateHeaderLabels();
             updateCalendarView();
@@ -120,8 +117,7 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
             currentWeek--;
             if (currentWeek < 1) {
                 currentWeek= 4;
-                currentMonth--;
-                if (currentMonth < 1) currentMonth = 12;
+                decrMonth();
             }
             updateHeaderLabels();
             updateCalendarView();
@@ -135,6 +131,21 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
         updateHeaderLabels();
     }
 
+    private void incrMonth() {
+        currentMonth++;
+        if (currentMonth > 12) {
+            currentMonth= 1;
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
+        }
+    }
+
+    private void decrMonth() {
+        currentMonth--;
+        if (currentMonth < 1) {
+            currentMonth= 12;
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 1);
+        }
+    }
     //Updates header labels
     private void updateHeaderLabels() {
         String monthName= new SimpleDateFormat("MMMM", Locale.getDefault())
@@ -198,14 +209,18 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
     private void GenerateEvents() {
         var tut = (Tutor) LoginManager.getCurrentAccount();
         var sessions = tut.getSessions();
-        var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        var dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
-        var weekStart = getStartOfWeek(dayOfWeek, dayOfYear);
-        var currentYear = calendar.get(Calendar.YEAR);
+        var currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+        var firstDayOfWeek = getStartOfWeek(calendar.get(Calendar.DAY_OF_WEEK), calendar.get(Calendar.DAY_OF_MONTH));
+        var offsetDate = OffsetDateTime.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                firstDayOfWeek, 0, 0, 0, 0,
+                OffsetDateTime.now().getOffset()
+        );
+        // Excluding the current day, its 6. Not 7.
+        var finalDayOfWeek = offsetDate.plusDays(6);
         for(var s : sessions) {
-            System.out.println(s.getDate().getDayOfYear() < weekStart);
             if(!s.getStatus().equals(RequestStatus.ACCEPTED)) continue;
-            if(s.getDate().getDayOfYear() < weekStart && s.getDate().getYear() <= currentYear) continue;
+
+            if(s.getDate().compareTo(offsetDate) < 0 || s.getDate().compareTo(finalDayOfWeek) > 0) continue;
             var endH = s.getEndTime().getHour();
             var startH = s.getStartTime().getHour();
 

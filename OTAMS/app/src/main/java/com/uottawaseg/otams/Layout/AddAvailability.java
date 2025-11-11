@@ -17,6 +17,7 @@ import com.uottawaseg.otams.Requests.Availability;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
@@ -146,13 +147,12 @@ public class AddAvailability extends AppCompatActivity {
 
         try {
             Date inputDate = sdf.parse(dateStr);
-
             //get the date for tdy
-            Calendar today = Calendar.getInstance();
-            today.set(today.get(Calendar.YEAR), 0, 0, 0, 0, 0);
-
+            var today = OffsetDateTime.now();
+            var date = OffsetDateTime.of(inputDate.getYear() + 1900, inputDate.getMonth() + 1, inputDate.getDate(),
+                    0, 0, 0, 0, today.getOffset());
             //not allowed to go back in time
-            if (inputDate.before(today.getTime())) {
+            if (!date.isAfter(today)) {
                 Toast.makeText(this, "Cannot select a date in the past", Toast.LENGTH_SHORT).show();
                 return false;
             }
