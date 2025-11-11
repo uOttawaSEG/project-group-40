@@ -5,14 +5,14 @@ plugins {
 }
 android {
     buildFeatures {
-        viewBinding = true
+        viewBinding = false
     }
     namespace = "com.uottawaseg.otams"
     compileSdk = 36
 
     defaultConfig {
         applicationId = "com.uottawaseg.otams"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"

@@ -6,9 +6,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.uottawaseg.otams.Accounts.Account;
 import com.uottawaseg.otams.Requests.AccountCreationRequest;
+import com.uottawaseg.otams.Requests.Availability;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 
 public class Database {
@@ -156,4 +158,7 @@ public class Database {
         }
     }
 
+    public void WriteAvailability(String path, List<Availability> availabilities) {
+        db.child(path).setValue(availabilities);
+    }
 }

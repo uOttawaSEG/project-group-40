@@ -17,7 +17,7 @@ public class Status extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.status);
+        setContentView(R.layout.other_status);
         var text = (TextView) findViewById(R.id.status_text);
         String toDisplay = LoginManager.WasPending() ?
 
@@ -30,7 +30,7 @@ public class Status extends AppCompatActivity {
         text.setText(toDisplay);
 
         // Return to home page from status page
-        Button welcome_returnToHP_button = findViewById(R.id.btn_return);
+        Button welcome_returnToHP_button = findViewById(R.id.btn_back1);
         welcome_returnToHP_button.setOnClickListener(view ->
                 startActivity(new Intent(Status.this, MainActivity.class)));
     }

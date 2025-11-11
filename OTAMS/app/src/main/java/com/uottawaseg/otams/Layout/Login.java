@@ -20,7 +20,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        setContentView(R.layout.login);
+        setContentView(R.layout.other_login);
 
 
         Button login_login_button = findViewById(R.id.login_button);
@@ -31,9 +31,12 @@ public class Login extends AppCompatActivity {
                     var acc = LoginManager.Login(username, password);
                     if (acc != null) {
                         System.out.println("Login successful");
-
-                        if (acc.getRole() == Account.Role.ADMIN) {
+                        var role = acc.getRole();
+                        if (role == Account.Role.ADMIN) {
                             startActivity(new Intent(Login.this, AdminPendingRequests.class));
+                            this.finish();
+                        } else if(role == Account.Role.TUTOR) {
+                            startActivity(new Intent(Login.this, TutorWeeklyViewActivity.class));
                             this.finish();
                         } else {
                             startActivity(new Intent(Login.this, Status.class));
