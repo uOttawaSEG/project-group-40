@@ -29,14 +29,6 @@
             android:text="@string/add_availability_button" />
 
         <Button
-
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/btnAddAvailability"
-            android:layout_weight="1"
-            android:backgroundTint="#8F001A"
-            android:text="@string/add_availability_button" />
-        <Button
             android:id="@+id/btnViewUpcoming"
             android:layout_width="0dp"
             android:layout_height="match_parent"

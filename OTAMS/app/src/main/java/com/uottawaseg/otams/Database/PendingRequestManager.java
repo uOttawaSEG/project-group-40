@@ -102,7 +102,6 @@ public class PendingRequestManager {
      * @param avails The list of availabilities to write to the DB
      */
     public static void UpdateAvailability(Tutor tut, List<Availability> avails) {
-        System.out.println(avails);
         Database.Database.WriteAvailability(
                 LoginManager.ACCOUNTS + "/" + tut.getUsername() + "/" + AvailabilityReader.AVAILABILITIES,
                 avails);

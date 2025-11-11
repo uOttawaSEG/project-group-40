@@ -36,4 +36,8 @@ public enum RequestStatus {
                 return UNKNOWN;
         }
     }
+
+    public boolean equals(RequestStatus other) {
+        return _val == other._val;
+    }
 }

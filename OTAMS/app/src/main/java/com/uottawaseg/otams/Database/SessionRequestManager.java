@@ -57,7 +57,6 @@ public class SessionRequestManager {
      * @param s The session to accept
      */
     public static void Accept(SessionRequest s) {
-        System.out.println(getTutor().getSessions());
         getTutor().AcceptSession(s);
     }
 
@@ -117,12 +116,14 @@ public class SessionRequestManager {
      * @return A list of pending requests.
      */
     public static List<SessionRequest> GeneratePendingRequests(String username) {
-        var totalSes = GenerateSessions(username);
-        var list = new ArrayList<SessionRequest>(totalSes.size());
-        for(var s : totalSes)
-            if(s.GetRequestStatus() == RequestStatus.PENDING)
-                list.add(s);
-        return Collections.unmodifiableList(list);
+        var sessions = GenerateSessions(username);
+        var temp = new ArrayList<SessionRequest>(sessions.size());
+        for(var s : sessions) {
+            if(s.getStatus().equals(RequestStatus.PENDING)) {
+                temp.add(s);
+            }
+        }
+        return Collections.unmodifiableList(temp);
     }
 
     /** Acquires the account from the login manager and casts it to tutor.

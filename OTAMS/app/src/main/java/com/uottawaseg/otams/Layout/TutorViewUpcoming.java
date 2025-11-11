@@ -33,7 +33,8 @@ public class TutorViewUpcoming extends AppCompatActivity {
                 finish());
 
         Button btn_past_sessions= findViewById(R.id.pastSessions);
-        btn_past_sessions.setOnClickListener(v -> startActivity(new Intent(TutorViewUpcoming.this, TutorViewPastSessions.class)));
+        btn_past_sessions.setOnClickListener(v ->
+                startActivity(new Intent(TutorViewUpcoming.this, TutorViewPastSessions.class)));
 
 
         Button home = findViewById(R.id.home2);
@@ -43,19 +44,17 @@ public class TutorViewUpcoming extends AppCompatActivity {
 
         Button viewPending = findViewById(R.id.viewPending);
         viewPending.setOnClickListener(view -> startActivity(
-                new Intent(this, TutorViewPending.class)));
+                new Intent(TutorViewUpcoming.this, TutorViewPending.class)));
 
         var recycler = (RecyclerView)findViewById(R.id.availability_recycler);
 
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        if(adapter == null) {
-            var tut = (Tutor) LoginManager.getCurrentAccount();
-            adapter = new TutorViewAdapter(TutorSessionRequestDisplayManager.GetUpcomingRequests(
-                    SessionRequestManager.GenerateSessions(
-                            tut.getUsername()
-                    )
-            ));
-        }
+        var tut = (Tutor) LoginManager.getCurrentAccount();
+        adapter = new TutorViewAdapter(TutorSessionRequestDisplayManager.GetUpcomingRequests(
+                SessionRequestManager.GenerateSessions(
+                        tut.getUsername()
+                )
+        ));
         recycler.setAdapter(adapter);
     }
 }

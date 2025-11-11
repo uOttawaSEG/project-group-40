@@ -134,7 +134,6 @@ public class TutorDailyViewActivity extends AppCompatActivity {
             FrameLayout slotView = findViewById(slotResId);
 
             if (slotView != null) {
-                System.out.println(event != null);
                 //Clears any previous content inside the slot
                 slotView.removeAllViews();
 

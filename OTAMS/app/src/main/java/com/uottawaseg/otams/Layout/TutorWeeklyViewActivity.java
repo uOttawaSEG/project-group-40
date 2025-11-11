@@ -9,9 +9,12 @@ import android.widget.TextView;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.RequestStatus;
 
 import androidx.appcompat.app.AppCompatActivity;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.OffsetDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -125,6 +128,13 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCalendarView();
+        updateHeaderLabels();
+    }
+
     //Updates header labels
     private void updateHeaderLabels() {
         String monthName= new SimpleDateFormat("MMMM", Locale.getDefault())
@@ -153,7 +163,7 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
 
                     if (event != null) {
                         slotView.setText(event.symbol); //Only displays a symbol in Weekly view
-                        slotView.setTextColor(Color.RED);
+                        slotView.setTextColor(Color.BLACK);
                     } else {
                         slotView.setText("");
                     }
@@ -187,19 +197,30 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
 
     private void GenerateEvents() {
         var tut = (Tutor) LoginManager.getCurrentAccount();
-        var accepted = tut.getAcceptedSessions();
-        for(var s : accepted) {
+        var sessions = tut.getSessions();
+        var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        var dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+        var weekStart = getStartOfWeek(dayOfWeek, dayOfYear);
+        var currentYear = calendar.get(Calendar.YEAR);
+        for(var s : sessions) {
+            System.out.println(s.getDate().getDayOfYear() < weekStart);
+            if(!s.getStatus().equals(RequestStatus.ACCEPTED)) continue;
+            if(s.getDate().getDayOfYear() < weekStart && s.getDate().getYear() <= currentYear) continue;
             var endH = s.getEndTime().getHour();
             var startH = s.getStartTime().getHour();
 
             // It starts at 1, we start at 0
             var date = s.getDate().getDayOfWeek().getValue() - 1;
 
-            //
             for(int i = startH; i <= endH; i++) {
                 var eventID = "event_" + i + "_" + date;
                 eventManager.addEvent(eventID, new CalendarEventManager.Event("Tutoring " + s.getStudent(), ""));
             }
         }
+    }
+
+    private int getStartOfWeek(int dayOfWeek, int dayOfYear) {
+        // Monday == 1, we want monday to equal 0.
+        return dayOfYear - dayOfWeek + 1;
     }
 }

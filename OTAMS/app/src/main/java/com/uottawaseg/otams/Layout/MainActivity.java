@@ -19,6 +19,7 @@ import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.Availability;
+import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
 
 import java.time.DayOfWeek;
@@ -68,11 +69,16 @@ public class MainActivity extends AppCompatActivity {
                 avails, null);
         var sessionRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
                 OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 10, 11, 2005);
+        sessionRequest.setStatus(RequestStatus.ACCEPTED);
         tutor.AddSession(sessionRequest);
 
         var secondRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
                 OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 2, 1, 2026);
+
         tutor.AddSession(secondRequest);
+        var third = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 3, 1, 2026);
+        tutor.AddSession(third);
         Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/user", tutor);
 
     }

@@ -16,6 +16,8 @@ import com.uottawaseg.otams.Layout.TutorSessionInfo;
 import com.uottawaseg.otams.Layout.TutorViewPending;
 import com.uottawaseg.otams.R;
 
+import java.util.Arrays;
+
 public class TutorViewAdapter extends RecyclerView.Adapter<TutorViewAdapter.ViewHolder> {
     protected String[] dataset;
     public TutorViewAdapter(String[] data) {

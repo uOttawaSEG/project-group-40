@@ -16,13 +16,15 @@ public class TutorSessionRequestDisplayManager {
      * @param sessions The sessions to make a list out of
      * @return A String[] to populate a recyclerview
      */
-    public static String[] GetPendingRequests(List<SessionRequest> sessions) {
+    public static String[] GetRequests(List<SessionRequest> sessions) {
         var arr = new String[sessions.size()];
         int i = 0;
-        for(var sess : sessions) {
-            if(sess.GetRequestStatus() == RequestStatus.PENDING)
+        var now = OffsetDateTime.now();
+        for (var sess : sessions) {
+            if(!isInPast(sess, now))
                 arr[i++] = "Session with:\n" + sess.getStudent() + "\nOn " + sess.getDate();
         }
+
         return arr;
     }
 
@@ -31,44 +33,48 @@ public class TutorSessionRequestDisplayManager {
      * @return A string[] with various fields for the actual display.
      */
     public static String[] Display(SessionRequest s) {
-        var sb = new StringBuilder();
-        sb.append("Session with:\n")
-                .append(s.getStudent())
-                .append("\nOn: ").append(s.getDate())
-                .append("\nStarts at: ").append(s.getStartTime())
-                .append("\nEnd at: ").append(s.getEndTime());
-        return sb.toString().split("\n");
+        String sb = "Session with:\n" +
+                s.getStudent() +
+                "\nOn: " + s.getDate() +
+                "\nStarts at: " + s.getStartTime() +
+                "\nEnd at: " + s.getEndTime();
+        return sb.split("\n");
     }
 
     public static String[] GetPastSessions(List<SessionRequest> sessionRequests) {
         var temp = new ArrayList<SessionRequest>(sessionRequests.size());
         var rightNow = OffsetDateTime.now();
-        for(var s : sessionRequests) {
-            var sessDate = s.getDate();
-            var sessEnd = s.getEndTime();
-            // If the date is in the past, we add it
-            if(sessDate.compareTo(rightNow) < 0)
-               temp.add(s);
-            // If it's today but the end time is in the past, we add it
-            else if(sessDate.compareTo(rightNow) == 0 && sessEnd.compareTo(rightNow.toOffsetTime()) < 1)
-                temp.add(s);
+        for (var s : sessionRequests) {
+            if(!s.getStatus().equals(RequestStatus.ACCEPTED) || isInPast(s, rightNow)) continue;
+            temp.add(s);
         }
-        return GetPendingRequests(temp);
+        return GetRequests(temp);
+    }
+
+    private static boolean isInPast(SessionRequest s, OffsetDateTime now) {
+        var sessDate = s.getDate();
+        var sessEnd = s.getEndTime();
+        // If the date is in the past, we add it
+        return sessDate.isBefore(now) ||
+                (sessDate.isEqual(now) && sessEnd.compareTo(now.toOffsetTime()) < 1);
     }
 
     public static String[] GetUpcomingRequests(List<SessionRequest> sessionRequests) {
         var temp = new ArrayList<SessionRequest>(sessionRequests.size());
         var rightNow = OffsetDateTime.now();
-        for(var s : sessionRequests) {
-            var sessDate = s.getDate();
-            var sessEnd = s.getEndTime();
-            // If the date is in the future, we add it
-            if(sessDate.compareTo(rightNow) > 0)
-                temp.add(s);
-                // If it's today but the end time is in the future, we add it
-            else if(sessDate.compareTo(rightNow) == 0 && sessEnd.compareTo(rightNow.toOffsetTime()) > 0)
-                temp.add(s);
+        for (var s : sessionRequests) {
+            if (s.getStatus().equals(RequestStatus.ACCEPTED)) {
+                System.out.println(s);
+                var sessDate = s.getDate();
+                var sessEnd = s.getEndTime();
+                // If the date is in the future, we add it
+                if (sessDate.isAfter(rightNow))
+                    temp.add(s);
+                    // If it's today but the end time is in the future, we add it
+                else if (sessDate.isEqual(rightNow) && sessEnd.isAfter(rightNow.toOffsetTime()))
+                    temp.add(s);
+            }
         }
-        return GetPendingRequests(temp);
+        return GetRequests(temp);
     }
 }
