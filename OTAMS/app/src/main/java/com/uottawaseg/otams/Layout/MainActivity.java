@@ -73,12 +73,16 @@ public class MainActivity extends AppCompatActivity {
         tutor.AddSession(sessionRequest);
 
         var secondRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
-                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 2, 1, 2026);
-
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 11, 11, 2025);
+        secondRequest.setStatus(RequestStatus.ACCEPTED);
         tutor.AddSession(secondRequest);
-        var third = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
-                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 3, 1, 2026);
+        var third = new SessionRequest("bananas", "user", OffsetTime.of(1, 0, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 0, 0, 0, ZoneOffset.UTC), 3, 1, 2026);
         tutor.AddSession(third);
+
+        var fourth = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 3, 2, 2026);
+        tutor.AddSession(fourth);
         Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/user", tutor);
 
     }

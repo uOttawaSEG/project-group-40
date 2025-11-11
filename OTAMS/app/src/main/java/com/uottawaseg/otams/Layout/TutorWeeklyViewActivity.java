@@ -104,21 +104,13 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
 
         //Week btns
         btnNextWeek.setOnClickListener(v -> {
-            currentWeek++;
-            if (currentWeek > 4) {
-                currentWeek = 1;
-                incrMonth();
-            }
+            incrWeek();
             updateHeaderLabels();
             updateCalendarView();
         });
 
         btnPrevWeek.setOnClickListener(v -> {
-            currentWeek--;
-            if (currentWeek < 1) {
-                currentWeek= 4;
-                decrMonth();
-            }
+            decrWeek();
             updateHeaderLabels();
             updateCalendarView();
         });
@@ -131,12 +123,32 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
         updateHeaderLabels();
     }
 
+    private void incrWeek() {
+        currentWeek++;
+        if (currentWeek > 4) {
+            currentWeek = 1;
+            incrMonth();
+        }
+        calendar.set(Calendar.WEEK_OF_MONTH, currentWeek);
+        updateCalendarView();
+    }
+    private void decrWeek() {
+        currentWeek--;
+        if (currentWeek < 1) {
+            currentWeek= 4;
+            decrMonth();
+        }
+        calendar.set(Calendar.WEEK_OF_MONTH, currentWeek);
+        updateCalendarView();
+    }
     private void incrMonth() {
         currentMonth++;
         if (currentMonth > 12) {
             currentMonth= 1;
             calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
         }
+        calendar.set(Calendar.MONTH, currentMonth);
+        updateCalendarView();
     }
 
     private void decrMonth() {
@@ -145,6 +157,8 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
             currentMonth= 12;
             calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 1);
         }
+        calendar.set(Calendar.MONTH, currentMonth);
+        updateCalendarView();
     }
     //Updates header labels
     private void updateHeaderLabels() {
@@ -210,17 +224,40 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
         var tut = (Tutor) LoginManager.getCurrentAccount();
         var sessions = tut.getSessions();
         var currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+        getMonthCalendar();
         var firstDayOfWeek = getStartOfWeek(calendar.get(Calendar.DAY_OF_WEEK), calendar.get(Calendar.DAY_OF_MONTH));
-        var offsetDate = OffsetDateTime.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                firstDayOfWeek, 0, 0, 0, 0,
-                OffsetDateTime.now().getOffset()
-        );
+        int firstDayMonth = -1;
+        var wasBelowZero = firstDayOfWeek <= 0;
+        if(firstDayOfWeek <= 0) {
+            if(currentMonth <= 1) {
+                firstDayOfWeek += 31;
+                firstDayMonth = 12;
+            }
+            else {
+                firstDayMonth = currentMonth - 1;
+                firstDayOfWeek += NumDaysInMonth(currentMonth);
+            }
+        } else {
+            firstDayMonth = calendar.get(Calendar.MONTH) + 1;
+        }
+        OffsetDateTime startDate;
+        if(wasBelowZero) {
+            startDate = OffsetDateTime.of(calendar.get(Calendar.YEAR) - 1, firstDayMonth,
+                    firstDayOfWeek, 0, 0, 0, 0,
+                    OffsetDateTime.now().getOffset()
+            );
+        } else {
+            startDate = OffsetDateTime.of(calendar.get(Calendar.YEAR), currentMonth,
+                    firstDayOfWeek, 0, 0, 0, 0,
+                    OffsetDateTime.now().getOffset()
+            );
+        }
         // Excluding the current day, its 6. Not 7.
-        var finalDayOfWeek = offsetDate.plusDays(6);
+        var finalDayOfWeek = startDate.plusDays(6);
         for(var s : sessions) {
             if(!s.getStatus().equals(RequestStatus.ACCEPTED)) continue;
-
-            if(s.getDate().compareTo(offsetDate) < 0 || s.getDate().compareTo(finalDayOfWeek) > 0) continue;
+            if(s.getDate().compareTo(startDate) < 0 || s.getDate().compareTo(finalDayOfWeek) > 0) continue;
+            System.out.println("Interval: [" + startDate +", " + finalDayOfWeek + "],\nSession date: " + s.getDate());
             var endH = s.getEndTime().getHour();
             var startH = s.getStartTime().getHour();
 
@@ -231,6 +268,17 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
                 var eventID = "event_" + i + "_" + date;
                 eventManager.addEvent(eventID, new CalendarEventManager.Event("Tutoring " + s.getStudent(), ""));
             }
+        }
+    }
+
+    private int NumDaysInMonth(int currentMonth) {
+        switch(currentMonth) {
+            // February
+            case 2: return 28;
+            // January, March, May, July, August, October, December
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12: return 31;
+            // April, June, September, November
+            default: return 30;
         }
     }
 
