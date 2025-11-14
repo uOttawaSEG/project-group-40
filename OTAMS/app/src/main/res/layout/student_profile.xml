@@ -1,7 +1,4 @@
-ent profile · XML
-    Copy
-
-    <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,6 +26,7 @@ ent profile · XML
 
     <!-- Main Content Container -->
     <LinearLayout
+        android:id="@+id/mainContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -36,7 +34,7 @@ ent profile · XML
         android:gravity="center"
         android:background="#80746C"
         app:layout_constraintTop_toBottomOf="@id/tvHeader"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_back1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -45,7 +43,7 @@ ent profile · XML
             android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to Your Student Profile"
+            android:text="Welcome to Your Dashboard"
             android:textSize="20sp"
             android:textColor="#FFFFFFFF"
             android:layout_marginBottom="32dp" />
@@ -74,7 +72,7 @@ ent profile · XML
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@android:drawable/ic_menu_my_calendar"
-                    android:tint="#8F001A" />
+                    app:tint="#8F001A" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -136,7 +134,7 @@ ent profile · XML
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@android:drawable/ic_menu_info_details"
-                    android:tint="#8F001A" />
+                    app:tint="#8F001A" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -197,7 +195,7 @@ ent profile · XML
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@android:drawable/ic_menu_search"
-                    android:tint="#8F001A" />
+                    app:tint="#8F001A" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -236,5 +234,24 @@ ent profile · XML
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
+
+    <!-- Home Button -->
+    <Button
+        android:id="@+id/btn_back1"
+        android:layout_width="72dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#E8E8E8"
+        android:text="🏠"
+        android:textColor="@color/UOgray"
+        android:textColorHighlight="@color/UOgray"
+        android:textColorHint="@color/UOgray"
+        android:textColorLink="@color/UOgray"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/UOred" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
