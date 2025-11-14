@@ -1,6 +1,14 @@
 package com.uottawaseg.otams.Requests;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Context;
+import android.content.Intent;
+
 import com.uottawaseg.otams.Accounts.Account;
+import com.uottawaseg.otams.Layout.Login;
+import com.uottawaseg.otams.Layout.MainActivity;
+import com.uottawaseg.otams.Layout.RejectedMessage;
 
 public class StudentAccountRequest extends AccountCreationRequest {
     private Account _acc;
@@ -10,6 +18,11 @@ public class StudentAccountRequest extends AccountCreationRequest {
         _acc = acc;
         _status = RequestStatus.PENDING;
     }
+
+    // 25/11/14 - Annie - Also added this... trying to figure out how to make it work
+    private Context context;
+    
+
 
     @Override
     public RequestStatus getStatus() {
@@ -35,6 +48,11 @@ public class StudentAccountRequest extends AccountCreationRequest {
     @Override
     public void DeclineRequest() {
         _status = RequestStatus.DENIED;
+
+        // 25/11/14 - Annie - Added these lines of code so that the rejected XML page
+        // appers if the admin rejects the account creation request
+        Intent intent = new Intent(context, RejectedMessage.class);
+        context.startActivity(intent);
         // TODO: Send user an email
     }
 
