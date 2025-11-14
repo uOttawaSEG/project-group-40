@@ -8,7 +8,6 @@
     android:background="#80746C"
     tools:context=".StudentProfileActivity">
 
-    <!-- Header -->
     <TextView
         android:id="@+id/tvHeader"
         android:layout_width="0dp"
@@ -24,7 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Main Content Container -->
     <LinearLayout
         android:id="@+id/mainContent"
         android:layout_width="0dp"
@@ -38,17 +36,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Welcome Text -->
         <TextView
             android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to Your Dashboard"
+            android:text="Welcome to your student profile!"
             android:textSize="20sp"
             android:textColor="#FFFFFFFF"
             android:layout_marginBottom="32dp" />
 
-        <!-- Booked Sessions Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardBooked"
             android:layout_width="match_parent"
@@ -110,7 +106,6 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Requested Sessions Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardRequested"
             android:layout_width="match_parent"
@@ -172,7 +167,6 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Search for Courses Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardSearch"
             android:layout_width="match_parent"
@@ -234,8 +228,7 @@
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-
-    <!-- Home Button -->
+    
     <Button
         android:id="@+id/btn_back1"
         android:layout_width="72dp"
