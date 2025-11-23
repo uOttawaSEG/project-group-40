@@ -4,76 +4,114 @@ import com.google.firebase.database.DataSnapshot;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.Availability;
 
-import java.time.DayOfWeek;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class AvailabilityReader {
     public static final String AVAILABILITIES = "availabilities";
     public static final String AUTOAPPROVE = "autoApprove";
-    public static final String DAY = "day";
     public static final String START = "start";
     public static final String END = "end";
+    public static final String DATE = "date";
 
-    /** Public wrapper function
-     * @param tut The tutor account whose availabilities need to be read
-     * @return an unmodifiable list of Availabilities from the account
-     */
     public static List<Availability> GenerateAvailability(Tutor tut) {
+        if(tut==null || tut.getUsername()==null){
+            return new ArrayList<>();
+        }
         return GenerateAvailability(tut.getUsername());
     }
 
-    /** Public wrapper function
-     * @param username The username of the account whose availabilities need to be read
-     * @return an unmodifiable list of Availabilities from the account
-     */
     public static List<Availability> GenerateAvailability(String username) {
         var data = Database.Database.Read(LoginManager.ACCOUNTS + "/" + username + "/" + AVAILABILITIES);
         return GenerateAvailability(data);
     }
 
-    /** Generates an Unmodifiable list of availabilities from a DataSnapshot
-     * @param ds The DataSnapshot
-     * @return UnmodifiableList<Availabilities> read from the DB
-     */
     private static List<Availability> GenerateAvailability(DataSnapshot ds) {
-        var children = ds.getChildren();
-        var list = new ArrayList<Availability>();
-        for(var item : children) {
-            var autoApprove = item.child(AUTOAPPROVE).getValue(Boolean.class);
-            var day = item.child(DAY).getValue(String.class);
-            var start = item.child(START).getValue();
-            var end = item.child(END).getValue();
-
-            list.add(new Availability(
-                    autoApprove,
-                    readOffsetTime((HashMap) start),
-                    readOffsetTime((HashMap) end),
-                    DayOfWeek.valueOf(day)
-            ));
+        var list= new ArrayList<Availability>();
+        if (ds==null){
+            return list;
         }
-        return Collections.unmodifiableList(list);
+
+        for (var item : ds.getChildren()) {
+            try {
+                Boolean autoApprove= item.child(AUTOAPPROVE).getValue(Boolean.class);
+
+                String dateStr= item.child(DATE).getValue(String.class);
+                LocalDate date= LocalDate.now();
+                if (dateStr != null) {
+                    try {
+                        date= LocalDate.parse(dateStr);
+                    } catch(Exception ignored) {}
+                }
+                Object startObj= item.child(START).getValue();
+                Object endObj= item.child(END).getValue();
+                if (startObj != null && endObj != null) {
+                    OffsetTime startTime;
+                    OffsetTime endTime;
+
+                    // From Daniil: handles legacy string format... by legacy I mean whatever we used before
+                    if (startObj instanceof String && endObj instanceof String) {
+                        startTime = parseLegacyString((String) startObj);
+                        endTime = parseLegacyString((String) endObj);
+                    } else {
+                        // From Daniil: new nested map format, which database doesnt currently use.... Im gonna cry
+                        startTime = readOffsetTime((HashMap) startObj);
+                        endTime = readOffsetTime((HashMap) endObj);
+                    }
+
+                    list.add(new Availability(
+                            autoApprove != null && autoApprove,
+                            startTime,
+                            endTime,
+                            date
+                    ));
+                }
+            } catch (Exception e) {
+                e.printStackTrace(); // log any issues but continue
+            }
+        }
+        return list;
     }
 
-    /** Reads a hashmap and returns an Offset time
-     * @param map Hashmap provided by the database to read
-     * @return An OffsetTime from that hashmap
-     */
-    // This is to be exclusively used when using the database
+    //From Daniil: parses old string format
+    private static OffsetTime parseLegacyString(String str) {
+        try {
+            String[] parts = str.split("-");
+            String[] hm = parts[0].split(":");
+            int hour = Integer.parseInt(hm[0]);
+            int minute = Integer.parseInt(hm[1]);
+            ZoneOffset offset = ZoneOffset.of(parts[1]);
+            return OffsetTime.of(hour, minute, 0, 0, offset);
+        } catch(Exception e) {
+            return OffsetTime.of(0,0,0,0, ZoneOffset.UTC);
+        }
+    }
+
+
     public static OffsetTime readOffsetTime(HashMap map) {
-        var hours = Integer.parseInt(String.valueOf((long)map.get("hour")));
-        var minutes = Integer.parseInt(String.valueOf((long)map.get("minute")));
+        if (map==null){
+            return OffsetTime.of(0,0,0,0, ZoneOffset.UTC);
+        }
+        Object h= map.get("hour");
+        Object m= map.get("minute");
+        int hours= h instanceof Number ? ((Number) h).intValue() : 0;
+        int minutes= m instanceof Number ? ((Number) m).intValue() : 0;
+        ZoneOffset offset= ZoneOffset.UTC;
+        Object offsetMap= map.get("offset");
+        if (offsetMap instanceof HashMap) {
+            Object idObj= ((HashMap) offsetMap).get("id");
+            if (idObj != null) {
+                try {
+                    offset= ZoneOffset.of(idObj.toString());
+                } catch(Exception ignored) {}
+            }
+        }
 
-        // We do not support second-specific actions
-        var seconds = 0;
-        var nanos = 0;
-        var id = ((HashMap)map.get("offset")).get("id").toString();
-
-        ZoneOffset offset = ZoneOffset.of(id);
-        return OffsetTime.of(hours, minutes, seconds, nanos, offset);
+        return OffsetTime.of(hours, minutes, 0, 0, offset);
     }
 }
+

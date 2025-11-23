@@ -26,7 +26,7 @@ import java.time.DayOfWeek;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-
+import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button main_page_login_button = findViewById(R.id.main_login);
         main_page_login_button.setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, Login.class));
+            startActivity(new Intent(MainActivity.this, Login.class ));
 
             this.finish();
         });
@@ -61,9 +61,10 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // From Daniil: I only edited this part here for avails
         var avails = new ArrayList<Availability>();
-        avails.add(new Availability(false, OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
-                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), DayOfWeek.MONDAY));
+        avails.add(new Availability(false, OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC), OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), LocalDate.of(2025, 11, 22)));
+        // rest is same
         var tutor = new Tutor(
                 "first", "last", "user", "pass", "12345", "no@no.com", Degree.BACHELORS, Field.ENGINEERING,
                 avails, null);

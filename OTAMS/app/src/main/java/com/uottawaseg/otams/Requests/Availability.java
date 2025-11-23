@@ -3,23 +3,21 @@ package com.uottawaseg.otams.Requests;
 import java.time.DayOfWeek;
 import java.time.OffsetTime;
 import java.time.Duration;
+import java.time.LocalDate;
 
 public class Availability {
 
     private boolean _autoApprove;
     private OffsetTime _startTime;
     private OffsetTime _endTime;
-    private DayOfWeek _day;
+    private LocalDate _date; //From Daniil: Uses LocalDate _date instead of DayOfWeek _day
 
     // Constructor
-    public Availability(boolean autoApprove, OffsetTime startTime, OffsetTime endTime, DayOfWeek day) {
-        if (startTime == null || endTime == null || day == null) {
+    public Availability(boolean autoApprove, OffsetTime startTime, OffsetTime endTime, LocalDate date) {
+        if (startTime == null || endTime == null || date == null) {
             throw new IllegalArgumentException("Do not leave anything null. :(");
         }
 
-        // I'm getting an error with this part "Call requires API level 26 (current min is 24)"
-        // Looked online and saw these getting used w/ OffsetTime
-        // Internet suggested modifying gradle to fix this but tbh its sketchy asf
         Duration duration = Duration.between(startTime, endTime);
         if (duration.toMinutes() < 30) {
             throw new IllegalArgumentException("Availability must have at least a 30-minute gap between start and end.");
@@ -28,7 +26,7 @@ public class Availability {
         _autoApprove = autoApprove;
         _startTime = startTime;
         _endTime = endTime;
-        _day = day;
+        _date= date;//From Daniil: Uses LocalDate _date instead of DayOfWeek _day
     }
 
     public boolean getAutoApprove() {
@@ -43,8 +41,8 @@ public class Availability {
         return _endTime;
     }
 
-    public DayOfWeek getDay() {
-        return _day;
+    public LocalDate getDate() {//From Daniil: Uses LocalDate _date instead of DayOfWeek _day
+        return _date;
     }
 
     // Note to seb: u always put override so i figure i would put it too
@@ -52,7 +50,7 @@ public class Availability {
     @Override
     public String toString() {
         return "Availability{" +
-                "Day: " + _day +
+                "Date: " + _date +
                 ", Start time: " + _startTime +
                 ", End time: " + _endTime +
                 ", Auto approve: " + _autoApprove +
