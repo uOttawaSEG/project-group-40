@@ -1,5 +1,6 @@
 package com.uottawaseg.otams.Layout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.Availability;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TutorViewAvailability extends AppCompatActivity {
@@ -29,35 +31,37 @@ public class TutorViewAvailability extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-
         setContentView(R.layout.tutor_view_availability);
 
-        //get the recycler view ready
+        // Get the recycler view ready
         recyclerView = findViewById(R.id.availability_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //availability slots from database
-
-        //empty list cause no database
+        // Availability slots from database
+        // Empty list cause no database
         availabilityList = ((Tutor) LoginManager.getCurrentAccount()).getAvailabilities();
 
-        //set up adapter
+        // Set up adapter
         adapter = new AvailabilityAdapter(availabilityList);
         recyclerView.setAdapter(adapter);
 
-        //back button goes to calendar
+        // Back button goes to calendar
         Button backButton = findViewById(R.id.btn_back1);
-        backButton.setOnClickListener(v -> {
-            //calendar activity class name
-            finish();
-        });
+        backButton.setOnClickListener(v -> finish());
+
+        Button HomePage= findViewById(R.id.home2);
+        HomePage.setOnClickListener(v ->
+                startActivity(new Intent(TutorViewAvailability.this, MainActivity.class)));
     }
 
-    // adapter for showing the list of availability slots
+    // Adapter for showing the list of availability slots
     private class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapter.ViewHolder> {
 
-        private List<Availability> slots;
+        private final List<Availability> slots;
+
+        //from Daniil: My changes start here
+        private final DateTimeFormatter timeFormatter= DateTimeFormatter.ofPattern("HH:mm"); //from Daniil: I need this for hour slot
+        private final DateTimeFormatter dateFormatter= DateTimeFormatter.ofPattern("yyyy-MM-dd"); //from Daniil: and that for date
 
         public AvailabilityAdapter(List<Availability> slots) {
             this.slots = slots;
@@ -72,30 +76,24 @@ public class TutorViewAvailability extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            var slot = slots.get(position);
+            Availability slot = slots.get(position);
 
-            //fill in the text
-            holder.dateText.setText("Date: " + slot.getDay());
-            holder.timeText.setText("Time: " + slot.getStart().toLocalTime() + " - " + slot.getEnd().toLocalTime());
+            //from Daniil: changed this to work with DateTimeFormatter
+            holder.dateText.setText("Date: " + slot.getDate().format(dateFormatter));
+            holder.timeText.setText("Time: " + slot.getStart().format(timeFormatter) + " - " + slot.getEnd().format(timeFormatter));
             holder.approvalText.setText("Auto-approve: " + (slot.getAutoApprove() ? "Yes" : "No"));
 
-            //when delete button is clicked
+            // When delete button is clicked
             holder.deleteButton.setOnClickListener(v -> {
-                //get where this is in the list
                 int currentPosition = holder.getAdapterPosition();
-
                 if (currentPosition != RecyclerView.NO_POSITION) {
-                    //remove it from the list
-                    ((Tutor)LoginManager.getCurrentAccount()).removeAvailability(slot);
-
-                    //update the display
+                    // Remove it from the list
+                    ((Tutor) LoginManager.getCurrentAccount()).removeAvailability(slot);
+                    // Update the display
                     notifyItemRemoved(currentPosition);
-
-                    //delete from database too maybe?
-
+                    // Delete from database too maybe?
                     Toast.makeText(TutorViewAvailability.this,
-                            "Availability deleted",
-                            Toast.LENGTH_SHORT).show();
+                            "Availability deleted", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -105,7 +103,7 @@ public class TutorViewAvailability extends AppCompatActivity {
             return slots.size();
         }
 
-        //hold the views for each slot item
+        // Hold the views for each slot item
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView dateText;
             TextView timeText;

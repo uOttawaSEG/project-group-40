@@ -21,25 +21,25 @@ public class StudentProfile extends AppCompatActivity {
         setContentView(R.layout.student_profile);
 
         //all the buttons from the layout
-        MaterialCardView cardBooked = findViewById(R.id.cardBooked);
-        MaterialCardView cardRequested = findViewById(R.id.cardRequested);
-        MaterialCardView cardSearch = findViewById(R.id.cardSearch);
+        //MaterialCardView cardBooked = findViewById(R.id.cardBooked);
+        //MaterialCardView cardRequested = findViewById(R.id.cardRequested);
+        //MaterialCardView cardSearch = findViewById(R.id.cardSearch);
         Button btnBack = findViewById(R.id.btn_back1);
 
         //the button to view booked sessions
-        cardBooked.setOnClickListener(view -> {
-            startActivity(new Intent(StudentProfile.this, BookedSessionsActivity.class));
-        });
+        //cardBooked.setOnClickListener(view -> {
+           // startActivity(new Intent(StudentProfile.this, BookedSessionsActivity.class));
+       // });
 
         //the button to view requested sessions
-        cardRequested.setOnClickListener(view -> {
-            startActivity(new Intent(StudentProfile.this, RequestedSessionsActivity.class));
-        });
+       // cardRequested.setOnClickListener(view -> {
+       //     startActivity(new Intent(StudentProfile.this, RequestedSessionsActivity.class));
+       // });
 
         //the buttoon to search for courses
-        cardSearch.setOnClickListener(view -> {
-            startActivity(new Intent(StudentProfile.this, SearchCoursesActivity.class));
-        });
+       // cardSearch.setOnClickListener(view -> {
+        //    startActivity(new Intent(StudentProfile.this, SearchCoursesActivity.class));
+      //  });
 
         //the home button to go back to main page
         btnBack.setOnClickListener(view -> {

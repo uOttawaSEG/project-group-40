@@ -1,5 +1,6 @@
 package com.uottawaseg.otams.Layout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,28 +12,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Database.LoginManager;
-import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.Availability;
+import com.uottawaseg.otams.Database.AvailabilityWriter;
+import com.uottawaseg.otams.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
+import java.time.LocalDate;
+import java.time.OffsetTime;
+import java.time.ZonedDateTime;
 
 public class AddAvailability extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-
         setContentView(R.layout.tutor_add_availability);
 
         // grab all the stuff from the layout
@@ -43,9 +43,8 @@ public class AddAvailability extends AppCompatActivity {
         Button addAvailabilityButton = findViewById(R.id.button2);
         Button viewCalendarButton = findViewById(R.id.button);
 
-        //load existing slots from database pls
-
-        //when add availability button is clicked
+        // load existing slots from database pls
+        // when add availability button is clicked
         addAvailabilityButton.setOnClickListener(view -> {
             String dateStr = dateInput.getText().toString().trim();
             String startTimeStr = startTimeInput.getText().toString().trim();
@@ -54,59 +53,57 @@ public class AddAvailability extends AppCompatActivity {
 
             if (validateInput(dateStr, startTimeStr, endTimeStr)) {
                 // make the new slot
+                LocalDate date = getDateFromStr(dateStr);
+                OffsetTime startTime = getTime(startTimeStr);
+                OffsetTime endTime = getTime(endTimeStr);
+                Availability avail = new Availability(autoApprove, startTime, endTime, date);//From Daniil: changed dayOfWeek to date
 
-                var dayOfWeek = getDateFromStr(dateStr);
-                var startTime = getTime(startTimeStr);
-                var endTime = getTime(endTimeStr);
-                var avail = new Availability(autoApprove, startTime, endTime, dayOfWeek);
-                //save this in database i think
-                ((Tutor)LoginManager.getCurrentAccount()).AddAvailability(avail);
+                Tutor tutor = (Tutor) LoginManager.getCurrentAccount();
+                tutor.AddAvailability(avail);
+                AvailabilityWriter.writeAllAvailabilities(tutor.getUsername(), tutor.getAvailabilities());
+                // save this in database i think
                 Toast.makeText(this, "Availability added successfully!", Toast.LENGTH_SHORT).show();
-
-                //go back to the previous page
                 finish();
             }
         });
 
-        //view calendar button, not implemented yet cause waiting Daniil
-        viewCalendarButton.setOnClickListener(view -> {
-            // make calendar view page
-            Toast.makeText(this, "Calendar view coming soon!", Toast.LENGTH_SHORT).show();
-        });
+        viewCalendarButton.setOnClickListener(view ->
+                startActivity(new Intent(this, TutorWeeklyViewActivity.class)));
     }
 
-    private OffsetTime getTime(String startTimeStr) {
-        //We know its hh:mm
-        // Or h:mm
-        // or h:m
-        var split = startTimeStr.split(":");
-        var hour = split[0];
-        var minutes = split[1];
-        return OffsetTime.of(Integer.parseInt(hour), Integer.parseInt(minutes),
-                0, 0, ZonedDateTime.now().getOffset());
+    //From Daniil: rewrote this method
+    private OffsetTime getTime(String timeStr) {
+        String[] split= timeStr.split(":");
+        int hour= Integer.parseInt(split[0]);
+        int minute= Integer.parseInt(split[1]);
+        return OffsetTime.of(hour, minute, 0, 0, ZonedDateTime.now().getOffset());
     }
 
     private boolean validateInput(String dateStr, String startTimeStr, String endTimeStr) {
-        //make sure nothing is empty
+        // make sure nothing is empty
         if (dateStr.isEmpty()) {
             Toast.makeText(this, "Please enter a date", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (startTimeStr.isEmpty()) {
-            Toast.makeText(this, "Please enter a start time", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (endTimeStr.isEmpty()) {
-            Toast.makeText(this, "Please enter an end time", Toast.LENGTH_SHORT).show();
+        if (startTimeStr.isEmpty() || endTimeStr.isEmpty()) {
+            Toast.makeText(this, "Please enter start and end times", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        //check if date is valid and not in the past
-        if (!isValidDate(dateStr)) {
+        LocalDate date;
+        try {
+            date = LocalDate.parse(dateStr);
+        } catch (Exception e) {
+            Toast.makeText(this, "Invalid date format (YYYY-MM-DD)", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        //check time format cause sometimes it's weird
+        if (!date.isAfter(LocalDate.now())) {
+            Toast.makeText(this, "Cannot select a past date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // check time format cause sometimes it's weird
         if (!isValidTimeFormat(startTimeStr)) {
             Toast.makeText(this, "Start time must be in HH:MM format (ex., 09:00)", Toast.LENGTH_SHORT).show();
             return false;
@@ -116,7 +113,7 @@ public class AddAvailability extends AppCompatActivity {
             return false;
         }
 
-        //times are in 30mins increment
+        // times are in 30mins increment
         if (!isThirtyMinuteIncrement(startTimeStr)) {
             Toast.makeText(this, "Start time must be in 30-minute increments (ex., 09:00, 09:30)", Toast.LENGTH_SHORT).show();
             return false;
@@ -126,14 +123,14 @@ public class AddAvailability extends AppCompatActivity {
             return false;
         }
 
-        //end time has to be after start time obv
+        // end time has to be after start time obv
         if (!isEndTimeAfterStartTime(startTimeStr, endTimeStr)) {
             Toast.makeText(this, "End time must be after start time", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        //check if this overlaps with existing ones
-        if (hasOverlap(dateStr, startTimeStr, endTimeStr)) {
+        // check if this overlaps with existing ones
+        if (hasOverlap(date, startTimeStr, endTimeStr)) {
             Toast.makeText(this, "This time slot overlaps with an existing availability", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -141,125 +138,61 @@ public class AddAvailability extends AppCompatActivity {
         return true;
     }
 
-    private boolean isValidDate(String dateStr) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        sdf.setLenient(false);
+    private int timeToMinutes(String timeStr) {
+        String[] parts = timeStr.split(":");
+        return Integer.parseInt(parts[0]) * 60 + Integer.parseInt(parts[1]);
+    }
 
-        try {
-            Date inputDate = sdf.parse(dateStr);
-            //get the date for tdy
-            var today = OffsetDateTime.now();
-            var date = OffsetDateTime.of(inputDate.getYear() + 1900, inputDate.getMonth() + 1, inputDate.getDate(),
-                    0, 0, 0, 0, today.getOffset());
-            //not allowed to go back in time
-            if (!date.isAfter(today)) {
-                Toast.makeText(this, "Cannot select a date in the past", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            return true;
-        } catch (ParseException e) {
-            Toast.makeText(this, "Invalid date format. Please use YYYY-MM-DD (e.g., 2024-12-25)", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+    private int timeToMinutes(OffsetTime time) {
+        return time.getHour() * 60 + time.getMinute();
     }
 
     private boolean isValidTimeFormat(String timeStr) {
-        //check if it matches da format
-        //split the : to get hours and minutes
         String[] parts = timeStr.split(":");
-
-        //should have exactly 2 parts cause hours and minutes
-        if (parts.length != 2) {
-            return false;
-        }
-
+        if (parts.length != 2) return false;
         try {
             int hours = Integer.parseInt(parts[0]);
             int minutes = Integer.parseInt(parts[1]);
-
-            //hours should be 0-23, minutes should be 0-59
-            if (hours < 0 || hours > 23) {
-                return false;
-            }
+            if (hours < 0 || hours > 23) return false;
             return minutes >= 0 && minutes <= 59;
         } catch (NumberFormatException e) {
-            //if it can't convert to numbers, it's not valid
             return false;
         }
     }
-
 
     private boolean isThirtyMinuteIncrement(String timeStr) {
         String[] parts = timeStr.split(":");
         int minutes = Integer.parseInt(parts[1]);
-
-        //basically the minutes can only be 00 or 30
         return minutes == 0 || minutes == 30;
     }
 
     private boolean isEndTimeAfterStartTime(String startTimeStr, String endTimeStr) {
-        String[] startParts = startTimeStr.split(":");
-        String[] endParts = endTimeStr.split(":");
-
-        int startHour = Integer.parseInt(startParts[0]);
-        int startMinute = Integer.parseInt(startParts[1]);
-        int endHour = Integer.parseInt(endParts[0]);
-        int endMinute = Integer.parseInt(endParts[1]);
-
-        int startTotalMinutes = startHour * 60 + startMinute;
-        int endTotalMinutes = endHour * 60 + endMinute;
-
+        int startTotalMinutes = timeToMinutes(startTimeStr);
+        int endTotalMinutes = timeToMinutes(endTimeStr);
         return endTotalMinutes > startTotalMinutes;
     }
 
-    private boolean hasOverlap(String dateStr, String startTimeStr, String endTimeStr) {
-        //check if new slot overlaps with ones on the same date
-        var availabilities = ((Tutor)LoginManager.getCurrentAccount()).getAvailabilities();
-        for (Availability slot : availabilities) {
-            //skip if not the same date
-            if (!slot.getDay().equals(dateStr)) {
-                continue;
-            }
 
-            //convert the times to minutes to make the check easier
-            int newStart = timeToMinutes(startTimeStr);
-            int newEnd = timeToMinutes(endTimeStr);
+    private boolean hasOverlap(LocalDate date, String startTimeStr, String endTimeStr) {
+        var availabilities = ((Tutor) LoginManager.getCurrentAccount()).getAvailabilities();
+        int newStart = timeToMinutes(getTime(startTimeStr));
+        int newEnd = timeToMinutes(getTime(endTimeStr));
+
+        for (Availability slot : availabilities) {
+            if (!slot.getDate().equals(date)) continue;
+
             int existingStart = timeToMinutes(slot.getStart());
             int existingEnd = timeToMinutes(slot.getEnd());
 
-            //check for overlap
-            //the times overlap if one starts before the other ends
-            if (newStart < existingEnd && newEnd > existingStart) {
-                return true;
-            }
+            if (newStart < existingEnd && newEnd > existingStart) return true;
         }
-
         return false;
     }
 
-    private int timeToMinutes(String timeStr) {
-        String[] parts = timeStr.split(":");
-        int hours = Integer.parseInt(parts[0]);
-        int minutes = Integer.parseInt(parts[1]);
-        return hours * 60 + minutes;
-    }
-    private int timeToMinutes(OffsetTime time) {
-        return time.getHour() * 60 + time.getMinute();
-    }
-    private DayOfWeek getDateFromStr(String s) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        sdf.setLenient(false);
-        Date date;
-        try {
-            date = sdf.parse(s);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        var cal = Calendar.getInstance();
-        cal.setTime(date);
-        return DayOfWeek.of(cal.get(Calendar.DAY_OF_WEEK));
+    private LocalDate getDateFromStr(String s) {
+        return LocalDate.parse(s);
     }
 }
+
 
 //does this even work..
