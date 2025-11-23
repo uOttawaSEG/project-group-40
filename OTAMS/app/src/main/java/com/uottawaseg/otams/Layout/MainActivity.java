@@ -11,10 +11,21 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Courses.Degree;
+import com.uottawaseg.otams.Courses.Field;
+import com.uottawaseg.otams.Database.AvailabilityReader;
 import com.uottawaseg.otams.Database.Database;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.Availability;
+import com.uottawaseg.otams.Requests.RequestStatus;
+import com.uottawaseg.otams.Requests.SessionRequest;
 
+import java.time.DayOfWeek;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.other_main_page);
         Database.Database.StartDB();
         LoginManager.LogOut();
         // LoginManager.RegisterAdmin();
@@ -50,6 +61,29 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        var avails = new ArrayList<Availability>();
+        avails.add(new Availability(false, OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), DayOfWeek.MONDAY));
+        var tutor = new Tutor(
+                "first", "last", "user", "pass", "12345", "no@no.com", Degree.BACHELORS, Field.ENGINEERING,
+                avails, null);
+        var sessionRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 10, 11, 2005);
+        sessionRequest.setStatus(RequestStatus.ACCEPTED);
+        tutor.AddSession(sessionRequest);
+
+        var secondRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 11, 11, 2025);
+        secondRequest.setStatus(RequestStatus.ACCEPTED);
+        tutor.AddSession(secondRequest);
+        var third = new SessionRequest("bananas", "user", OffsetTime.of(1, 0, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 0, 0, 0, ZoneOffset.UTC), 3, 1, 2026);
+        tutor.AddSession(third);
+
+        var fourth = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 3, 2, 2026);
+        tutor.AddSession(fourth);
+        Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/user", tutor);
 
     }
 }

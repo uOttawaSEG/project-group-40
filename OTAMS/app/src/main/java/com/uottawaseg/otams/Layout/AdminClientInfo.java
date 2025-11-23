@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.Requests.RequestDisplayManager;
+import com.uottawaseg.otams.Requests.AccountRequestDisplayManager;
 
 public class AdminClientInfo extends AppCompatActivity {
     @Override
@@ -30,27 +30,27 @@ public class AdminClientInfo extends AppCompatActivity {
         // Other is either a student# or their degree + field of study.
         var other = (TextView) findViewById(R.id.other);
 
-        var strings = RequestDisplayManager.PrepareRequestToDisplay(selected);
+        var strings = AccountRequestDisplayManager.PrepareRequestToDisplay(selected);
 
-        fName.setText(strings[RequestDisplayManager.FIRST_NAME.second]);
-        lName.setText(strings[RequestDisplayManager.LAST_NAME.second]);
-        usrnm.setText(strings[RequestDisplayManager.USERNAME.second]);
-        email.setText(strings[RequestDisplayManager.EMAIL.second]);
-        other.setText(strings[RequestDisplayManager.OTHER.second]);
+        fName.setText(strings[AccountRequestDisplayManager.FIRST_NAME.second]);
+        lName.setText(strings[AccountRequestDisplayManager.LAST_NAME.second]);
+        usrnm.setText(strings[AccountRequestDisplayManager.USERNAME.second]);
+        email.setText(strings[AccountRequestDisplayManager.EMAIL.second]);
+        other.setText(strings[AccountRequestDisplayManager.OTHER.second]);
 
         var acceptButton = (Button) findViewById(R.id.accept_button);
         var denyButton = (Button) findViewById(R.id.decline_button);
         var pendingButton = (Button) findViewById(R.id.button_pending);
         var deniedButton = (Button) findViewById(R.id.button_rejected);
-        var returnButton = (Button) findViewById(R.id.btn_return);
+        var returnButton = (Button) findViewById(R.id.btn_back1);
 
         acceptButton.setOnClickListener(v -> {
             PendingRequestManager.AcceptRequest(selected);
             Toast.makeText(this,
                     "Accepted request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
-                    Toast.LENGTH_LONG);
-            AdminPendingRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
-            AdminRejectedRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+                    Toast.LENGTH_LONG).show();
+            AdminPendingRequests.adapter = new RecycleViewAdapter(AccountRequestDisplayManager.GetRequestForPendingPage());
+            AdminRejectedRequests.adapter = new RecycleViewAdapter(AccountRequestDisplayManager.GetRequestForDeniedPage());
             finish();
         });
 
@@ -58,10 +58,10 @@ public class AdminClientInfo extends AppCompatActivity {
             PendingRequestManager.DeclineRequest(selected);
             Toast.makeText(this,
                     "Denied request from: " + selected.getAccount().getName() +" for " + selected.getAccount().getRole(),
-                    Toast.LENGTH_LONG);
+                    Toast.LENGTH_LONG).show();
 
-            AdminPendingRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForPendingPage());
-            AdminRejectedRequests.adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+            AdminPendingRequests.adapter = new RecycleViewAdapter(AccountRequestDisplayManager.GetRequestForPendingPage());
+            AdminRejectedRequests.adapter = new RecycleViewAdapter(AccountRequestDisplayManager.GetRequestForDeniedPage());
             finish();
         });
 

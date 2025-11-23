@@ -3,7 +3,8 @@ package com.uottawaseg.otams.Requests;
 public enum RequestType {
     Unknown(-1),
     StudentAccountCreation(0),
-    TutorAccountCreation(1);
+    TutorAccountCreation(1),
+    TutorSessionRequest(2);
     private int _val;
     private RequestType(int value) {
         _val = value;
@@ -19,6 +20,7 @@ public enum RequestType {
         switch(_val) {
             case 0: return "Request Type: Student Account Creation";
             case 1: return "Request Type: Tutor Account Creation";
+            case 2: return "Request Type: Tutor Session Request";
             default: return "UNKNOWN REQUEST TYPE";
         }
     }
@@ -31,6 +33,7 @@ public enum RequestType {
         switch(str.toUpperCase()) {
             case "TUTORACCOUNTCREATION": return TutorAccountCreation;
             case "STUDENTACCOUNTCREATION": return StudentAccountCreation;
+            case "TUTORSESSIONREQUEST": return TutorSessionRequest;
             default: return Unknown;
         }
     }

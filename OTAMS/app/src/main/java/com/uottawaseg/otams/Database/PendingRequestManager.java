@@ -1,6 +1,8 @@
 package com.uottawaseg.otams.Database;
 
+import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.AccountCreationRequest;
+import com.uottawaseg.otams.Requests.Availability;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +31,7 @@ public class PendingRequestManager {
         // Query DB
         // Make account from snapshot
         var data = Database.Database.Read(PENDING_REQS + "/" + username);
-        if(!data.exists() || data == null) {
+        if(data == null || !data.exists()) {
             return false;
         }
         SelectRequest(AccountCreationManager.MakeAccountCreationRequest(data));
@@ -94,4 +96,15 @@ public class PendingRequestManager {
         // This gets it's own class because there's extra functionality instead of just accepting it.
         DeniedRequestManager.DeclineRequest(req);
     }
+
+    /** Writes a list of availabilities to the database.
+     * @param tut The tutor whose availability needs to be updated
+     * @param avails The list of availabilities to write to the DB
+     */
+    public static void UpdateAvailability(Tutor tut, List<Availability> avails) {
+        Database.Database.WriteAvailability(
+                LoginManager.ACCOUNTS + "/" + tut.getUsername() + "/" + AvailabilityReader.AVAILABILITIES,
+                avails);
+    }
+
 }

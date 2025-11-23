@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.uottawaseg.otams.Layout.support.RecycleViewAdapter;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.Requests.RequestDisplayManager;
+import com.uottawaseg.otams.Requests.AccountRequestDisplayManager;
 
 public class AdminRejectedRequests extends AppCompatActivity {
 
@@ -28,7 +28,7 @@ public class AdminRejectedRequests extends AppCompatActivity {
         goto_pending.setOnClickListener(view ->
                 startActivity(new Intent(AdminRejectedRequests.this, AdminPendingRequests.class)));
 
-        Button go_home = findViewById(R.id.btn_return);
+        Button go_home = findViewById(R.id.btn_back1);
         go_home.setOnClickListener(view -> {
             startActivity(new Intent(AdminRejectedRequests.this, MainActivity.class));
         });
@@ -36,7 +36,7 @@ public class AdminRejectedRequests extends AppCompatActivity {
         var recycleView = (RecyclerView) findViewById(R.id.denied_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         if(adapter == null) {
-            adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+            adapter = new RecycleViewAdapter(AccountRequestDisplayManager.GetRequestForDeniedPage());
         }
         recycleView.setAdapter(adapter);
 
@@ -48,7 +48,7 @@ public class AdminRejectedRequests extends AppCompatActivity {
         var recycleView = (RecyclerView) findViewById(R.id.denied_recycler);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         if(adapter == null) {
-            adapter = new RecycleViewAdapter(RequestDisplayManager.GetRequestForDeniedPage());
+            adapter = new RecycleViewAdapter(AccountRequestDisplayManager.GetRequestForDeniedPage());
         }
         recycleView.setAdapter(adapter);
     }

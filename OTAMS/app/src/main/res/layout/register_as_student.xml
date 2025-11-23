@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/StudentForm"
         android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginTop="28dp"
         android:gravity="center"
         android:text="@string/student_form"
@@ -21,13 +21,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.114"
         />
 
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -51,7 +50,7 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="60dp"
@@ -74,7 +73,7 @@
     <EditText
         android:id="@+id/phoneNumber"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="28dp"
@@ -98,7 +97,7 @@
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="28dp"
@@ -170,9 +169,9 @@
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintBottom_toTopOf="@+id/btnHomepage"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -185,26 +184,21 @@
             android:text="@string/apply_button"
             app:rippleColor="@color/white" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+
+    <Button
+        android:id="@+id/btnHomepage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
+        android:layout_marginEnd="320dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/UOgray"
+        android:text="🏠"
+        android:textSize="32sp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/btnHomepage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/UOgray"
-            android:text="@string/homepage_button"
-            app:rippleColor="@color/white" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="#FFFFFFFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

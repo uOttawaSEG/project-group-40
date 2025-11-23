@@ -29,5 +29,13 @@
         <item>None</item>
     </string-array>
     <string name="apply_button">Apply</string>
+    <string name="view_upcoming_button">View Upcoming</string>
+    <string name="view_availability_button">View Availability</string>
+    <string name="add_availability_button">Add Availability</string>
+    <string name="weekly_view_button">Weekly View</string>
+    <string name="monthly_view_button">Monthly View</string>
+    <string name="daily_view_button">Daily View</string>
     <string name="homepage_button">Return to Homepage</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forward"><![CDATA[->]]></string>
 </resources>

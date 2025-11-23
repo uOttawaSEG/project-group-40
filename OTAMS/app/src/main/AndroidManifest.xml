@@ -31,9 +31,20 @@
         <activity android:name=".Layout.RegisterAsStudent" />
         <activity android:name=".Layout.RegisterAsTutor" />
         <activity android:name=".Layout.Status" />
+        <!-- Admin -->
         <activity android:name=".Layout.AdminClientInfo" />
+        <activity android:name=".Layout.AddAvailability" />
         <activity android:name=".Layout.AdminPendingRequests" />
         <activity android:name=".Layout.AdminRejectedRequests" />
+
+        <!-- Tutor -->
+        <activity android:name=".Layout.TutorViewAvailability" />
+        <activity android:name=".Layout.TutorViewUpcoming" />
+        <activity android:name=".Layout.TutorViewPastSessions" />
+        <activity android:name=".Layout.TutorWeeklyViewActivity" />
+        <activity android:name=".Layout.TutorDailyViewActivity" />
+        <activity android:name=".Layout.TutorViewPending" />
+        <activity android:name=".Layout.TutorSessionInfo" />
 
     </application>
 

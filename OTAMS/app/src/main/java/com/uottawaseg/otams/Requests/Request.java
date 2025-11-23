@@ -8,4 +8,5 @@ public interface Request {
     void DeclineRequest();
 
     String toString();
+
 }

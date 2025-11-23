@@ -28,27 +28,27 @@
         android:layout_height="360dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
-        android:background="@color/UOgray"
+        android:background="@color/UOred"
         app:layout_constraintBottom_toTopOf="@+id/button_goto_pending"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_rejected"/>
 
     <Button
-        android:id="@+id/btn_return"
-        android:layout_width="361dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="32dp"
+        android:id="@+id/btn_back1"
+        android:layout_width="72dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="24dp"
         android:layout_weight="1"
         android:backgroundTint="#E8E8E8"
-        android:text="Return To Homepage"
+        android:text="🏠"
         android:textColor="@color/UOgray"
         android:textColorHighlight="@color/UOgray"
         android:textColorHint="@color/UOgray"
         android:textColorLink="@color/UOgray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/UOred" />
 
@@ -56,7 +56,7 @@
         android:id="@+id/button_goto_pending"
         android:layout_width="361dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:layout_weight="1"
         android:backgroundTint="@color/UOgray"
         android:text="Go to pending requests"
@@ -64,10 +64,10 @@
         android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
         android:textColorLink="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btn_return"
-        app:layout_constraintEnd_toEndOf="@+id/btn_return"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/btn_return"
+        app:layout_constraintBottom_toTopOf="@+id/btn_back1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/UOgray" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

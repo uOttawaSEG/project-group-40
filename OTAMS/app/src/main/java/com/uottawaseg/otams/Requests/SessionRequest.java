@@ -1,20 +1,36 @@
 package com.uottawaseg.otams.Requests;
 
+import androidx.annotation.Nullable;
+
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 
 public class SessionRequest implements Request {
 
     private final String _student;
     private final String _tutor;
-    private final OffsetDateTime _startTime;
-    private final OffsetDateTime _endTime;
-    private final OffsetDateTime _date;
+    private final OffsetTime _startTime;
+    private final OffsetTime _endTime;
+    private final int _day;
+    private final int _month;
+    private final int _year;
     private RequestStatus _status;
     private final RequestType _type;
 
     // Constructor
-    public SessionRequest(String student, String tutor, OffsetDateTime startTime, OffsetDateTime endTime, OffsetDateTime date) {
-        if (student == null || tutor == null || startTime == null || endTime == null || date == null) {
+
+    /**
+     * @param student Students Username
+     * @param tutor Tutors username
+     * @param startTime The starting time
+     * @param endTime The ending time
+     * @param day The day of the month
+     * @param month The month of the year
+     * @param year The year
+     */
+    public SessionRequest(String student, String tutor, OffsetTime startTime,
+                          OffsetTime endTime, int day, int month, int year, RequestStatus status) {
+        if (student == null || tutor == null || startTime == null || endTime == null) {
             throw new IllegalArgumentException("Do not leave anything null. :(");
         }
 
@@ -22,9 +38,17 @@ public class SessionRequest implements Request {
         _tutor = tutor;
         _startTime = startTime;
         _endTime = endTime;
-        _date = date;
         _status = RequestStatus.PENDING;
-        _type = RequestType.Unknown;
+        _type = RequestType.TutorSessionRequest;
+
+        _day = day;
+        _month = month;
+        _year = year;
+        _status = status;
+    }
+    public SessionRequest(String student, String tutor, OffsetTime startTime,
+                          OffsetTime endTime, int day, int month, int year) {
+        this(student, tutor, startTime, endTime, day, month, year, RequestStatus.PENDING);
     }
 
     // Interface methods
@@ -54,7 +78,7 @@ public class SessionRequest implements Request {
         return "SessionRequest{" +
                 "Student: " + _student +
                 ", Tutor: " + _tutor +
-                ", Date: " + _date +
+                ", Date: " + getDate() +
                 ", Start time: " + _startTime +
                 ", End time: " + _endTime +
                 ", Status: " + _status +
@@ -69,17 +93,37 @@ public class SessionRequest implements Request {
     public String getTutor() {
         return _tutor;
     }
-
-    public OffsetDateTime getStartTime() {
+    //This one is needed for the DB
+    public RequestStatus getStatus() {
+        return _status;
+    }
+    public OffsetTime getStartTime() {
         return _startTime;
     }
 
-    public OffsetDateTime getEndTime() {
+    public OffsetTime getEndTime() {
         return _endTime;
     }
 
     public OffsetDateTime getDate() {
-        return _date;
+        return OffsetDateTime.of(_year, _month, _day, 0, 0, 0, 0, _startTime.getOffset());
     }
 
+    public void setStatus(RequestStatus requestStatus) {
+        _status = requestStatus;
+    }
+
+    /**
+     * @param other Session Request to compare against
+     * @return whether or not the two are equal
+     */
+    public boolean equals(SessionRequest other) {
+        return         _student.equals(other._student) && _tutor.equals(other._tutor)
+                &&  getDate().isEqual(other.getDate()) &&   _status == other._status;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return super.equals(obj);
+    }
 }

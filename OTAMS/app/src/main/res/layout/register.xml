@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="338dp"
         android:layout_height="65dp"
-        android:layout_marginTop="372dp"
+        android:layout_marginTop="432dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -18,10 +18,10 @@
 
         <Button
             android:id="@+id/hp_btn"
-            android:layout_width="match_parent"
+            android:layout_width="63dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/UOred"
-            android:text="Return to Homepage" />
+            android:text="🏠" />
     </LinearLayout>
 
     <LinearLayout

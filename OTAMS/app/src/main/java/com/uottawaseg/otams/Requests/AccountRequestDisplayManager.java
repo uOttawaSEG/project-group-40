@@ -8,7 +8,7 @@ import com.uottawaseg.otams.Database.PendingRequestManager;
 
 import java.util.List;
 
-public class RequestDisplayManager {
+public class AccountRequestDisplayManager {
     /** @noinspection rawtypes, unchecked */
     public static final Pair<String, Integer> TITLE =
             new Pair("Title", 0);
