@@ -60,7 +60,9 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
             studentInfo= "\nBooked by: " + availability.getStudentFirstName() + " " + availability.getStudentLastName();
         }
         String displayText= tutorFirst + " " + tutorLast + "\n" + "Date: " + availability.getDate().toString() + "\n" + "Time: " + displayTime + studentInfo;
-        if (availability.isBooked()) displayText += "\n(BOOKED)";
+        if (availability.isBooked()){
+            displayText+= "\n(BOOKED)";
+        }
         holder.getText().setText(displayText);
         holder.itemView.setOnClickListener(v -> {
             if (availability.isBooked()) {
@@ -77,11 +79,9 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
             String studentUsername= currentStudent.getUsername();
             availability.setStudentCredentials(studentFirst, studentLast, studentUsername);
             if (availability.getAutoApprove()) {
-                // auto-approved goes straight to booked
                 StudentAvailabilityWriter.bookAvailabilityForStudent(availability, studentFirst, studentLast, studentUsername, (success, errorMessage) -> {
                     if (success) {
                         Toast.makeText(context, "Session booked successfully!", Toast.LENGTH_SHORT).show();
-                        // Remove from search page immediately
                         dataset.remove(position);
                         notifyItemRemoved(position);
                     } else {
@@ -89,10 +89,18 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
                     }
                 });
             } else {
-                // otherwise it will just say that the request is pending
-                Toast.makeText(context, "Request sent. Waiting for approval.", Toast.LENGTH_SHORT).show();
+                StudentAvailabilityWriter.sendPendingRequest(availability, studentFirst, studentLast, studentUsername, (success, error) -> {
+                    if (success) {
+                        Toast.makeText(context, "Request sent. Waiting for approval.", Toast.LENGTH_SHORT).show();
+                        dataset.remove(position);
+                        notifyItemRemoved(position);
+                    } else {
+                        Toast.makeText(context, "Could not send request: " + error, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+
     }
     @Override
     public int getItemCount() {

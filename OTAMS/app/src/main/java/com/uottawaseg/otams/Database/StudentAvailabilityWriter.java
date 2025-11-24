@@ -92,10 +92,78 @@ public class StudentAvailabilityWriter {
             }
         });
     }
+    public static void sendPendingRequest(Availability availability, String studentFirst, String studentLast, String studentUsername, CompletionCallback callback) {
+        if (availability.getTutorUsername()==null || availability.getTutorUsername().isEmpty()) {
+            callback.onComplete(false, "Tutor username missing");
+            return;
+        }
+
+        availability.setPending(true);
+        availability.setBooked(false);
+        availability.setStudentCredentials(studentFirst, studentLast, studentUsername);
+
+        writePendingToTutor(availability, (success1, err1) -> {
+            if (!success1) {
+                callback.onComplete(false, err1);
+                return;
+            }
+            writePendingToStudent(availability, studentUsername, (success2, err2) -> {
+                if (!success2) callback.onComplete(false, err2);
+                else callback.onComplete(true, null);
+            });
+        });
+    }
+
+    private static void writePendingToTutor(Availability a, CompletionCallback callback) {
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference(LoginManager.ACCOUNTS)
+                .child(a.getTutorUsername())
+                .child("availabilities");
+
+        ref.get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful() || task.getResult() == null) {
+                callback.onComplete(false, "Failed to read tutor availabilities");
+                return;
+            }
+            var snapshot= task.getResult();
+            boolean updated= false;
+            for (var child : snapshot.getChildren()) {
+                String dateStr= child.child("date").getValue(String.class);
+                OffsetTime startTime= AvailabilityReader.readOffsetTime((HashMap) child.child("start").getValue());
+                OffsetTime endTime= AvailabilityReader.readOffsetTime((HashMap) child.child("end").getValue());
+                if (dateStr != null && dateStr.equals(a.getDate().toString()) && startTime.equals(a.getStart()) && endTime.equals(a.getEnd())) {
+                    child.getRef().setValue(convertAvailability(a)).addOnCompleteListener(t -> {
+                        if (!t.isSuccessful() && t.getException() != null) callback.onComplete(false, t.getException().getMessage());
+                        else callback.onComplete(true, null);
+                    });
+                    updated= true;
+                    break;
+                }
+            }
+            if (!updated) {
+                ref.push().setValue(convertAvailability(a)).addOnCompleteListener(t -> {
+                    if (!t.isSuccessful() && t.getException() != null) callback.onComplete(false, t.getException().getMessage());
+                    else callback.onComplete(true, null);
+                });
+            }
+        });
+    }
+
+    private static void writePendingToStudent(Availability a, String studentUsername, CompletionCallback callback) {
+        DatabaseReference ref= FirebaseDatabase.getInstance()
+                .getReference(LoginManager.ACCOUNTS)
+                .child(studentUsername)
+                .child("pendingRequests");
+        ref.push().setValue(convertAvailability(a)).addOnCompleteListener(task -> {
+            if (!task.isSuccessful() && task.getException() != null) callback.onComplete(false, task.getException().getMessage());
+            else callback.onComplete(true, null);
+        });
+    }
 
     private static HashMap<String, Object> convertAvailability(Availability a) {
         HashMap<String, Object> map= new HashMap<>();
         map.put("autoApprove", a.getAutoApprove());
+        map.put("pending", a.isPending());
         map.put("booked", a.isBooked());
         map.put("date", a.getDate().toString());
         map.put("start", convertOffsetTime(a.getStart()));

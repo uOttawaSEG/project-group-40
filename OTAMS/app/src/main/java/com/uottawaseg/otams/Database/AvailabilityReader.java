@@ -17,6 +17,8 @@ public class AvailabilityReader {
     public static final String START = "start";
     public static final String END = "end";
     public static final String DATE = "date";
+    public static final String PENDING= "pending";
+
     public static final String BOOKED= "booked";
 
     public static List<Availability> GenerateAvailability(Tutor tut) {
@@ -40,6 +42,7 @@ public class AvailabilityReader {
         for (var item : ds.getChildren()) {
             try {
                 Boolean autoApprove= item.child(AUTOAPPROVE).getValue(Boolean.class);
+                Boolean pending = item.child(PENDING).getValue(Boolean.class);
                 Boolean booked = item.child(BOOKED).getValue(Boolean.class);
 
                 String dateStr= item.child(DATE).getValue(String.class);
@@ -57,12 +60,12 @@ public class AvailabilityReader {
 
                     // From Daniil: handles legacy string format... by legacy I mean whatever we used before
                     if (startObj instanceof String && endObj instanceof String) {
-                        startTime = parseLegacyString((String) startObj);
-                        endTime = parseLegacyString((String) endObj);
+                        startTime= parseLegacyString((String) startObj);
+                        endTime= parseLegacyString((String) endObj);
                     } else {
-                        // From Daniil: new nested map format, which database doesnt currently use.... Im gonna cry
-                        startTime = readOffsetTime((HashMap) startObj);
-                        endTime = readOffsetTime((HashMap) endObj);
+                        // From Daniil: new nested map format
+                        startTime= readOffsetTime((HashMap) startObj);
+                        endTime= readOffsetTime((HashMap) endObj);
                     }
                     String tutorFirst= item.child("tutorFirstName").getValue(String.class);
                     String tutorLast= item.child("tutorLastName").getValue(String.class);
@@ -79,6 +82,9 @@ public class AvailabilityReader {
                     if (studentFirst != null && studentLast != null) {
                         avail.setStudentCredentials(studentFirst, studentLast, studentUsername);
                     }
+                    if (pending != null) {
+                        avail.setPending(pending);
+                    }
                     if (booked != null) {
                         avail.setBooked(booked);
                     }
@@ -94,11 +100,11 @@ public class AvailabilityReader {
     //From Daniil: parses old string format
     private static OffsetTime parseLegacyString(String str) {
         try {
-            String[] parts = str.split("-");
-            String[] hm = parts[0].split(":");
-            int hour = Integer.parseInt(hm[0]);
-            int minute = Integer.parseInt(hm[1]);
-            ZoneOffset offset = ZoneOffset.of(parts[1]);
+            String[] parts= str.split("-");
+            String[] hm= parts[0].split(":");
+            int hour= Integer.parseInt(hm[0]);
+            int minute= Integer.parseInt(hm[1]);
+            ZoneOffset offset= ZoneOffset.of(parts[1]);
             return OffsetTime.of(hour, minute, 0, 0, offset);
         } catch(Exception e) {
             return OffsetTime.of(0,0,0,0, ZoneOffset.UTC);
@@ -129,16 +135,16 @@ public class AvailabilityReader {
 
 
     public static List<Availability> GenerateAvailabilityFromAllTutors() {
-        List<Availability> allAvailabilities = new ArrayList<>();
+        List<Availability> allAvailabilities= new ArrayList<>();
         //reads all accounts from database
-        DataSnapshot allAccounts = Database.Database.Read(LoginManager.ACCOUNTS);
-        if (allAccounts == null) return allAvailabilities;
+        DataSnapshot allAccounts= Database.Database.Read(LoginManager.ACCOUNTS);
+        if (allAccounts==null) return allAvailabilities;
         for (DataSnapshot userSnapshot : allAccounts.getChildren()) {
-            String username = userSnapshot.getKey();
+            String username= userSnapshot.getKey();
             //checks role to filter tutors
-            Object roleObj = userSnapshot.child(LoginManager.ROLE).getValue();
+            Object roleObj= userSnapshot.child(LoginManager.ROLE).getValue();
             if (roleObj != null && roleObj.toString().equalsIgnoreCase("TUTOR")) {
-                List<Availability> tutorAvailabilities = GenerateAvailability(username);
+                List<Availability> tutorAvailabilities= GenerateAvailability(username);
                 allAvailabilities.addAll(tutorAvailabilities);
             }
         }

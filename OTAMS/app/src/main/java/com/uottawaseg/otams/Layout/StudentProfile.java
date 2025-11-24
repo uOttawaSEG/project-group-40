@@ -22,7 +22,7 @@ public class StudentProfile extends AppCompatActivity {
 
         //all the buttons from the layout
         Button cardBooked = findViewById(R.id.btnBooked);
-        //Button cardRequested = findViewById(R.id.btnRequested);
+        Button cardRequested = findViewById(R.id.btnRequested);
         Button cardSearch = findViewById(R.id.btnSearch);
         Button btnBack = findViewById(R.id.btn_back1);
 
@@ -33,9 +33,9 @@ public class StudentProfile extends AppCompatActivity {
 
         //From Daniil: disabled unless we will implement approval(in that case also remove comments from findViewById and from button itself in xml layout).
         //the button to view requested sessions
-        //cardRequested.setOnClickListener(view -> {
-        //    startActivity(new Intent(StudentProfile.this, StudentPendingActivity.class));
-        //});
+        cardRequested.setOnClickListener(view -> {
+            startActivity(new Intent(StudentProfile.this, StudentPendingActivity.class));
+        });
 
         //the buttoon to search for courses
         cardSearch.setOnClickListener(view -> {

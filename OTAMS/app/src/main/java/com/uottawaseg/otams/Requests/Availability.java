@@ -14,6 +14,7 @@ public class Availability {
     private OffsetTime _endTime;
     private LocalDate _date; //From Daniil: Uses LocalDate _date instead of DayOfWeek _day
     private boolean _booked= false;
+    private boolean _pending= false;
     private String tutorFirstName;
     private String tutorLastName;
     private String tutorUsername;
@@ -59,6 +60,10 @@ public class Availability {
     public void setBooked(boolean booked) {
         _booked= booked;
     }
+    public boolean isPending() {
+        return _pending;
+    }
+    public void setPending(boolean pending) { _pending= pending; }
 
     public void setTutorCredentials(String first, String last, String username) {
         tutorFirstName= first;
@@ -99,6 +104,8 @@ public class Availability {
                 ", Start time: " + _startTime +
                 ", End time: " + _endTime +
                 ", Auto approve: " + _autoApprove +
+                ", Booked: " + _booked +
+                ", Pending: " + _pending +
                 "}";
     }
 
