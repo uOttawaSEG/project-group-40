@@ -21,25 +21,26 @@ public class StudentProfile extends AppCompatActivity {
         setContentView(R.layout.student_profile);
 
         //all the buttons from the layout
-        //MaterialCardView cardBooked = findViewById(R.id.cardBooked);
-        //MaterialCardView cardRequested = findViewById(R.id.cardRequested);
-        //MaterialCardView cardSearch = findViewById(R.id.cardSearch);
+        Button cardBooked = findViewById(R.id.btnBooked);
+        //Button cardRequested = findViewById(R.id.btnRequested);
+        Button cardSearch = findViewById(R.id.btnSearch);
         Button btnBack = findViewById(R.id.btn_back1);
 
         //the button to view booked sessions
-        //cardBooked.setOnClickListener(view -> {
-           // startActivity(new Intent(StudentProfile.this, BookedSessionsActivity.class));
-       // });
+        cardBooked.setOnClickListener(view -> {
+            startActivity(new Intent(StudentProfile.this, StudentBookedActivity.class));
+        });
 
+        //From Daniil: disabled unless we will implement approval(in that case also remove comments from findViewById and from button itself in xml layout).
         //the button to view requested sessions
-       // cardRequested.setOnClickListener(view -> {
-       //     startActivity(new Intent(StudentProfile.this, RequestedSessionsActivity.class));
-       // });
+        //cardRequested.setOnClickListener(view -> {
+        //    startActivity(new Intent(StudentProfile.this, StudentPendingActivity.class));
+        //});
 
         //the buttoon to search for courses
-       // cardSearch.setOnClickListener(view -> {
-        //    startActivity(new Intent(StudentProfile.this, SearchCoursesActivity.class));
-      //  });
+        cardSearch.setOnClickListener(view -> {
+            startActivity(new Intent(StudentProfile.this, StudentSearchCoursesActivity.class));
+        });
 
         //the home button to go back to main page
         btnBack.setOnClickListener(view -> {

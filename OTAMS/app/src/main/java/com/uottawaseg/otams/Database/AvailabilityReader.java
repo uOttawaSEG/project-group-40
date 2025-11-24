@@ -17,6 +17,7 @@ public class AvailabilityReader {
     public static final String START = "start";
     public static final String END = "end";
     public static final String DATE = "date";
+    public static final String BOOKED= "booked";
 
     public static List<Availability> GenerateAvailability(Tutor tut) {
         if(tut==null || tut.getUsername()==null){
@@ -39,6 +40,7 @@ public class AvailabilityReader {
         for (var item : ds.getChildren()) {
             try {
                 Boolean autoApprove= item.child(AUTOAPPROVE).getValue(Boolean.class);
+                Boolean booked = item.child(BOOKED).getValue(Boolean.class);
 
                 String dateStr= item.child(DATE).getValue(String.class);
                 LocalDate date= LocalDate.now();
@@ -62,16 +64,28 @@ public class AvailabilityReader {
                         startTime = readOffsetTime((HashMap) startObj);
                         endTime = readOffsetTime((HashMap) endObj);
                     }
-
-                    list.add(new Availability(
-                            autoApprove != null && autoApprove,
-                            startTime,
-                            endTime,
-                            date
-                    ));
+                    String tutorFirst= item.child("tutorFirstName").getValue(String.class);
+                    String tutorLast= item.child("tutorLastName").getValue(String.class);
+                    String tutorUsername= item.child("tutorUsername").getValue(String.class);
+                    if (tutorUsername==null || tutorUsername.isEmpty()) {
+                        System.out.println("Warning: Missing tutor username for availability on " + date);
+                        continue;
+                    }
+                    String studentFirst= item.child("studentFirstName").getValue(String.class);
+                    String studentLast= item.child("studentLastName").getValue(String.class);
+                    String studentUsername= item.child("studentUsername").getValue(String.class);
+                    Availability avail= new Availability(autoApprove != null && autoApprove, startTime, endTime, date);
+                    avail.setTutorCredentials(tutorFirst, tutorLast, tutorUsername);
+                    if (studentFirst != null && studentLast != null) {
+                        avail.setStudentCredentials(studentFirst, studentLast, studentUsername);
+                    }
+                    if (booked != null) {
+                        avail.setBooked(booked);
+                    }
+                    list.add(avail);
                 }
             } catch (Exception e) {
-                e.printStackTrace(); // log any issues but continue
+                e.printStackTrace();
             }
         }
         return list;
@@ -110,8 +124,25 @@ public class AvailabilityReader {
                 } catch(Exception ignored) {}
             }
         }
-
         return OffsetTime.of(hours, minutes, 0, 0, offset);
+    }
+
+
+    public static List<Availability> GenerateAvailabilityFromAllTutors() {
+        List<Availability> allAvailabilities = new ArrayList<>();
+        //reads all accounts from database
+        DataSnapshot allAccounts = Database.Database.Read(LoginManager.ACCOUNTS);
+        if (allAccounts == null) return allAvailabilities;
+        for (DataSnapshot userSnapshot : allAccounts.getChildren()) {
+            String username = userSnapshot.getKey();
+            //checks role to filter tutors
+            Object roleObj = userSnapshot.child(LoginManager.ROLE).getValue();
+            if (roleObj != null && roleObj.toString().equalsIgnoreCase("TUTOR")) {
+                List<Availability> tutorAvailabilities = GenerateAvailability(username);
+                allAvailabilities.addAll(tutorAvailabilities);
+            }
+        }
+        return allAvailabilities;
     }
 }
 

@@ -56,9 +56,10 @@ public class AddAvailability extends AppCompatActivity {
                 LocalDate date = getDateFromStr(dateStr);
                 OffsetTime startTime = getTime(startTimeStr);
                 OffsetTime endTime = getTime(endTimeStr);
-                Availability avail = new Availability(autoApprove, startTime, endTime, date);//From Daniil: changed dayOfWeek to date
+                Availability avail= new Availability(autoApprove, startTime, endTime, date);//From Daniil: changed dayOfWeek to date
 
-                Tutor tutor = (Tutor) LoginManager.getCurrentAccount();
+                Tutor tutor= (Tutor) LoginManager.getCurrentAccount();
+                avail.setTutorCredentials(tutor.getFirstName(), tutor.getLastName(), tutor.getUsername());
                 tutor.AddAvailability(avail);
                 AvailabilityWriter.writeAllAvailabilities(tutor.getUsername(), tutor.getAvailabilities());
                 // save this in database i think
