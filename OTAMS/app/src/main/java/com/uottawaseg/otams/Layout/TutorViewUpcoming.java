@@ -1,7 +1,5 @@
 package com.uottawaseg.otams.Layout;
 
-import static com.uottawaseg.otams.Layout.TutorViewPending.adapter;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -15,10 +13,12 @@ import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.Database.SessionRequestManager;
 import com.uottawaseg.otams.Layout.support.TutorViewAdapter;
+import com.uottawaseg.otams.Layout.support.TutorViewPendingAdapter;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.TutorSessionRequestDisplayManager;
 
 public class TutorViewUpcoming extends AppCompatActivity {
+    protected static TutorViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
