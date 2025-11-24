@@ -139,14 +139,24 @@ public class TutorDailyViewActivity extends AppCompatActivity {
                 TextView tv= new TextView(this);
                 String startTime= slot.getStart().format(timeFormatter);
                 String endTime= slot.getEnd().format(timeFormatter);
-                tv.setText(startTime + " - " + endTime);// this is the message displayed in time slot
+
+                String displayText = startTime + " - " + endTime;
+
+                // appends student info if booked
+                if (slot.isBooked()) {
+                    if (slot.getStudentFirstName() != null && slot.getStudentLastName() != null) {
+                        displayText+= " (Booked by: " + slot.getStudentFirstName() + " " + slot.getStudentLastName() + ")";
+                    } else {
+                        displayText+= " (BOOKED)";
+                    }
+                }
+                tv.setText(displayText);
                 tv.setGravity(Gravity.CENTER);
                 tv.setPadding(8, 8, 8, 8);
                 tv.setBackgroundResource(R.drawable.grid_cell_border);
                 slotView.addView(tv);
-
                 eventManager.addEvent(slotKey, new CalendarEventManager.Event("●",
-                        "Availability " + startTime + " - " + endTime));
+                        "Availability " + displayText));
             }
         }
     }

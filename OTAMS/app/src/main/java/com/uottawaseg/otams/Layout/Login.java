@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity {
                             startActivity(new Intent(Login.this, TutorWeeklyViewActivity.class));
                             this.finish();
                         } else {
-                            startActivity(new Intent(Login.this, Status.class));
+                            startActivity(new Intent(Login.this, StudentProfile.class));
                             this.finish();
                         }
 

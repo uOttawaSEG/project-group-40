@@ -21,9 +21,19 @@ public class AvailabilityWriter {
             Availability a= availabilities.get(i);
             HashMap<String, Object> map= new HashMap<>();
             map.put("autoApprove", a.getAutoApprove());
+            map.put("booked", a.isBooked());
             map.put("date", a.getDate().toString());
             map.put("start", convertOffsetTime(a.getStart()));
             map.put("end", convertOffsetTime(a.getEnd()));
+            map.put("tutorFirstName", a.getTutorFirstName());
+            map.put("tutorLastName", a.getTutorLastName());
+            map.put("tutorUsername", a.getTutorUsername());
+            if (a.getStudentFirstName() != null){
+                map.put("studentFirstName", a.getStudentFirstName());
+            }
+            if (a.getStudentLastName() != null){
+                map.put("studentLastName", a.getStudentLastName());
+            }
             all.put(String.valueOf(i), map);
         }
         // clears slots to prevent cloning

@@ -58,8 +58,8 @@
             android:elevation="6dp"
             app:cornerRadius="12dp"
             app:rippleColor="#FFFFFFFF" />
-
-        <Button
+        <!--Temp disabled since student pending doesnt work-->
+        <!--<Button
             android:id="@+id/btnRequested"
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -71,7 +71,7 @@
             android:layout_marginBottom="20dp"
             android:elevation="6dp"
             app:cornerRadius="12dp"
-            app:rippleColor="#FFFFFFFF" />
+            app:rippleColor="#FFFFFFFF" />    -->
 
         <Button
             android:id="@+id/btnSearch"
