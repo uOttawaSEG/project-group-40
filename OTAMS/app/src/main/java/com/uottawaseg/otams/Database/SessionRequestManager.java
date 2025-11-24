@@ -3,6 +3,7 @@ package com.uottawaseg.otams.Database;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
+import com.uottawaseg.otams.Courses.Course;
 
 import java.time.OffsetTime;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class SessionRequestManager {
     private final static String DATE = "date";
     private final static String STATUS = "status";
     private static SessionRequest _selected;
+
+    private static Course course;
 
     /**
      * @param username Username of the tutor account
@@ -45,7 +48,7 @@ public class SessionRequestManager {
             var date = readOffsetDateTime((HashMap) d.child(DATE).getValue());
             var status = RequestStatus.fromString((String)d.child(STATUS).getValue());
 
-            list.add(new SessionRequest(stud, tut, start, end, date[DAY], date[MONTH], date[YEAR], status));
+            list.add(new SessionRequest(stud, tut, start, end, date[DAY], date[MONTH], date[YEAR], status, course));
         }
         return Collections.unmodifiableList(list);
     }
@@ -65,6 +68,13 @@ public class SessionRequestManager {
      */
     public static void Decline(SessionRequest s) {
         getTutor().DeclineSession(s);
+    }
+
+    /**
+     * @param s The session to cancel
+     */
+    public static void Cancel(SessionRequest s) {
+        // The code I wrote was breaking a bunch of other stuff :(
     }
 
     /**

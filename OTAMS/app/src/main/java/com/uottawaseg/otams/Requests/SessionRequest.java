@@ -2,6 +2,8 @@ package com.uottawaseg.otams.Requests;
 
 import androidx.annotation.Nullable;
 
+import  com.uottawaseg.otams.Courses.Course;
+
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 
@@ -16,6 +18,7 @@ public class SessionRequest implements Request {
     private final int _year;
     private RequestStatus _status;
     private final RequestType _type;
+    private final Course _course;
 
     // Constructor
 
@@ -29,9 +32,9 @@ public class SessionRequest implements Request {
      * @param year The year
      */
     public SessionRequest(String student, String tutor, OffsetTime startTime,
-                          OffsetTime endTime, int day, int month, int year, RequestStatus status) {
-        if (student == null || tutor == null || startTime == null || endTime == null) {
-            throw new IllegalArgumentException("Do not leave anything null. :(");
+                          OffsetTime endTime, int day, int month, int year, RequestStatus status, Course course) {
+        if (student == null || tutor == null || startTime == null || endTime == null || course == null) {
+            throw new IllegalArgumentException("Do not leave anything null.");
         }
 
         _student = student;
@@ -45,10 +48,11 @@ public class SessionRequest implements Request {
         _month = month;
         _year = year;
         _status = status;
+        _course = course;
     }
     public SessionRequest(String student, String tutor, OffsetTime startTime,
-                          OffsetTime endTime, int day, int month, int year) {
-        this(student, tutor, startTime, endTime, day, month, year, RequestStatus.PENDING);
+                          OffsetTime endTime, int day, int month, int year, Course course) {
+        this(student, tutor, startTime, endTime, day, month, year, RequestStatus.PENDING, course);
     }
 
     // Interface methods
@@ -108,6 +112,9 @@ public class SessionRequest implements Request {
     public OffsetDateTime getDate() {
         return OffsetDateTime.of(_year, _month, _day, 0, 0, 0, 0, _startTime.getOffset());
     }
+
+    public Course getCourse() { return _course; }
+
 
     public void setStatus(RequestStatus requestStatus) {
         _status = requestStatus;
