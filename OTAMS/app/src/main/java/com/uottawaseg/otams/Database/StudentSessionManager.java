@@ -1,12 +1,12 @@
 package com.uottawaseg.otams.Database;
 
-import com.google.common.collect.ImmutableList;
 import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Requests.SessionRequest;
 import com.uottawaseg.otams.Requests.RequestStatus;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class StudentSessionManager {
@@ -15,11 +15,11 @@ public final class StudentSessionManager {
     /**
      * Returns an ImmutableList of SessionRequest for the given student.
      */
-    public static ImmutableList<SessionRequest> GetSessions(Student s) {
-        if (s == null) return ImmutableList.of();
+    public static List<SessionRequest> GetSessions(Student s) {
+        if (s == null) return Collections.unmodifiableList( new ArrayList<>() );
         var list = SessionRequestManager.GenerateSessions(s.getUsername());
         // GenerateSessions already returns an unmodifiable List, ImmutableList.copyOf will convert it.
-        return ImmutableList.copyOf(list);
+        return Collections.unmodifiableList(list);
     }
 
     /**
@@ -113,27 +113,27 @@ public final class StudentSessionManager {
     /**
      * Returns sessions strictly in the past (based on session.getDate()).
      */
-    public static ImmutableList<SessionRequest> ViewPastSessions(Student s) {
+    public static List<SessionRequest> ViewPastSessions(Student s) {
         var now = OffsetDateTime.now();
         var sessions = GetSessions(s);
         var out = new ArrayList<SessionRequest>();
         for (var req : sessions) {
             if (req.getDate().isBefore(now)) out.add(req);
         }
-        return ImmutableList.copyOf(out);
+        return Collections.unmodifiableList(out);
     }
 
     /**
      * Returns sessions strictly in the future (based on session.getDate()).
      */
-    public static ImmutableList<SessionRequest> ViewUpcomingSessions(Student s) {
+    public static List<SessionRequest> ViewUpcomingSessions(Student s) {
         var now = OffsetDateTime.now();
         var sessions = GetSessions(s);
         var out = new ArrayList<SessionRequest>();
         for (var req : sessions) {
             if (req.getDate().isAfter(now)) out.add(req);
         }
-        return ImmutableList.copyOf(out);
+        return Collections.unmodifiableList(out);
     }
 
     /**

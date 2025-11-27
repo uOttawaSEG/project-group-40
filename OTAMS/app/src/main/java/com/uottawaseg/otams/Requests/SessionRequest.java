@@ -21,6 +21,10 @@ public class SessionRequest implements Request {
     private final Course _course;
 
     // Constructor
+    public SessionRequest(String student, String tutor, OffsetTime startTime,
+                          OffsetTime endTime, int day, int month, int year, Course course) {
+        this(student, tutor, startTime, endTime, day, month, year, RequestStatus.PENDING, course);
+    }
 
     /**
      * @param student Students Username
@@ -37,12 +41,11 @@ public class SessionRequest implements Request {
             throw new IllegalArgumentException("Do not leave anything null.");
         }
 
+        _type = RequestType.TutorSessionRequest;
         _student = student;
         _tutor = tutor;
         _startTime = startTime;
         _endTime = endTime;
-        _status = RequestStatus.PENDING;
-        _type = RequestType.TutorSessionRequest;
 
         _day = day;
         _month = month;
@@ -50,13 +53,7 @@ public class SessionRequest implements Request {
         _status = status;
         _course = course;
     }
-    public SessionRequest(String student, String tutor, OffsetTime startTime,
-                          OffsetTime endTime, int day, int month, int year, Course course) {
-        this(student, tutor, startTime, endTime, day, month, year, RequestStatus.PENDING, course);
-    }
 
-    // Interface methods
-    // Again, I see that u add @Override so I did it
     @Override
     public RequestStatus GetRequestStatus() {
         return _status;

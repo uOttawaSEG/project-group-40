@@ -29,6 +29,10 @@ public final class Course {
     public static final Course MAT1320 =
             new Course("Calculus I", 1320, Field.MATHEMATICS);
 
+    public static Course FromString(String value) {
+        return MAT1720;
+    }
+
 
     // Getters
     public String getName() { return _name; }

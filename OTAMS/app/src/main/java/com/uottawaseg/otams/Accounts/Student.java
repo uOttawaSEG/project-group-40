@@ -13,30 +13,25 @@ public class Student extends Account {
     private ArrayList<SessionRequest> _sessions;
 
 
-    // Regular constructor (used when creating a new student)
     public Student(String firstName, String lastName, String username, String password,
                    String phoneNumber, String email, String studentNumber) {
-
-        super(firstName, lastName, username, password, phoneNumber, email);
-
-        this._studentNumber = studentNumber;
-        this._sessions = new ArrayList<>();   // new students start with zero session requests
+        this(firstName, lastName, username, password, phoneNumber, email, studentNumber, null);
     }
 
-    // Constructor used when loading from DB (with sessions)
     public Student(String firstName, String lastName, String username, String password,
                    String phoneNumber, String email, String studentNumber,
                    List<SessionRequest> sessions) {
 
         super(firstName, lastName, username, password, phoneNumber, email);
 
-        this._studentNumber = studentNumber;
+        _studentNumber = studentNumber;
 
         if (sessions == null)
-            this._sessions = new ArrayList<>();
+            _sessions = new ArrayList<>();
         else
-            this._sessions = new ArrayList<>(sessions);
+            _sessions = new ArrayList<>(sessions);
     }
+
 
 
     // Getters

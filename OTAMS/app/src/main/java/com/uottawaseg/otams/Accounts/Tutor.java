@@ -195,4 +195,16 @@ public class Tutor extends Account {
             }
         }
     }
+
+    public void CancelSession(SessionRequest s) {
+
+        //IndexOf was always -1 for some reason
+        for(var sess : getSessions()) {
+            if(sess.equals(s)) {
+                _sessions.remove(sess);
+                SessionRequestManager.UpdateSessions(this);
+                return;
+            }
+        }
+    }
 }

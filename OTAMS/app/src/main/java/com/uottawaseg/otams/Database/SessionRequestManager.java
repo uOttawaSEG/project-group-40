@@ -22,9 +22,9 @@ public class SessionRequestManager {
     private final static String END_TIME = "endTime";
     private final static String DATE = "date";
     private final static String STATUS = "status";
+    private final static String COURSE = "course/name";
     private static SessionRequest _selected;
 
-    private static Course course;
 
     /**
      * @param username Username of the tutor account
@@ -47,7 +47,7 @@ public class SessionRequestManager {
             var end = readOffsetTime((HashMap) d.child(END_TIME).getValue());
             var date = readOffsetDateTime((HashMap) d.child(DATE).getValue());
             var status = RequestStatus.fromString((String)d.child(STATUS).getValue());
-
+            var course = Course.FromString((String)d.child(COURSE).getValue());
             list.add(new SessionRequest(stud, tut, start, end, date[DAY], date[MONTH], date[YEAR], status, course));
         }
         return Collections.unmodifiableList(list);
@@ -74,7 +74,7 @@ public class SessionRequestManager {
      * @param s The session to cancel
      */
     public static void Cancel(SessionRequest s) {
-        // The code I wrote was breaking a bunch of other stuff :(
+        getTutor().CancelSession(s);
     }
 
     /**
