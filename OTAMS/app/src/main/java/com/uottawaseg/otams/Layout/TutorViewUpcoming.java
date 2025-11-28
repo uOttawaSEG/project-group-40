@@ -17,6 +17,8 @@ import com.uottawaseg.otams.Layout.support.TutorViewPendingAdapter;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.TutorSessionRequestDisplayManager;
 
+import java.util.Arrays;
+
 public class TutorViewUpcoming extends AppCompatActivity {
     protected static TutorViewAdapter adapter;
 

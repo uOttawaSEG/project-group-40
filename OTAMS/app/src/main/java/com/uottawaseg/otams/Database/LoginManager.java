@@ -147,10 +147,18 @@ public class LoginManager {
         // Check if the username already exists
         // if it does, ret false
         // otherwise set
+        if(CheckIfUsernameAlreadyExists(acc.getUsername())) {
+            return;
+        }
         _wasPending = true;
         _currentAccount = acc;
         AccountCreationManager.MakeAccountCreationRequest(acc);
 
+    }
+
+    private static boolean CheckIfUsernameAlreadyExists(String username) {
+        return Database.Database.Read(ACCOUNTS + username).getValue() == null ||
+                Database.Database.Read(AccountCreationManager.GetRequestDir()).getValue() == null;
     }
 
     /**

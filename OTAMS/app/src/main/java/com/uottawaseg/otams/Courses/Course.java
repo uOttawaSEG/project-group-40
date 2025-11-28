@@ -30,7 +30,18 @@ public final class Course {
             new Course("Calculus I", 1320, Field.MATHEMATICS);
 
     public static Course FromString(String value) {
-        return MAT1720;
+        switch (value.toUpperCase()) {
+            case "MÉCANIQUE POUR INGÉNIEURS":
+                return GNG1505;
+            case "ENGINEERING MECHANICS":
+                return GNG1105;
+            case "CALCUL DIFFÉRENTIEL ET INTÉGRAL I":
+                return MAT1720;
+            case "CALCULUS I":
+                return MAT1320;
+            default:
+                return null;
+        }
     }
 
 
@@ -38,7 +49,6 @@ public final class Course {
     public String getName() { return _name; }
     public int getNumber() { return _number; }
     public Field getField() { return _field; }
-
 
     @Override
     public String toString() {

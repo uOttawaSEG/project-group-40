@@ -95,7 +95,7 @@ public class Availability {
         return studentUsername;
     }
 
-    // Note to seb: u always put override so i figure i would put it too
+
     // Also idk if u wanna put StringBuilder like u did with StudentAccountRequest & TutorAccountRequest
     @Override
     public String toString() {

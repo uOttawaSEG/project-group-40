@@ -152,5 +152,8 @@ public class RegisterAsTutor extends AppCompatActivity {
     private void registerTutor(String firstName, String lastName, String username, String password,
                                String phone, String email, Degree degree, Field fieldOfStudy) {
         LoginManager.Register(firstName, lastName, username, password, phone, email, degree, fieldOfStudy);
+        if(LoginManager.getCurrentAccount() == null) {
+            Toast.makeText(this, "Username already exists, please choose a new one", Toast.LENGTH_LONG).show();
+        }
     }
 }

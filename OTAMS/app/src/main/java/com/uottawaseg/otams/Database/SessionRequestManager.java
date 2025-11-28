@@ -7,6 +7,7 @@ import com.uottawaseg.otams.Courses.Course;
 
 import java.time.OffsetTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
