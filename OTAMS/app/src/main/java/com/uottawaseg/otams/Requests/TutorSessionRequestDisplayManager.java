@@ -44,11 +44,9 @@ public class TutorSessionRequestDisplayManager {
         var temp = new ArrayList<SessionRequest>(sessionRequests.size());
         var rightNow = OffsetDateTime.now();
         for (var s : sessionRequests) {
-            if(s.getStatus().equals(RequestStatus.ACCEPTED) && isInPast(s, rightNow)) {
+            if(s.getStatus().equals(RequestStatus.ACCEPTED) && isInPast(s, rightNow))
                 temp.add(s);
-            }
         }
-        System.out.println(Arrays.toString(temp.toArray()));
         return GetRequests(temp);
     }
 
@@ -64,9 +62,21 @@ public class TutorSessionRequestDisplayManager {
         var temp = new ArrayList<SessionRequest>(sessionRequests.size());
         var rightNow = OffsetDateTime.now();
         for (var s : sessionRequests) {
-            if (s.getStatus().equals(RequestStatus.ACCEPTED)) {
-                if(!isInPast(s, rightNow)) temp.add(s);
-            }
+            if (s.getStatus().equals(RequestStatus.ACCEPTED) && !isInPast(s, rightNow))
+                temp.add(s);
+
+        }
+        return GetRequests(temp);
+    }
+
+
+    public static String[] GetPendingRequests(List<SessionRequest> sessionRequests) {
+        var temp = new ArrayList<SessionRequest>(sessionRequests.size());
+        var rightNow = OffsetDateTime.now();
+        for (var s : sessionRequests) {
+            if (s.getStatus().equals(RequestStatus.PENDING) && !isInPast(s, rightNow))
+                temp.add(s);
+
         }
         return GetRequests(temp);
     }

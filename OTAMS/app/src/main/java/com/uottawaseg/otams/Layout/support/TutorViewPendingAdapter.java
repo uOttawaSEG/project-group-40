@@ -1,5 +1,6 @@
 package com.uottawaseg.otams.Layout.support;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,22 +10,28 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Database.DeniedRequestManager;
+import com.uottawaseg.otams.Database.PendingRequestManager;
+import com.uottawaseg.otams.Database.SessionRequestManager;
 import com.uottawaseg.otams.Database.StudentAvailabilityWriter;
+import com.uottawaseg.otams.Layout.AdminClientInfo;
+import com.uottawaseg.otams.Layout.TutorSessionInfo;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.SessionRequest;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TutorViewPendingAdapter extends RecyclerView.Adapter<TutorViewPendingAdapter.ViewHolder> {
 
-    private List<Availability> dataset;
+    private String[] dataset;
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-    public TutorViewPendingAdapter(List<Availability> data) {
+    public TutorViewPendingAdapter(String[] data) {
         this.dataset= data;
     }
-    public void updateDataset(List<Availability> newData) {
+    public void updateDataset(String[] newData) {
         this.dataset= newData;
         notifyDataSetChanged();
     }
@@ -34,6 +41,18 @@ public class TutorViewPendingAdapter extends RecyclerView.Adapter<TutorViewPendi
         public ViewHolder(View view) {
             super(view);
             text= view.findViewById(R.id.textView);
+            text.setOnClickListener( v -> {
+                var strs = text.getText().toString().split("\n");
+                var studentUser = strs[1];
+                var date = strs[2];
+
+                if(SessionRequestManager.Select(studentUser, date)) {
+                    v.getContext().startActivity(new Intent(v.getContext(), TutorSessionInfo.class));
+                } else {
+                    Toast.makeText(v.getContext(), "Error getting the selected request", Toast.LENGTH_LONG).show();
+                }
+
+            });
         }
         public TextView getText() {
             return text;
@@ -49,7 +68,9 @@ public class TutorViewPendingAdapter extends RecyclerView.Adapter<TutorViewPendi
 
     @Override
     public void onBindViewHolder(@NonNull TutorViewPendingAdapter.ViewHolder holder, int position) {
-        Availability availability= dataset.get(position);
+
+        holder.getText().setText(dataset[position]);
+        /*Availability availability= dataset.get(position);
         String tutorName= availability.getTutorFirstName() + " " + availability.getTutorLastName();
         String time= availability.getStart().format(timeFormatter) + " - " + availability.getEnd().format(timeFormatter);
         String studentInfo= "";
@@ -74,12 +95,12 @@ public class TutorViewPendingAdapter extends RecyclerView.Adapter<TutorViewPendi
                     Toast.makeText(v.getContext(), "Failed to approve request: " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
             });
-        });
+        });*/
     }
 
     @Override
     public int getItemCount() {
-        return dataset.size();
+        return dataset.length;
     }
 }
 

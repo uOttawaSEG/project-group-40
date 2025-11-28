@@ -12,11 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.Layout.support.TutorViewPendingAdapter;
-import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.uottawaseg.otams.Requests.TutorSessionRequestDisplayManager;
 
 public class TutorViewPending extends AppCompatActivity {
 
@@ -51,26 +48,17 @@ public class TutorViewPending extends AppCompatActivity {
     }
 
     private void loadPendingRequests(Tutor tutor) {
-        List<Availability> pendingRequests = getPendingAvailabilities(tutor);
-        if (adapter==null) {
-            adapter= new TutorViewPendingAdapter(pendingRequests);
+        var pendingRequests = getPendingRequests(tutor);
+        if (adapter == null) {
+            adapter = new TutorViewPendingAdapter(pendingRequests);
             recyclerView.setAdapter(adapter);
         } else {
             adapter.updateDataset(pendingRequests);
         }
     }
 
-    private List<Availability> getPendingAvailabilities(Tutor tutor) {
-        List<Availability> all= tutor.getAvailabilities();
-        List<Availability> pending= new ArrayList<>();
-        if (all != null) {
-            for (Availability a : all) {
-                if (!a.isBooked() && a.getStudentUsername() != null) {
-                    pending.add(a);
-                }
-            }
-        }
-        return pending;
+    private String[] getPendingRequests(Tutor tutor) {
+        return TutorSessionRequestDisplayManager.GetPendingRequests(tutor.getSessions());
     }
 }
 

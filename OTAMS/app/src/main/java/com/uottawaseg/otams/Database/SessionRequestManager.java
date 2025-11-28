@@ -106,6 +106,11 @@ public class SessionRequestManager {
                 tut.getSessions());
     }
 
+    /**
+     * @param username Students username
+     * @param date Date of the request to find
+     * @return Whether or not we were able to find the request.
+     */
     public static boolean Select(String username, String date) {
         // We need to find a request that matches the date and the username.
         var sessions = GenerateSessions(LoginManager.getCurrentAccount().getUsername());
