@@ -2,18 +2,18 @@ package com.uottawaseg.otams.Layout;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uottawaseg.otams.Accounts.Account;
-import com.uottawaseg.otams.Database.AvailabilityReader;
+import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Database.LoginManager;
-import com.uottawaseg.otams.Layout.support.StudentReadonlyAvailabilityAdapter;
+import com.uottawaseg.otams.Database.StudentSessionManager;
+import com.uottawaseg.otams.Layout.support.StudentReadonlySessionAdapter;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.Availability;
+import com.uottawaseg.otams.Requests.RequestStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 public class StudentBookedActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private StudentReadonlyAvailabilityAdapter adapter;
+    private StudentReadonlySessionAdapter adapter;
     private List<Availability> bookedList;
 
     @Override
@@ -38,22 +38,29 @@ public class StudentBookedActivity extends AppCompatActivity {
     }
 
     private void loadBooked() {
-        Account acc= LoginManager.getCurrentAccount();
-        if (acc==null) {
-            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String studentUsername= acc.getUsername();
-        List<Availability> all= AvailabilityReader.GenerateAvailabilityFromAllTutors();
-        bookedList= new ArrayList<>();
-        for (Availability a : all) {
-            // books if isBooked=true
-            if (a.isBooked() && a.getStudentUsername() != null && a.getStudentUsername().equals(studentUsername)) {
-                bookedList.add(a);
+        var acc = (Student) LoginManager.getCurrentAccount();
+        var sessions = StudentSessionManager.GetSessions(acc);
+        var booked = new ArrayList<String>(sessions.size());
+        for(var sess : sessions) {
+            if (sess.getStatus().equals(RequestStatus.ACCEPTED)) {
+                booked.add(StudentSessionManager.PrepareForDisplay(sess));
             }
         }
-        adapter= new StudentReadonlyAvailabilityAdapter(this, bookedList);
+        adapter = new StudentReadonlySessionAdapter(this, booked);
         recyclerView.setAdapter(adapter);
+
+
+//        String studentUsername= acc.getUsername();
+//        List<Availability> all= AvailabilityReader.GenerateAvailabilityFromAllTutors();
+//        bookedList= new ArrayList<>();
+//        for (Availability a : all) {
+//            // books if isBooked=true
+//            if (a.isBooked() && a.getStudentUsername() != null && a.getStudentUsername().equals(studentUsername)) {
+//                bookedList.add(a);
+//            }
+//        }
+//        adapter= new StudentReadonlyAvailabilityAdapter(this, bookedList);
+//        recyclerView.setAdapter(adapter);
     }
 }
 

@@ -1,29 +1,19 @@
 package com.uottawaseg.otams.Requests;
 
-import com.uottawaseg.otams.Accounts.Tutor;
-
 import java.time.DayOfWeek;
 import java.time.OffsetTime;
 import java.time.Duration;
-import java.time.LocalDate;
+import java.util.List;
 
 public class Availability {
-
-    private boolean _autoApprove;
-    private OffsetTime _startTime;
-    private OffsetTime _endTime;
-    private LocalDate _date; //From Daniil: Uses LocalDate _date instead of DayOfWeek _day
-    private boolean _booked= false;
-    private boolean _pending= false;
-    private String tutorFirstName;
-    private String tutorLastName;
-    private String tutorUsername;
-    private String studentFirstName;
-    private String studentLastName;
-    private String studentUsername;
+    private final boolean _autoApprove;
+    private final OffsetTime _startTime;
+    private final OffsetTime _endTime;
+    private final DayOfWeek _date;
+    private List<SessionRequest> sessions;
 
     // Constructor
-    public Availability(boolean autoApprove, OffsetTime startTime, OffsetTime endTime, LocalDate date) {
+    public Availability(boolean autoApprove, OffsetTime startTime, OffsetTime endTime, DayOfWeek date) {
         if (startTime == null || endTime == null || date == null) {
             throw new IllegalArgumentException("Do not leave anything null. :(");
         }
@@ -36,7 +26,7 @@ public class Availability {
         _autoApprove = autoApprove;
         _startTime = startTime;
         _endTime = endTime;
-        _date= date;//From Daniil: Uses LocalDate _date instead of DayOfWeek _day
+        _date= date;
     }
 
     public boolean getAutoApprove() {
@@ -51,52 +41,11 @@ public class Availability {
         return _endTime;
     }
 
-    public LocalDate getDate() {//From Daniil: Uses LocalDate _date instead of DayOfWeek _day
+    public DayOfWeek getDate() {//From Daniil: Uses LocalDate _date instead of DayOfWeek _day
         return _date;
     }
-    public boolean isBooked() {
-        return _booked;
-    }
-    public void setBooked(boolean booked) {
-        _booked= booked;
-    }
-    public boolean isPending() {
-        return _pending;
-    }
-    public void setPending(boolean pending) { _pending= pending; }
-
-    public void setTutorCredentials(String first, String last, String username) {
-        tutorFirstName= first;
-        tutorLastName= last;
-        tutorUsername= username;
-    }
-    public String getTutorFirstName() {
-        return tutorFirstName;
-    }
-    public String getTutorLastName() {
-        return tutorLastName;
-    }
-    public String getTutorUsername() {
-        return tutorUsername;
-    }
-
-    public void setStudentCredentials(String first, String last, String username) {
-        studentFirstName= first;
-        studentLastName= last;
-        studentUsername= username;
-    }
-    public String getStudentFirstName() {
-        return studentFirstName;
-    }
-    public String getStudentLastName() {
-        return studentLastName;
-    }
-    public String getStudentUsername() {
-        return studentUsername;
-    }
 
 
-    // Also idk if u wanna put StringBuilder like u did with StudentAccountRequest & TutorAccountRequest
     @Override
     public String toString() {
         return "Availability{" +
@@ -104,8 +53,6 @@ public class Availability {
                 ", Start time: " + _startTime +
                 ", End time: " + _endTime +
                 ", Auto approve: " + _autoApprove +
-                ", Booked: " + _booked +
-                ", Pending: " + _pending +
                 "}";
     }
 

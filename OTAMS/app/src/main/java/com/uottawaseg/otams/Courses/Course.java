@@ -44,6 +44,15 @@ public final class Course {
         }
     }
 
+    public static String[] GetCourseCodes() {
+        return new String[] {
+                "GNG1105",
+                "GNG1505",
+                "MAT1320",
+                "MAT1720"
+        };
+    }
+
 
     // Getters
     public String getName() { return _name; }

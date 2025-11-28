@@ -15,13 +15,13 @@ import com.uottawaseg.otams.R;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class StudentReadonlyAvailabilityAdapter extends RecyclerView.Adapter<StudentReadonlyAvailabilityAdapter.ViewHolder> {
+public class StudentReadonlySessionAdapter extends RecyclerView.Adapter<StudentReadonlySessionAdapter.ViewHolder> {
 
-    private final List<Availability> dataset;
+    private final List<String> dataset;
     private final Context context;
     private final DateTimeFormatter timeFormatter= DateTimeFormatter.ofPattern("HH:mm");
 
-    public StudentReadonlyAvailabilityAdapter(Context context, List<Availability> dataset) {
+    public StudentReadonlySessionAdapter(Context context, List<String> dataset) {
         this.context= context;
         this.dataset= dataset;
     }
@@ -51,8 +51,7 @@ public class StudentReadonlyAvailabilityAdapter extends RecyclerView.Adapter<Stu
 
     @Override
     public void onBindViewHolder(
-            @NonNull ViewHolder holder,
-            int position
+            @NonNull ViewHolder holder, int position
     ) {
         Availability a= dataset.get(position);
         String time= a.getStart().format(timeFormatter) + " - " + a.getEnd().format(timeFormatter);

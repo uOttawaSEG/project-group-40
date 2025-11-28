@@ -25,15 +25,13 @@ public final class StudentSessionManager {
     /**
      * Prepare a single session for display. Returns a String[] with lines of information.
      */
-    public static String[] PrepareForDisplay(SessionRequest s) {
-        if (s == null) return new String[0];
-        return new String[]{
-                "Date: " + s.getDate().toLocalDate(),
-                "Start: " + s.getStartTime(),
-                "End: " + s.getEndTime(),
-                "Tutor: " + s.getTutor(),
-                "Course: " + s.getCourse()
-        };
+    public static String PrepareForDisplay(SessionRequest s) {
+        if (s == null) return "";
+        return "Date: " + s.getDate().toLocalDate() + "\n" +
+                "Start: " + s.getStartTime() + "\n" +
+                "End: " + s.getEndTime() + "\n" +
+                "Tutor: " + s.getTutor() + "\n" +
+                "Course: " + s.getCourse();
     }
 
     /**
@@ -43,10 +41,9 @@ public final class StudentSessionManager {
         if (s == null) return;
         if (sessions == null) {
             // Write empty list if caller passed null
-            Database.Database.Write(LoginManager.ACCOUNTS + "/" + s.getUsername() + "/" + SESSIONS, new ArrayList<>());
-        } else {
-            Database.Database.Write(LoginManager.ACCOUNTS + "/" + s.getUsername() + "/" + SESSIONS, sessions);
+            sessions = new ArrayList<>();
         }
+        Database.Database.Write(LoginManager.ACCOUNTS + "/" + s.getUsername() + "/" + SESSIONS, sessions);
     }
 
     /**
@@ -138,7 +135,7 @@ public final class StudentSessionManager {
 
     /**
      * Prepare all sessions for preview screen.
-     * Returns a String[] where each element is one session's info separated by newlines.
+     * Returns a String[] where each element is the info of a single session, separated by newlines.
      */
     public static String[] PrepareSessionsForDisplay(Student s) {
         var sessions = GetSessions(s);
