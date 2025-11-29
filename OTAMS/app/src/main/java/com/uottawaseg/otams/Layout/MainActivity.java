@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         var tutor = new Tutor(
                 "first", "last", "user", "pass", "12345", "no@no.com", Degree.BACHELORS, Field.ENGINEERING,
-                null, null);
+                null, null, 0, 0);
 
         tutor.AddAvailability(
                 new Availability(false,

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.uottawaseg.otams.Courses.Course;
 import com.uottawaseg.otams.Database.AvailabilityReader;
+import com.uottawaseg.otams.Database.StudentSessionManager;
 import com.uottawaseg.otams.Layout.support.StudentSearchCoursesAdapter;
 import com.uottawaseg.otams.R;
 
@@ -25,7 +26,7 @@ public class StudentSearchCoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_search_courses);
-        recyclerView= findViewById(R.id.availability_recycler);
+        recyclerView = findViewById(R.id.availability_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         var coursesSpinner = (Spinner) findViewById(R.id.courses);
@@ -53,6 +54,7 @@ public class StudentSearchCoursesActivity extends AppCompatActivity {
                 loadAvailabilities();
             }
         });
+
         selectedCourse = Course.GNG1105;
         loadAvailabilities();
     }
@@ -62,6 +64,9 @@ public class StudentSearchCoursesActivity extends AppCompatActivity {
         var all = AvailabilityReader.GenerateAvailabilityFromAllTutors(selectedCourse);
         var adapter = new StudentSearchCoursesAdapter(this, all);
         recyclerView.setAdapter(adapter);
+        recyclerView.setOnClickListener( v -> {
+            StudentSessionManager.RequestSession(v.toString());
+        });
     }
 }
 

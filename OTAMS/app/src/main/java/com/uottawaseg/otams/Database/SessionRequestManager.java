@@ -69,6 +69,7 @@ public class SessionRequestManager {
      */
     public static void Decline(SessionRequest s) {
         getTutor().DeclineSession(s);
+        StudentSessionManager.DeclineSession(s);
     }
 
     /**

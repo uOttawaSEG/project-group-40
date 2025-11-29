@@ -47,31 +47,21 @@ public final class StudentSessionManager {
     /**
      * The tutor may decline a session for a student.
      */
-    public static void DeclineSession(Student s, SessionRequest sess) {
-        if (s == null || sess == null) return;
+    public static void DeclineSession(SessionRequest sess) {
+        var s = Database.Database.Read(LoginManager.ACCOUNTS + "/" + sess.getStudent());
+        if (s == null || !s.exists()) return;
 
+        var student = (Student) LoginManager.makeAccountFromQuery(s);
         // Update student sessions
-        var studentSessions = new ArrayList<>(GetSessions(s));
+        var studentSessions = new ArrayList<>(GetSessions(student));
         for (var sr : studentSessions) {
             if (sr.equals(sess)) {
                 sr.setStatus(RequestStatus.DENIED);
                 break;
             }
         }
-        UpdateSessions(s, studentSessions);
+        UpdateSessions(student, studentSessions);
 
-        // Update tutor sessions
-        var tutorUsername = sess.getTutor();
-        if (tutorUsername != null) {
-            var tutorSessions = new ArrayList<>(SessionRequestManager.GenerateSessions(tutorUsername));
-            for (var ts : tutorSessions) {
-                if (ts.equals(sess)) {
-                    ts.setStatus(RequestStatus.DENIED);
-                    break;
-                }
-            }
-            Database.Database.Write(LoginManager.ACCOUNTS + "/" + tutorUsername + "/" + SESSIONS, tutorSessions);
-        }
     }
 
     /**
@@ -145,5 +135,9 @@ public final class StudentSessionManager {
                     + "\n" + req.getCourse();
         }
         return output;
+    }
+
+    public static void RequestSession(String string) {
+
     }
 }

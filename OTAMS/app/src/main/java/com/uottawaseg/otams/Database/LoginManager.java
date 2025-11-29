@@ -34,6 +34,8 @@ public class LoginManager {
     public static final String FIELD_OF_STUDY = "fieldOfStudy";
     public static final String HIGHEST_DEGREE = "degree";
     public static final String ACCOUNTS = "accounts";
+    private static final String RATING = "averageRating";
+    private static final String TOTAL_SESSIONS = "totalSessions";
     // Returns false whether or not the database was able to be setup
     private static boolean _wasPending = false;
     private static Account _currentAccount;
@@ -57,7 +59,7 @@ public class LoginManager {
      * This checks both the pending requests and the actual accounts.
      * @param username The username to attempt to login with
      * @param password The password that should be associated with that username.
-     * @return
+     * @return The account that was logged into
      */
     public static Account Login(String username, String password) {
 
@@ -210,13 +212,21 @@ public class LoginManager {
             var Deg = Degree.fromString((String) (data.child(HIGHEST_DEGREE).getValue()));
             var avails = new ArrayList<>(AvailabilityReader.GenerateAvailability(username));
             var sessions = new ArrayList<>(SessionRequestManager.GenerateSessions(username));
+            var rating = data.child(RATING).getValue(Float.class);
+            var totalSessions = data.child(TOTAL_SESSIONS).getValue(Integer.class);
+            if(rating == null) {
+                rating = 0f;
+            }
+            if(totalSessions == null) {
+                totalSessions = 0;
+            }
 
             /*
             * Basically I don't know
             *
             * */
             return new Tutor(fName, lName, username,
-                    pass, phoneNum, email, Deg, FoS, avails, sessions);
+                    pass, phoneNum, email, Deg, FoS, avails, sessions, rating, totalSessions);
         }
         // We should never get here, all of our options are exhausted.
         // If we somehow get here, we can safely assume something went wrong,
