@@ -26,18 +26,6 @@ public class Database {
         // Sets it to a daemon so it runs in the background.
         currentThread.start();
     }
-
-    // Callbacks
-//    private void OnCancelled(DatabaseError e) {
-//        System.out.println("Firebase error: " + e.getMessage());
-//    }
-//
-//    private void onDataChange(DataSnapshot snap) {
-//        var value = snap.getValue(String.class);
-//        System.out.println("Firebase read success. Value = " + value);
-//    }
-
-    // This will get called whenever we need to access the DB,
     // It only actually needs to be called once but we're doing it for redundancy.
     public void StartDB() {
         if (_alreadySetup) {
@@ -76,15 +64,9 @@ public class Database {
      * @param acc The account whose information needs to be written
      */
     public void WriteAccount(String path, Account acc) {
-        if(acc.getRole() == Account.Role.TUTOR)
-            WriteTutor(path, (Tutor) acc);
-        else
-            db.child(path).setValue(acc);
+        db.child(path).setValue(acc);
     }
 
-    private void WriteTutor(String path, Tutor tut) {
-        db.child(path).setValue(tut);
-    }
 
     /**
      * @param path The path to delete, needs to be exact.

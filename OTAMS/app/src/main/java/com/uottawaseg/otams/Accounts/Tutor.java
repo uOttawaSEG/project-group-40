@@ -18,7 +18,8 @@ import java.util.List;
 public class Tutor extends Account {
     private Degree _highestDegreeOfStudy;
     private Field _fieldOfStudy;
-
+    private float _averageRating;
+    private int _totalSessions;
     private final Role _role = Role.TUTOR;
 
     private ArrayList<Availability> _availabilities;
@@ -37,7 +38,7 @@ public class Tutor extends Account {
     // Also overloads make me sad please give me back default parameters!
     public Tutor(String firstName, String lastName, String username, String password,
                  String phoneNumber, String email, Degree highestDegreeOfStudy, Field fieldOfStudy) {
-        this(firstName, lastName, username, password, phoneNumber, email, highestDegreeOfStudy, fieldOfStudy, null, null);
+        this(firstName, lastName, username, password, phoneNumber, email, highestDegreeOfStudy, fieldOfStudy, null, null, 0, 0);
     }
 
     /**
@@ -51,16 +52,26 @@ public class Tutor extends Account {
      * @param fieldOfStudy The field of which the tutor is/has studied
      * @param avails An ArrayList<Availability> of availabilities
      * @param requests An ArrayList<SessionRequest> of requests applicable to the tutor
+     * @param averageRating A float of the average rating of the tutor, from 0 to 5.
+     * @param totalSessions The total number of past sessions for this tutor
      */
     public Tutor(String firstName, String lastName, String username, String password,
                  String phoneNumber, String email, Degree highestDegreeOfStudy, Field fieldOfStudy,
-                 ArrayList<Availability> avails, ArrayList<SessionRequest> requests) {
+                 ArrayList<Availability> avails, ArrayList<SessionRequest> requests, float averageRating, int totalSessions) {
         super(firstName, lastName, username, password, phoneNumber, email);
         _highestDegreeOfStudy = highestDegreeOfStudy;
         _fieldOfStudy = fieldOfStudy;
 
         _availabilities = avails == null ? new ArrayList<>() : avails;
         _sessions = requests == null ? new ArrayList<>() : requests;
+        if(averageRating < 0 || averageRating > 5) {
+            throw new IllegalArgumentException("Average rating must be confined between 0 and 5");
+        }
+        _averageRating = averageRating;
+        if(totalSessions < 0) {
+            throw new IllegalArgumentException("Total sessions cannot be less than zero");
+        }
+        _totalSessions = totalSessions;
     }
 
     public Degree getDegree() {
@@ -71,10 +82,6 @@ public class Tutor extends Account {
     }
     public List<Availability> getAvailabilities() {
         return Collections.unmodifiableList(_availabilities);
-    }
-    public void AddAvailability(Availability newAvail) {
-        _availabilities.add(newAvail);
-        PendingRequestManager.UpdateAvailability(this, _availabilities);
     }
 
     /**
@@ -97,6 +104,20 @@ public class Tutor extends Account {
         return Collections.unmodifiableList(_sessions);
     }
     /**
+     * @return Field of study of the current object
+     */
+    public Field getFieldOfStudy() {
+        return _fieldOfStudy;
+    }
+
+    public float getAverageRating() {
+        return _averageRating;
+    }
+
+    public int getTotalSessions() {
+        return _totalSessions;
+    }
+    /**
      * @param newHighest The degree to set as the new degree
      * @return Whether or not we were able to update the degree
      */
@@ -115,12 +136,6 @@ public class Tutor extends Account {
         _fieldOfStudy = f;
     }
 
-    /**
-     * @return Field of study of the current object
-     */
-    public Field getFieldOfStudy() {
-        return _fieldOfStudy;
-    }
 
     @NonNull
     @Override
@@ -150,6 +165,10 @@ public class Tutor extends Account {
      */
     public void removeAvailability(Availability avail) {
         _availabilities.remove(avail);
+        PendingRequestManager.UpdateAvailability(this, _availabilities);
+    }
+    public void AddAvailability(Availability newAvail) {
+        _availabilities.add(newAvail);
         PendingRequestManager.UpdateAvailability(this, _availabilities);
     }
 
@@ -198,5 +217,10 @@ public class Tutor extends Account {
                 return;
             }
         }
+    }
+
+    public void Rate(float value) {
+        if(_totalSessions <= 0) _averageRating = value;
+        else _averageRating = (_averageRating * _totalSessions++ + value) / _totalSessions;
     }
 }
