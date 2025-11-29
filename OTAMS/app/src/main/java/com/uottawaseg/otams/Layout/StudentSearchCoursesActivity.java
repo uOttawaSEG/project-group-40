@@ -59,14 +59,11 @@ public class StudentSearchCoursesActivity extends AppCompatActivity {
         loadAvailabilities();
     }
     private void loadAvailabilities() {
-        System.out.println(selectedCourse);
         if(selectedCourse == null) selectedCourse = Course.GNG1105;
         var all = AvailabilityReader.GenerateAvailabilityFromAllTutors(selectedCourse);
         var adapter = new StudentSearchCoursesAdapter(this, all);
         recyclerView.setAdapter(adapter);
-        recyclerView.setOnClickListener( v -> {
-            StudentSessionManager.RequestSession(v.toString());
-        });
+
     }
 }
 

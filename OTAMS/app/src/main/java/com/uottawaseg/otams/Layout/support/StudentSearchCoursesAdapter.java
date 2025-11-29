@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Database.StudentSessionManager;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
 
@@ -31,6 +32,12 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
         public ViewHolder(View view) {
             super(view);
             text= view.findViewById(R.id.textView);
+            text.setOnClickListener(v -> {
+                // TODO:
+                //  Change page towards one where the student can specify session start & end time
+                //  From there, call StudentSessionManager.RequestSession() with the
+                //  SessionRequest that will be created when the student is done filling in the information
+            });
         }
         public TextView getText() {
             return text;
@@ -48,7 +55,6 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
     @Override
     public void onBindViewHolder(@NonNull StudentSearchCoursesAdapter.ViewHolder holder, int position) {
         var avail = dataset.get(position);
-        System.out.println(avail);
         var tutorUsername = avail.getTutor();
         var start = avail.getStart();
         var end = avail.getEnd();
