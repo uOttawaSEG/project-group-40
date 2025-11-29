@@ -34,6 +34,7 @@ public class StudentSearchCoursesActivity extends AppCompatActivity {
         var courseAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Course.GetCourseCodes());
         courseAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
         coursesSpinner.setAdapter(courseAdapter);
+        coursesSpinner.setSelection(1);
 
         Button btnHome= findViewById(R.id.btn_home1);
         Button btnBack= findViewById(R.id.btn_back1);
@@ -49,12 +50,15 @@ public class StudentSearchCoursesActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView parent, View v, int position, long id) {
                 selectedCourse = Course.FromString(parent.getItemAtPosition(position).toString());
+                loadAvailabilities();
             }
         });
-
+        selectedCourse = Course.GNG1105;
         loadAvailabilities();
     }
     private void loadAvailabilities() {
+        System.out.println(selectedCourse);
+        if(selectedCourse == null) selectedCourse = Course.GNG1105;
         var all = AvailabilityReader.GenerateAvailabilityFromAllTutors(selectedCourse);
         var adapter = new StudentSearchCoursesAdapter(this, all);
         recyclerView.setAdapter(adapter);

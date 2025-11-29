@@ -10,18 +10,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uottawaseg.otams.Database.DeniedRequestManager;
-import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Database.SessionRequestManager;
-import com.uottawaseg.otams.Database.StudentAvailabilityWriter;
-import com.uottawaseg.otams.Layout.AdminClientInfo;
 import com.uottawaseg.otams.Layout.TutorSessionInfo;
-import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.Requests.SessionRequest;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class TutorViewPendingAdapter extends RecyclerView.Adapter<TutorViewPendingAdapter.ViewHolder> {
 

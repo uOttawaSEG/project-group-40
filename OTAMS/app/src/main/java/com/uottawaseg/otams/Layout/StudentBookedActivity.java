@@ -21,7 +21,7 @@ import java.util.List;
 public class StudentBookedActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private StudentReadonlySessionAdapter adapter;
+    //private StudentReadonlySessionAdapter adapter;
     private List<Availability> bookedList;
 
     @Override
@@ -34,10 +34,10 @@ public class StudentBookedActivity extends AppCompatActivity {
         Button btnBack= findViewById(R.id.btn_back3);
         btnHome.setOnClickListener(v -> finish());
         btnBack.setOnClickListener(v -> finish());
-        loadBooked();
+        LoadBooked();
     }
 
-    private void loadBooked() {
+    private void LoadBooked() {
         var acc = (Student) LoginManager.getCurrentAccount();
         var sessions = StudentSessionManager.GetSessions(acc);
         var booked = new ArrayList<String>(sessions.size());
@@ -46,21 +46,8 @@ public class StudentBookedActivity extends AppCompatActivity {
                 booked.add(StudentSessionManager.PrepareForDisplay(sess));
             }
         }
-        adapter = new StudentReadonlySessionAdapter(this, booked);
+        var adapter = new StudentReadonlySessionAdapter(this, booked);
         recyclerView.setAdapter(adapter);
-
-
-//        String studentUsername= acc.getUsername();
-//        List<Availability> all= AvailabilityReader.GenerateAvailabilityFromAllTutors();
-//        bookedList= new ArrayList<>();
-//        for (Availability a : all) {
-//            // books if isBooked=true
-//            if (a.isBooked() && a.getStudentUsername() != null && a.getStudentUsername().equals(studentUsername)) {
-//                bookedList.add(a);
-//            }
-//        }
-//        adapter= new StudentReadonlyAvailabilityAdapter(this, bookedList);
-//        recyclerView.setAdapter(adapter);
     }
 }
 

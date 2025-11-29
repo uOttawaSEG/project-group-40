@@ -17,9 +17,7 @@ public final class StudentSessionManager {
      */
     public static List<SessionRequest> GetSessions(Student s) {
         if (s == null) return Collections.unmodifiableList( new ArrayList<>() );
-        var list = SessionRequestManager.GenerateSessions(s.getUsername());
-        // GenerateSessions already returns an unmodifiable List, ImmutableList.copyOf will convert it.
-        return Collections.unmodifiableList(list);
+        return SessionRequestManager.GenerateSessions(s.getUsername());
     }
 
     /**

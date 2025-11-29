@@ -13,24 +13,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.Requests.Availability;
 
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.List;
 
 public class TutorWeeklyViewActivity extends AppCompatActivity {
 
-    private Button btnAddAvailability, btnViewUpcoming;
-    private Button btnPrevMonth, btnNextMonth;
-    private Button btnPrevWeek, btnNextWeek;
-    private Button btnDailyView, btnViewAvailability, btnHomepage;
     private TextView monthLabel, weekLabel;
 
     private Calendar calendar;
     private int currentMonth;
     private int currentWeek;
-    private CalendarEventManager eventManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +33,18 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
         calendar= Calendar.getInstance();
         currentMonth= calendar.get(Calendar.MONTH) + 1;
         currentWeek= 1;
-        eventManager= CalendarEventManager.getInstance();
 
         monthLabel= findViewById(R.id.monthLabel);
         weekLabel= findViewById(R.id.weekLabel);
-        btnAddAvailability= findViewById(R.id.btnAddAvailability);
-        btnViewUpcoming= findViewById(R.id.btnViewUpcoming);
-        btnPrevMonth= findViewById(R.id.btnPrevMonth);
-        btnNextMonth= findViewById(R.id.btnNextMonth);
-        btnPrevWeek= findViewById(R.id.btnPrevWeek);
-        btnNextWeek= findViewById(R.id.btnNextWeek);
-        btnDailyView= findViewById(R.id.btnDailyView);
-        btnViewAvailability= findViewById(R.id.btnViewAvailability);
-        btnHomepage= findViewById(R.id.btnHomepage);
+        Button btnAddAvailability = findViewById(R.id.btnAddAvailability);
+        Button btnViewUpcoming = findViewById(R.id.btnViewUpcoming);
+        Button btnPrevMonth = findViewById(R.id.btnPrevMonth);
+        Button btnNextMonth = findViewById(R.id.btnNextMonth);
+        Button btnPrevWeek = findViewById(R.id.btnPrevWeek);
+        Button btnNextWeek = findViewById(R.id.btnNextWeek);
+        Button btnDailyView = findViewById(R.id.btnDailyView);
+        Button btnViewAvailability = findViewById(R.id.btnViewAvailability);
+        Button btnHomepage = findViewById(R.id.btnHomepage);
 
         updateHeaderLabels();
         updateCalendarView();
@@ -117,13 +109,13 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
         Tutor tutor= (Tutor) LoginManager.getCurrentAccount();
         if (tutor==null || tutor.getAvailabilities()==null) return;
 
-        List<Availability> availabilities= tutor.getAvailabilities();
+        var sessions = tutor.getSessions();
 
         // clears slots
         for (int hour= 0; hour<24; hour++) {
             for (int day= 0; day<7; day++) {
                 int id= getResources().getIdentifier("slot_" + hour + "_" + day, "id", getPackageName());
-                FrameLayout frame= findViewById(id);
+                FrameLayout frame = findViewById(id);
                 if (frame != null) frame.removeAllViews();
             }
         }
@@ -131,18 +123,18 @@ public class TutorWeeklyViewActivity extends AppCompatActivity {
         // week range within month: week1–4
         LocalDate firstOfMonth= LocalDate.of(calendar.get(Calendar.YEAR), currentMonth, 1);
 
-        LocalDate weekStart= firstOfMonth.plusDays((currentWeek - 1) * 7);
+        LocalDate weekStart= firstOfMonth.plusDays((currentWeek - 1) * 7L);
 
         LocalDate weekEnd= weekStart.plusDays(6);
 
-        for (Availability slot : availabilities) {
-            LocalDate date= slot.getDate();
+        for (var slot : sessions) {
+            LocalDate date= slot.getDate().toLocalDate();
             if (date==null) continue;
 
             if (date.isBefore(weekStart) || date.isAfter(weekEnd)) continue;
 
-            int dayIndex= date.getDayOfWeek().getValue() - 1; // monday=0
-            int hour= slot.getStart().getHour();
+            int dayIndex = date.getDayOfWeek().getValue() - 1; // monday = 0
+            int hour= slot.getStartTime().getHour();
 
             int resId= getResources().getIdentifier("slot_" + hour + "_" + dayIndex, "id", getPackageName());
             FrameLayout frame = findViewById(resId);

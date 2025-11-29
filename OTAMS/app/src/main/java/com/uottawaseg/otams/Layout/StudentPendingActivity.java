@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.Database.AvailabilityReader;
-import com.uottawaseg.otams.Layout.support.StudentReadonlyAvailabilityAdapter;
+import com.uottawaseg.otams.Database.StudentSessionManager;
+import com.uottawaseg.otams.Layout.support.StudentReadonlySessionAdapter;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.RequestStatus;
+import com.uottawaseg.otams.Requests.SessionRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +24,7 @@ import java.util.List;
 public class StudentPendingActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private StudentReadonlyAvailabilityAdapter adapter;
+    private StudentReadonlySessionAdapter adapter;
     private List<Availability> pendingList;
 
     @Override
@@ -38,23 +41,34 @@ public class StudentPendingActivity extends AppCompatActivity {
     }
 
     private void loadPending() {
-        Student currentStudent= (Student) LoginManager.getCurrentAccount();
-        if (currentStudent==null) {
-            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String studentUsername= currentStudent.getUsername();
-        List<Availability> all= AvailabilityReader.GenerateAvailabilityFromAllTutors();
-        pendingList= new ArrayList<>();
-
-        for (Availability a : all) {
-            if (!a.isBooked() && studentUsername.equals(a.getStudentUsername())) {
-                pendingList.add(a);
+        var currentStudent = (Student) LoginManager.getCurrentAccount();
+        var sessions = currentStudent.getSessions();
+        var pendingSessions = new ArrayList<String>(sessions.size());
+        for(var s : sessions) {
+            if(s.getStatus().equals(RequestStatus.PENDING)) {
+                pendingSessions.add(StudentSessionManager.PrepareForDisplay(s));
             }
         }
-        adapter= new StudentReadonlyAvailabilityAdapter(this, pendingList);
+
+        adapter= new StudentReadonlySessionAdapter(this, pendingSessions);
         recyclerView.setAdapter(adapter);
+
+//        if (currentStudent==null) {
+//            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        String studentUsername= currentStudent.getUsername();
+//        List<Availability> all= AvailabilityReader.GenerateAvailabilityFromAllTutors();
+//        pendingList= new ArrayList<>();
+//
+//        for (Availability a : all) {
+//            if (!a.isBooked() && studentUsername.equals(a.getStudentUsername())) {
+//                pendingList.add(a);
+//            }
+//        }
+//        adapter= new StudentReadonlyAvailabilityAdapter(this, pendingList);
+//        recyclerView.setAdapter(adapter);
     }
 }
 

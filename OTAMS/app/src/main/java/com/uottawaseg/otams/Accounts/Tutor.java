@@ -34,7 +34,6 @@ public class Tutor extends Account {
      * @param highestDegreeOfStudy The highested degree obtained.
      * @param fieldOfStudy The field of which the tutor is/has studied
      */
-    // SOOO MANY THNIGS AAAAAAH
     // Also overloads make me sad please give me back default parameters!
     public Tutor(String firstName, String lastName, String username, String password,
                  String phoneNumber, String email, Degree highestDegreeOfStudy, Field fieldOfStudy) {
@@ -60,15 +59,8 @@ public class Tutor extends Account {
         _highestDegreeOfStudy = highestDegreeOfStudy;
         _fieldOfStudy = fieldOfStudy;
 
-        if(avails == null)
-            _availabilities = new ArrayList<>();
-        else
-            _availabilities = avails;
-
-        if(requests == null)
-            _sessions = new ArrayList<>();
-        else
-            _sessions = requests;
+        _availabilities = avails == null ? new ArrayList<>() : avails;
+        _sessions = requests == null ? new ArrayList<>() : requests;
     }
 
     public Degree getDegree() {

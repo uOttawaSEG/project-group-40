@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,7 +78,7 @@ public class TutorViewAvailability extends AppCompatActivity {
             Availability slot = slots.get(position);
 
             //from Daniil: changed this to work with DateTimeFormatter
-            holder.dateText.setText("Date: " + slot.getDate().format(dateFormatter));
+            holder.dateText.setText("Weekday: " + slot.getDay());
             holder.timeText.setText("Time: " + slot.getStart().format(timeFormatter) + " - " + slot.getEnd().format(timeFormatter));
             holder.approvalText.setText("Auto-approve: " + (slot.getAutoApprove() ? "Yes" : "No"));
 

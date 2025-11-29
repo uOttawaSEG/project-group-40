@@ -2,9 +2,13 @@ package com.uottawaseg.otams.Layout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,21 +17,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.Requests.Availability;
-import com.uottawaseg.otams.Database.AvailabilityWriter;
 import com.uottawaseg.otams.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
-import java.time.OffsetDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.time.LocalDate;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
 public class AddAvailability extends AppCompatActivity {
+
+    private DayOfWeek selectedDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,33 +34,37 @@ public class AddAvailability extends AppCompatActivity {
         setContentView(R.layout.tutor_add_availability);
 
         // grab all the stuff from the layout
-        EditText dateInput = findViewById(R.id.date_input);
         EditText startTimeInput = findViewById(R.id.startTime_input);
         EditText endTimeInput = findViewById(R.id.endTime_input);
+
         CheckBox autoApproveCheckbox = findViewById(R.id.checkBox2);
+
+        Spinner dateInput = findViewById(R.id.date_input);
+
+        var dateAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, DayOfWeek.values());
+        dateAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        dateInput.setAdapter(dateAdapter);
+
+
         Button addAvailabilityButton = findViewById(R.id.button2);
         Button viewCalendarButton = findViewById(R.id.button);
 
         // load existing slots from database pls
         // when add availability button is clicked
         addAvailabilityButton.setOnClickListener(view -> {
-            String dateStr = dateInput.getText().toString().trim();
             String startTimeStr = startTimeInput.getText().toString().trim();
             String endTimeStr = endTimeInput.getText().toString().trim();
             boolean autoApprove = autoApproveCheckbox.isChecked();
 
-            if (validateInput(dateStr, startTimeStr, endTimeStr)) {
-                // make the new slot
-                LocalDate date = getDateFromStr(dateStr);
+            if (validateInput(startTimeStr, endTimeStr)) {
+                // make the new slot;
+                var tutor = (Tutor) LoginManager.getCurrentAccount();
                 OffsetTime startTime = getTime(startTimeStr);
                 OffsetTime endTime = getTime(endTimeStr);
-                Availability avail= new Availability(autoApprove, startTime, endTime, date);//From Daniil: changed dayOfWeek to date
+                Availability avail= new Availability(autoApprove, startTime, endTime, selectedDay, tutor.getUsername());
 
-                Tutor tutor= (Tutor) LoginManager.getCurrentAccount();
-                avail.setTutorCredentials(tutor.getFirstName(), tutor.getLastName(), tutor.getUsername());
                 tutor.AddAvailability(avail);
-                AvailabilityWriter.writeAllAvailabilities(tutor.getUsername(), tutor.getAvailabilities());
-                // save this in database i think
+
                 Toast.makeText(this, "Availability added successfully!", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -70,6 +72,16 @@ public class AddAvailability extends AppCompatActivity {
 
         viewCalendarButton.setOnClickListener(view ->
                 startActivity(new Intent(this, TutorWeeklyViewActivity.class)));
+
+        dateInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+
+            @Override
+            public void onItemSelected(AdapterView parent, View v, int position, long id) {
+                selectedDay = DayOfWeek.valueOf(parent.getItemAtPosition(position).toString());
+            }
+        });
     }
 
     //From Daniil: rewrote this method
@@ -80,9 +92,9 @@ public class AddAvailability extends AppCompatActivity {
         return OffsetTime.of(hour, minute, 0, 0, ZonedDateTime.now().getOffset());
     }
 
-    private boolean validateInput(String dateStr, String startTimeStr, String endTimeStr) {
+    private boolean validateInput(String startTimeStr, String endTimeStr) {
         // make sure nothing is empty
-        if (dateStr.isEmpty()) {
+        if (selectedDay == null) {
             Toast.makeText(this, "Please enter a date", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -90,36 +102,36 @@ public class AddAvailability extends AppCompatActivity {
             Toast.makeText(this, "Please enter start and end times", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-        LocalDate date;
-        try {
-            date = LocalDate.parse(dateStr);
-        } catch (Exception e) {
-            Toast.makeText(this, "Invalid date format (YYYY-MM-DD)", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (!date.isAfter(LocalDate.now())) {
-            Toast.makeText(this, "Cannot select a past date", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//
+//        LocalDate date;
+//        try {
+//            date = LocalDate.parse(dateStr);
+//        } catch (Exception e) {
+//            Toast.makeText(this, "Invalid date format (YYYY-MM-DD)", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//
+//        if (!date.isAfter(LocalDate.now())) {
+//            Toast.makeText(this, "Cannot select a past date", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
 
         // check time format cause sometimes it's weird
-        if (!isValidTimeFormat(startTimeStr)) {
+        if (isInvalidTimeFormat(startTimeStr)) {
             Toast.makeText(this, "Start time must be in HH:MM format (ex., 09:00)", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!isValidTimeFormat(endTimeStr)) {
+        if (isInvalidTimeFormat(endTimeStr)) {
             Toast.makeText(this, "End time must be in HH:MM format (ex., 17:00)", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         // times are in 30mins increment
-        if (!isThirtyMinuteIncrement(startTimeStr)) {
+        if (isInvalidIncrement(startTimeStr)) {
             Toast.makeText(this, "Start time must be in 30-minute increments (ex., 09:00, 09:30)", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!isThirtyMinuteIncrement(endTimeStr)) {
+        if (isInvalidIncrement(endTimeStr)) {
             Toast.makeText(this, "End time must be in 30-minute increments (ex., 09:00, 09:30)", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -131,7 +143,7 @@ public class AddAvailability extends AppCompatActivity {
         }
 
         // check if this overlaps with existing ones
-        if (hasOverlap(date, startTimeStr, endTimeStr)) {
+        if (hasOverlap(selectedDay, startTimeStr, endTimeStr)) {
             Toast.makeText(this, "This time slot overlaps with an existing availability", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -148,23 +160,23 @@ public class AddAvailability extends AppCompatActivity {
         return time.getHour() * 60 + time.getMinute();
     }
 
-    private boolean isValidTimeFormat(String timeStr) {
+    private boolean isInvalidTimeFormat(String timeStr) {
         String[] parts = timeStr.split(":");
-        if (parts.length != 2) return false;
+        if (parts.length != 2) return true;
         try {
             int hours = Integer.parseInt(parts[0]);
             int minutes = Integer.parseInt(parts[1]);
-            if (hours < 0 || hours > 23) return false;
-            return minutes >= 0 && minutes <= 59;
+            if (hours < 0 || hours > 23) return true;
+            return minutes < 0 || minutes > 59;
         } catch (NumberFormatException e) {
-            return false;
+            return true;
         }
     }
 
-    private boolean isThirtyMinuteIncrement(String timeStr) {
+    private boolean isInvalidIncrement(String timeStr) {
         String[] parts = timeStr.split(":");
         int minutes = Integer.parseInt(parts[1]);
-        return minutes == 0 || minutes == 30;
+        return minutes != 0 && minutes != 30;
     }
 
     private boolean isEndTimeAfterStartTime(String startTimeStr, String endTimeStr) {
@@ -174,13 +186,13 @@ public class AddAvailability extends AppCompatActivity {
     }
 
 
-    private boolean hasOverlap(LocalDate date, String startTimeStr, String endTimeStr) {
+    private boolean hasOverlap(DayOfWeek date, String startTimeStr, String endTimeStr) {
         var availabilities = ((Tutor) LoginManager.getCurrentAccount()).getAvailabilities();
         int newStart = timeToMinutes(getTime(startTimeStr));
         int newEnd = timeToMinutes(getTime(endTimeStr));
 
         for (Availability slot : availabilities) {
-            if (!slot.getDate().equals(date)) continue;
+            if (!slot.getDay().equals(date)) continue;
 
             int existingStart = timeToMinutes(slot.getStart());
             int existingEnd = timeToMinutes(slot.getEnd());
@@ -190,10 +202,7 @@ public class AddAvailability extends AppCompatActivity {
         return false;
     }
 
-    private LocalDate getDateFromStr(String s) {
-        return LocalDate.parse(s);
-    }
+//    private LocalDate getDateFromStr(String s) {
+//        return LocalDate.parse(s);
+//    }
 }
-
-
-//does this even work..

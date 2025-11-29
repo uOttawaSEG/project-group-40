@@ -124,7 +124,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:layout_constraintVertical_chainStyle="spread">
 
-        <EditText
+        <Spinner
             android:id="@+id/date_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

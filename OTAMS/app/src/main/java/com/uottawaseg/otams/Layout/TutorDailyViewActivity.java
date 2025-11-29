@@ -20,10 +20,6 @@ import java.util.Calendar;
 
 public class TutorDailyViewActivity extends AppCompatActivity {
 
-    private Button btnAddAvailability, btnViewUpcoming;
-    private Button btnPrevMonth, btnNextMonth;
-    private Button btnPrevDay, btnNextDay;
-    private Button btnWeeklyView, btnViewAvailability, btnHomepage;
     private TextView monthText, dayText;
 
     private Calendar calendar;
@@ -38,15 +34,15 @@ public class TutorDailyViewActivity extends AppCompatActivity {
         eventManager= CalendarEventManager.getInstance();
 
         //btns
-        btnAddAvailability= findViewById(R.id.btnAddAvailability);
-        btnViewUpcoming= findViewById(R.id.btnViewUpcoming);
-        btnPrevMonth= findViewById(R.id.btnPrevMonth);
-        btnNextMonth= findViewById(R.id.btnNextMonth);
-        btnPrevDay= findViewById(R.id.btnPrevDay);
-        btnNextDay= findViewById(R.id.btnNextDay);
-        btnWeeklyView= findViewById(R.id.btnWeeklyView);
-        btnViewAvailability= findViewById(R.id.btnViewAvailability);
-        btnHomepage= findViewById(R.id.btnHomepage);
+        var btnAddAvailability = (Button) findViewById(R.id.btnAddAvailability);
+        var btnViewUpcoming = (Button) findViewById(R.id.btnViewUpcoming);
+        var btnPrevMonth = (Button) findViewById(R.id.btnPrevMonth);
+        var btnNextMonth = (Button) findViewById(R.id.btnNextMonth);
+        var btnPrevDay = (Button) findViewById(R.id.btnPrevDay);
+        var btnNextDay = (Button) findViewById(R.id.btnNextDay);
+        var btnWeeklyView = (Button) findViewById(R.id.btnWeeklyView);
+        var btnViewAvailability = (Button) findViewById(R.id.btnViewAvailability);
+        var btnHomepage = (Button) findViewById(R.id.btnHomepage);
 
         monthText= findViewById(R.id.monthText);
         dayText= findViewById(R.id.dayText);
@@ -59,10 +55,13 @@ public class TutorDailyViewActivity extends AppCompatActivity {
                 startActivity(new Intent(this, AddAvailability.class)));
         btnViewUpcoming.setOnClickListener(v ->
                 startActivity(new Intent(this, TutorViewUpcoming.class)));
+
         btnPrevMonth.setOnClickListener(v -> changeMonth(-1));
         btnNextMonth.setOnClickListener(v -> changeMonth(1));
+
         btnPrevDay.setOnClickListener(v -> changeDay(-1));
         btnNextDay.setOnClickListener(v -> changeDay(1));
+
         btnWeeklyView.setOnClickListener(v ->
                 startActivity(new Intent(this, TutorWeeklyViewActivity.class)));
         btnViewAvailability.setOnClickListener(v ->
@@ -125,40 +124,71 @@ public class TutorDailyViewActivity extends AppCompatActivity {
         }
 
         // populates slots
-        for (Availability slot : tutor.getAvailabilities()) {
-            if (slot==null || slot.getDate()==null || slot.getStart()==null || slot.getEnd()==null) continue;
-            if (!slot.getDate().equals(currentDate)) continue;
 
-            int hour= slot.getStart().getHour();
-            String slotKey= "slot_" + hour + "_daily";
+        for(var slot : tutor.getSessions()) {
+            if(!slot.getDate().equals(currentDate)) continue;
+            int startHour = slot.getStartTime().getHour();
+            int startMinute = slot.getStartTime().getMinute();
 
-            int slotResId= getResources().getIdentifier(slotKey, "id", getPackageName());
-            FrameLayout slotView= findViewById(slotResId);
+            int endHour = slot.getEndTime().getHour();
+            int endMinute = slot.getEndTime().getMinute();
+            for(int i = startHour; i <= endHour; i++) {
+                var slotKey = "slot_" + i + "_daily";
 
-            if (slotView != null) {
-                TextView tv= new TextView(this);
-                String startTime= slot.getStart().format(timeFormatter);
-                String endTime= slot.getEnd().format(timeFormatter);
+                int slotResId= getResources().getIdentifier(slotKey, "id", getPackageName());
+                FrameLayout slotView= findViewById(slotResId);
+                if(slotView != null) {
+                    var text = slot.getStartTime().format(timeFormatter) + " - " +
+                            slot.getEndTime().format(timeFormatter) + ", Booked by: " + slot.getStudent();
 
-                String displayText = startTime + " - " + endTime;
+                    var textView = new TextView(this);
+                    textView.setText(text);
+                    textView.setGravity(Gravity.CENTER);
+                    textView.setPadding(8, 8, 8, 8);
+                    textView.setBackgroundResource(R.drawable.grid_cell_border);
 
-                // appends student info if booked
-                if (slot.isBooked()) {
-                    if (slot.getStudentFirstName() != null && slot.getStudentLastName() != null) {
-                        displayText+= " (Booked by: " + slot.getStudentFirstName() + " " + slot.getStudentLastName() + ")";
-                    } else {
-                        displayText+= " (BOOKED)";
-                    }
+                    slotView.addView(textView);
+                    eventManager.addEvent(slotKey, new CalendarEventManager.Event("●",
+                            "Session:  " + text));
                 }
-                tv.setText(displayText);
-                tv.setGravity(Gravity.CENTER);
-                tv.setPadding(8, 8, 8, 8);
-                tv.setBackgroundResource(R.drawable.grid_cell_border);
-                slotView.addView(tv);
-                eventManager.addEvent(slotKey, new CalendarEventManager.Event("●",
-                        "Availability " + displayText));
+
             }
         }
+
+//        for (Availability slot : tutor.getAvailabilities()) {
+//            if (slot==null || slot.getDate()==null || slot.getStart()==null || slot.getEnd()==null) continue;
+//            if (!slot.getDate().equals(currentDate)) continue;
+//
+//            int hour= slot.getStart().getHour();
+//            String slotKey= "slot_" + hour + "_daily";
+//
+//            int slotResId= getResources().getIdentifier(slotKey, "id", getPackageName());
+//            FrameLayout slotView= findViewById(slotResId);
+//
+//            if (slotView != null) {
+//                TextView tv= new TextView(this);
+//                String startTime= slot.getStart().format(timeFormatter);
+//                String endTime= slot.getEnd().format(timeFormatter);
+//
+//                String displayText = startTime + " - " + endTime;
+//
+//                // appends student info if booked
+//                if (slot.isBooked()) {
+//                    if (slot.getStudentFirstName() != null && slot.getStudentLastName() != null) {
+//                        displayText+= " (Booked by: " + slot.getStudentFirstName() + " " + slot.getStudentLastName() + ")";
+//                    } else {
+//                        displayText+= " (BOOKED)";
+//                    }
+//                }
+//                tv.setText(displayText);
+//                tv.setGravity(Gravity.CENTER);
+//                tv.setPadding(8, 8, 8, 8);
+//                tv.setBackgroundResource(R.drawable.grid_cell_border);
+//                slotView.addView(tv);
+//                eventManager.addEvent(slotKey, new CalendarEventManager.Event("●",
+//                        "Availability " + displayText));
+//            }
+//        }
     }
 }
 

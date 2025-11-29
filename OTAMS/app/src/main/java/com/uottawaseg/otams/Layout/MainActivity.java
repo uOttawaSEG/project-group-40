@@ -26,7 +26,6 @@ import java.time.DayOfWeek;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,13 +60,19 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // From Daniil: I only edited this part here for avails
-        var avails = new ArrayList<Availability>();
-        avails.add(new Availability(false, OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC), OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), LocalDate.of(2025, 11, 22)));
-        // rest is same
+
         var tutor = new Tutor(
                 "first", "last", "user", "pass", "12345", "no@no.com", Degree.BACHELORS, Field.ENGINEERING,
-                avails, null);
+                null, null);
+
+        tutor.AddAvailability(
+                new Availability(false,
+                        OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
+                        OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC),
+                        DayOfWeek.MONDAY,
+                        new String("user"))
+        );
+
         var sessionRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
                 OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 10, 12, 2005, Course.GNG1105);
         sessionRequest.setStatus(RequestStatus.ACCEPTED);
@@ -85,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 3, 2, 2026, Course.GNG1105);
         tutor.AddSession(fourth);
         Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/user", tutor);
+
 
     }
 }

@@ -53,15 +53,47 @@ public class StudentReadonlySessionAdapter extends RecyclerView.Adapter<StudentR
     public void onBindViewHolder(
             @NonNull ViewHolder holder, int position
     ) {
-        Availability a= dataset.get(position);
-        String time= a.getStart().format(timeFormatter) + " - " + a.getEnd().format(timeFormatter);
-        String text= a.getTutorFirstName() + " " + a.getTutorLastName() + "\n" + "Date: " + a.getDate().toString() + "\n" + "Time: " + time;
-        if (a.isBooked()) {
-            text+= "\n(BOOKED)";
-        } else {
-            text+= "\n(PENDING APPROVAL)";
-        }
-        holder.getText().setText(text);
+//        Availability a= dataset.get(position);
+//        String time= a.getStart().format(timeFormatter) + " - " + a.getEnd().format(timeFormatter);
+//        String text= a.getTutorFirstName() + " " + a.getTutorLastName() + "\n" + "Date: " + a.getDate().toString() + "\n" + "Time: " + time;
+//        if (a.isBooked()) {
+//            text+= "\n(BOOKED)";
+//        } else {
+//            text+= "\n(PENDING APPROVAL)";
+//        }
+
+        /*
+        * if (s == null) return "";
+        return "Date: " + s.getDate().toLocalDate() + "\n" +
+                "Start: " + s.getStartTime() + "\n" +
+                "End: " + s.getEndTime() + "\n" +
+                "Tutor: " + s.getTutor() + "\n" +
+                "Course: " + s.getCourse();
+        * */
+
+//        var strs = dataset.get(position).split("\n");
+//        // String format:
+//        // 0 1 2 3 4 5 6 7 8 9 10
+//        // D a t e :   localDate                0
+//
+//        // 0 1 2 3 4 5 6 7 8 9 10
+//        // S t a r t :   StartTime              1
+//
+//        // 0 1 2 3 4 5 6 7 8 9 10
+//        // E n d :   EndTime                    2
+//
+//        // 0 1 2 3 4 5 6 7 8 9 10
+//        // T u t o r :   TutorUsername          3
+//
+//        // 0 1 2 3 4 5 6 7 8 9 10
+//        // C o u r s e :   Course               4
+//        var dateStr = strs[0].substring(6);
+//        var startStr = strs[1].substring(7);
+//        var endStr = strs[2].substring(5);
+//        var tutorStr = strs[3].substring(7);
+//        var courseStr = strs[4].substring(8);
+
+        holder.getText().setText(dataset.get(position));
     }
 
     @Override

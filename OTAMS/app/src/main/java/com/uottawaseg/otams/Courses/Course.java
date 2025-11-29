@@ -32,12 +32,19 @@ public final class Course {
     public static Course FromString(String value) {
         switch (value.toUpperCase()) {
             case "MÉCANIQUE POUR INGÉNIEURS":
+            case "GNG1505":
                 return GNG1505;
+
             case "ENGINEERING MECHANICS":
+            case "GNG1105":
                 return GNG1105;
+
             case "CALCUL DIFFÉRENTIEL ET INTÉGRAL I":
+            case "MAT1720":
                 return MAT1720;
+
             case "CALCULUS I":
+            case "MAT1320":
                 return MAT1320;
             default:
                 return null;
