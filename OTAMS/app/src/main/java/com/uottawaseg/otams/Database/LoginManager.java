@@ -159,8 +159,8 @@ public class LoginManager {
     }
 
     private static boolean CheckIfUsernameAlreadyExists(String username) {
-        return Database.Database.Read(ACCOUNTS + username).getValue() == null ||
-                Database.Database.Read(AccountCreationManager.GetRequestDir()).getValue() == null;
+        return !(Database.Database.Read(ACCOUNTS + username).getValue() == null ||
+                Database.Database.Read(AccountCreationManager.GetRequestDir()).getValue() == null);
     }
 
     /**

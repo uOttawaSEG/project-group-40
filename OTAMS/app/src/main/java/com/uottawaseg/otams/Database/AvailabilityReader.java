@@ -90,8 +90,9 @@ public class AvailabilityReader {
                         } else {
                             for(var a : avails) {
                                 for(var s : sessions) {
-                                    System.out.println(s + "\n" + a);
-                                    if(!StudentSessionManager.DoTimeSlotsOverlap(s.getStartTime(), s.getEndTime(), a.getStart()))
+                                    if(a.getDay() != s.getDate().getDayOfWeek())
+                                        allAvailabilities.add(a);
+                                    else if(!StudentSessionManager.DoTimeSlotsOverlap(s.getStartTime(), s.getEndTime(), a.getStart()))
                                         allAvailabilities.add(a);
                                 }
                             }

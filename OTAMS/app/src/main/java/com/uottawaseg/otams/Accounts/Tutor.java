@@ -165,7 +165,8 @@ public class Tutor extends Account {
     public void AddSession(SessionRequest sessionRequest) {
         var sessStart = sessionRequest.getStartTime();
         for(var a : _availabilities) {
-            if(StudentSessionManager.DoTimeSlotsOverlap(a.getStart(), a.getEnd(), sessStart) &&
+            if(a.getDay().equals(sessionRequest.getDate().getDayOfWeek()) &&
+                    StudentSessionManager.DoTimeSlotsOverlap(a.getStart(), a.getEnd(), sessStart) &&
             a.getAutoApprove()) {
                 sessionRequest.setStatus(RequestStatus.ACCEPTED);
             }
