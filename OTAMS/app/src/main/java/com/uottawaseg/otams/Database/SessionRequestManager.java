@@ -1,5 +1,6 @@
 package com.uottawaseg.otams.Database;
 
+import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
@@ -147,4 +148,15 @@ public class SessionRequestManager {
      * @return The tutor from LoginManager
      */
     private static Tutor getTutor() { return (Tutor)LoginManager.getCurrentAccount(); }
+
+    public static void RequestSession(SessionRequest request, Tutor tutor) {
+        tutor.AddSession(request);
+    }
+
+    public static void UpdateSessions(Student student) {
+
+        Database.Database.Write(
+                LoginManager.ACCOUNTS + "/" + student.getUsername() + "/" + SESSIONS,
+                student.getSessions());
+    }
 }

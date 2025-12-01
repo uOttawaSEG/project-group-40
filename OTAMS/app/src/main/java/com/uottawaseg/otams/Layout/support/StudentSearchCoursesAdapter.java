@@ -1,15 +1,21 @@
 package com.uottawaseg.otams.Layout.support;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Courses.Course;
 import com.uottawaseg.otams.Database.StudentSessionManager;
+import com.uottawaseg.otams.Layout.AdminPendingRequests;
+import com.uottawaseg.otams.Layout.Login;
+import com.uottawaseg.otams.Layout.StudentBooking;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
 
@@ -22,6 +28,7 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
     private final Context context;
     private final DateTimeFormatter timeFormatter= DateTimeFormatter.ofPattern("HH:mm");
 
+
     public StudentSearchCoursesAdapter(Context context, List<Availability> data) {
         this.context= context;
         this.dataset= data;
@@ -29,18 +36,25 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView text;
+        public static Course SelectedCourse;
+        private Availability avail;
+        private View view;
         public ViewHolder(View view) {
             super(view);
+
             text= view.findViewById(R.id.textView);
-            text.setOnClickListener(v -> {
-                // TODO:
-                //  Change page towards one where the student can specify session start & end time
-                //  From there, call StudentSessionManager.RequestSession() with the
-                //  SessionRequest that will be created when the student is done filling in the information
-            });
+
         }
         public TextView getText() {
             return text;
+        }
+        void SetAvailability(Availability a) {
+            avail = a;
+            text.setOnClickListener(v -> {
+
+                StudentBooking.SetupBooking(text.getText().toString(), avail, SelectedCourse);
+                view.getContext().startActivity(new Intent(view.getContext(), StudentBooking.class));
+            });
         }
     }
 
@@ -59,7 +73,7 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
         var start = avail.getStart();
         var end = avail.getEnd();
         var weekday = avail.getDay();
-
+        holder.SetAvailability(avail);
         var str = tutorUsername + " has availability on " + weekday.toString() +
                 " from: " + start.toLocalTime().format(timeFormatter) + " - " + end.toLocalTime().format(timeFormatter);
         holder.getText().setText(str);
@@ -68,6 +82,7 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
     public int getItemCount() {
         return dataset.size();
     }
+
 }
 
 

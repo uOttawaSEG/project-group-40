@@ -1,5 +1,6 @@
 package com.uottawaseg.otams.Accounts;
 
+import com.uottawaseg.otams.Database.SessionRequestManager;
 import com.uottawaseg.otams.Requests.SessionRequest;
 
 import java.util.ArrayList;
@@ -55,4 +56,8 @@ public class Student extends Account {
         return s;
     }
 
+    public void AddRequest(SessionRequest request) {
+        _sessions.add(request);
+        SessionRequestManager.UpdateSessions(this);
+    }
 }

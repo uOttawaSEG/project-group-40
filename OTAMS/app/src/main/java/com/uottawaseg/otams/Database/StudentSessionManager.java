@@ -2,10 +2,13 @@ package com.uottawaseg.otams.Database;
 
 import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Accounts.Tutor;
+import com.uottawaseg.otams.Courses.Course;
+import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.Requests.SessionRequest;
 import com.uottawaseg.otams.Requests.RequestStatus;
 
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -138,12 +141,19 @@ public final class StudentSessionManager {
         return output;
     }
 
-    public static void RequestSession(SessionRequest s) {
-        // str is
-        // <username> has availability...
-        var tutorUsername = s.getTutor();
+    public static void RequestSession(OffsetTime start, OffsetTime end, Availability tutAvail, OffsetDateTime day, Course c) {
+
+        var tutorUsername = tutAvail.getTutor();
         var tutor = (Tutor) LoginManager.makeAccountFromQuery(
                 Database.Database.Read(LoginManager.ACCOUNTS + "/" + tutorUsername)
         );
+
+        var request = new SessionRequest(((Student)LoginManager.getCurrentAccount()).getUsername(), tutorUsername,
+                start, end, day.getDayOfMonth(), day.getMonth().getValue(), day.getYear(), c
+        );
+
+        SessionRequestManager.RequestSession(request, tutor);
+        var stud = (Student) LoginManager.getCurrentAccount();
+        stud.AddRequest(request);
     }
 }

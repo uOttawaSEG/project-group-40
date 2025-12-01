@@ -12,9 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
-import com.uottawaseg.otams.Requests.Availability;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
@@ -106,8 +105,9 @@ public class TutorDailyViewActivity extends AppCompatActivity {
 
     private void updateEvents() {
         DateTimeFormatter timeFormatter= DateTimeFormatter.ofPattern("HH:mm");
-        LocalDate currentDate= LocalDate.of(calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        var currentDate= OffsetDateTime.of(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
+                0, 0, 0,0, OffsetDateTime.now().getOffset());
 
         Tutor tutor= null;
         if (LoginManager.getCurrentAccount() instanceof Tutor) {
@@ -128,10 +128,7 @@ public class TutorDailyViewActivity extends AppCompatActivity {
         for(var slot : tutor.getSessions()) {
             if(!slot.getDate().equals(currentDate)) continue;
             int startHour = slot.getStartTime().getHour();
-            int startMinute = slot.getStartTime().getMinute();
-
             int endHour = slot.getEndTime().getHour();
-            int endMinute = slot.getEndTime().getMinute();
             for(int i = startHour; i <= endHour; i++) {
                 var slotKey = "slot_" + i + "_daily";
 
@@ -154,41 +151,6 @@ public class TutorDailyViewActivity extends AppCompatActivity {
 
             }
         }
-
-//        for (Availability slot : tutor.getAvailabilities()) {
-//            if (slot==null || slot.getDate()==null || slot.getStart()==null || slot.getEnd()==null) continue;
-//            if (!slot.getDate().equals(currentDate)) continue;
-//
-//            int hour= slot.getStart().getHour();
-//            String slotKey= "slot_" + hour + "_daily";
-//
-//            int slotResId= getResources().getIdentifier(slotKey, "id", getPackageName());
-//            FrameLayout slotView= findViewById(slotResId);
-//
-//            if (slotView != null) {
-//                TextView tv= new TextView(this);
-//                String startTime= slot.getStart().format(timeFormatter);
-//                String endTime= slot.getEnd().format(timeFormatter);
-//
-//                String displayText = startTime + " - " + endTime;
-//
-//                // appends student info if booked
-//                if (slot.isBooked()) {
-//                    if (slot.getStudentFirstName() != null && slot.getStudentLastName() != null) {
-//                        displayText+= " (Booked by: " + slot.getStudentFirstName() + " " + slot.getStudentLastName() + ")";
-//                    } else {
-//                        displayText+= " (BOOKED)";
-//                    }
-//                }
-//                tv.setText(displayText);
-//                tv.setGravity(Gravity.CENTER);
-//                tv.setPadding(8, 8, 8, 8);
-//                tv.setBackgroundResource(R.drawable.grid_cell_border);
-//                slotView.addView(tv);
-//                eventManager.addEvent(slotKey, new CalendarEventManager.Event("●",
-//                        "Availability " + displayText));
-//            }
-//        }
     }
 }
 

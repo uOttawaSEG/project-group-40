@@ -21,8 +21,6 @@ import java.util.List;
 public class StudentBookedActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    //private StudentReadonlySessionAdapter adapter;
-    private List<Availability> bookedList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.uottawaseg.otams.Courses.Course;
 import com.uottawaseg.otams.Database.AvailabilityReader;
-import com.uottawaseg.otams.Database.StudentSessionManager;
 import com.uottawaseg.otams.Layout.support.StudentSearchCoursesAdapter;
 import com.uottawaseg.otams.R;
 
@@ -62,6 +61,7 @@ public class StudentSearchCoursesActivity extends AppCompatActivity {
         if(selectedCourse == null) selectedCourse = Course.GNG1105;
         var all = AvailabilityReader.GenerateAvailabilityFromAllTutors(selectedCourse);
         var adapter = new StudentSearchCoursesAdapter(this, all);
+        StudentSearchCoursesAdapter.ViewHolder.SelectedCourse = selectedCourse;
         recyclerView.setAdapter(adapter);
 
     }
