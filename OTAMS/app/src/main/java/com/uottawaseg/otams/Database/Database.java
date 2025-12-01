@@ -1,12 +1,15 @@
 package com.uottawaseg.otams.Database;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.uottawaseg.otams.Accounts.Account;
+import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.AccountCreationRequest;
 import com.uottawaseg.otams.Requests.Availability;
+
+import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,49 +18,21 @@ import java.util.List;
 
 public class Database {
     public final static Database Database = new Database();
-    private Thread currentThread;
     private boolean _alreadySetup = false;
     private DatabaseReference db;
 
     private Database() {
-        currentThread = new Thread(() -> {
-            StartDB();
-        });
+        Thread currentThread = new Thread(this::StartDB);
         // Sets it to a daemon so it runs in the background.
         currentThread.start();
     }
-    public static String GetMailAPIKey() {
-        if(!Database._alreadySetup) {
-           Database.StartDB();
-        }
-
-        return (String) (Database.Read("mailAPIkey").getValue());
-    }
-    // Callbacks
-    private void OnCancelled(DatabaseError e) {
-        System.out.println("Firebase error: " + e.getMessage());
-    }
-
-    private void onDataChange(DataSnapshot snap) {
-        var value = snap.getValue(String.class);
-        System.out.println("Firebase read success. Value = " + value);
-    }
-
-    /**
-     * @return Whether or not we were able to start the database, i.e., if it was already started or not.
-     */
-    // This will get called whenever we need to access the DB,
     // It only actually needs to be called once but we're doing it for redundancy.
-    public boolean StartDB() {
+    public void StartDB() {
         if (_alreadySetup) {
-            return false;
+            return;
         }
         db = FirebaseDatabase.getInstance().getReference();
-        return true;
-    }
-
-    public boolean IsDbStarted() {
-        return _alreadySetup;
+        _alreadySetup = true;
     }
 
     /**
@@ -77,7 +52,7 @@ public class Database {
     }
 
     /**
-     * @param path The database path to write to
+     * @param path The database path to write to, including the username of the account request
      * @param req The AccountCreationRequest to be written
      */
     public void WriteRequest(String path, AccountCreationRequest req) {
@@ -85,12 +60,13 @@ public class Database {
     }
 
     /**
-     * @param path The path to write to
+     * @param path The path to write to, including the username of the account
      * @param acc The account whose information needs to be written
      */
     public void WriteAccount(String path, Account acc) {
         db.child(path).setValue(acc);
     }
+
 
     /**
      * @param path The path to delete, needs to be exact.
@@ -113,9 +89,11 @@ public class Database {
     // We don't want to delete all the accounts because somebody screwed up
     // Same for pending requests.
     private boolean canDeletePath(String path) {
+        path = path.toUpperCase();
         // !(all the paths we don't want to delete)
-        return !(path.toUpperCase() == LoginManager.ACCOUNTS.toUpperCase()
-                || path.toUpperCase() == AccountCreationManager.GetRequestDir().toUpperCase());
+        return !(path.equals(LoginManager.ACCOUNTS.toUpperCase())
+                || path.equals(AccountCreationManager.GetRequestDir().toUpperCase())
+                || path.equals(DeniedRequestManager.DECLINED.toUpperCase()));
     }
 
     /**
@@ -159,6 +137,9 @@ public class Database {
     }
 
     public void WriteAvailability(String path, List<Availability> availabilities) {
-        db.child(path).setValue(availabilities);
+        for(int i = 0; i < availabilities.size(); i++) {
+            db.child(path + "/" + i).setValue(availabilities.get(i));
+        }
+        //db.child(path).setValue(availabilities);
     }
 }

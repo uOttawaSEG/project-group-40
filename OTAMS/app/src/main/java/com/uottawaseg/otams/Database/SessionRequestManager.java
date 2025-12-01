@@ -1,11 +1,16 @@
 package com.uottawaseg.otams.Database;
 
+import static com.uottawaseg.otams.Database.Database.Database;
+
+import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
+import com.uottawaseg.otams.Courses.Course;
 
 import java.time.OffsetTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +26,9 @@ public class SessionRequestManager {
     private final static String END_TIME = "endTime";
     private final static String DATE = "date";
     private final static String STATUS = "status";
+    private final static String COURSE = "course/name";
     private static SessionRequest _selected;
+
 
     /**
      * @param username Username of the tutor account
@@ -44,8 +51,8 @@ public class SessionRequestManager {
             var end = readOffsetTime((HashMap) d.child(END_TIME).getValue());
             var date = readOffsetDateTime((HashMap) d.child(DATE).getValue());
             var status = RequestStatus.fromString((String)d.child(STATUS).getValue());
-
-            list.add(new SessionRequest(stud, tut, start, end, date[DAY], date[MONTH], date[YEAR], status));
+            var course = Course.FromString((String)d.child(COURSE).getValue());
+            list.add(new SessionRequest(stud, tut, start, end, date[DAY], date[MONTH], date[YEAR], status, course));
         }
         return Collections.unmodifiableList(list);
     }
@@ -57,7 +64,13 @@ public class SessionRequestManager {
      * @param s The session to accept
      */
     public static void Accept(SessionRequest s) {
-        getTutor().AcceptSession(s);
+
+        var tutor = (Tutor) LoginManager.getCurrentAccount();
+        tutor.AcceptSession(s);
+
+        var studentQuery = Database.Read(LoginManager.ACCOUNTS + "/" + s.getStudent());
+        var student = (Student) LoginManager.makeAccountFromQuery(studentQuery);
+        student.AcceptSession(s);
     }
 
     /**
@@ -65,6 +78,14 @@ public class SessionRequestManager {
      */
     public static void Decline(SessionRequest s) {
         getTutor().DeclineSession(s);
+        StudentSessionManager.DeclineSession(s);
+    }
+
+    /**
+     * @param s The session to cancel
+     */
+    public static void Cancel(SessionRequest s) {
+        getTutor().CancelSession(s);
     }
 
     /**
@@ -86,15 +107,12 @@ public class SessionRequestManager {
         return AvailabilityReader.readOffsetTime(map);
     }
 
-    /**
-     * @param tut The tutor whose sessions should be updated
-     */
-    public static void UpdateSessions(Tutor tut) {
-        Database.Database.Write(
-                LoginManager.ACCOUNTS + "/" + tut.getUsername() + "/" + SESSIONS,
-                tut.getSessions());
-    }
 
+    /**
+     * @param username Students username
+     * @param date Date of the request to find
+     * @return Whether or not we were able to find the request.
+     */
     public static boolean Select(String username, String date) {
         // We need to find a request that matches the date and the username.
         var sessions = GenerateSessions(LoginManager.getCurrentAccount().getUsername());
@@ -130,4 +148,25 @@ public class SessionRequestManager {
      * @return The tutor from LoginManager
      */
     private static Tutor getTutor() { return (Tutor)LoginManager.getCurrentAccount(); }
+
+    public static void RequestSession(SessionRequest request, Tutor tutor) {
+        tutor.AddSession(request);
+    }
+
+    public static void UpdateSessions(Student student) {
+
+        Database.Database.Write(
+                LoginManager.ACCOUNTS + "/" + student.getUsername() + "/" + SESSIONS,
+                student.getSessions());
+    }
+
+
+    /**
+     * @param tut The tutor whose sessions should be updated
+     */
+    public static void UpdateSessions(Tutor tut) {
+        Database.Database.Write(
+                LoginManager.ACCOUNTS + "/" + tut.getUsername() + "/" + SESSIONS,
+                tut.getSessions());
+    }
 }

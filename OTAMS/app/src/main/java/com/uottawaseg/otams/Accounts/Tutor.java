@@ -7,6 +7,7 @@ import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
 import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Database.SessionRequestManager;
+import com.uottawaseg.otams.Database.StudentSessionManager;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
@@ -18,7 +19,8 @@ import java.util.List;
 public class Tutor extends Account {
     private Degree _highestDegreeOfStudy;
     private Field _fieldOfStudy;
-
+    private float _averageRating;
+    private int _totalSessions;
     private final Role _role = Role.TUTOR;
 
     private ArrayList<Availability> _availabilities;
@@ -34,11 +36,10 @@ public class Tutor extends Account {
      * @param highestDegreeOfStudy The highested degree obtained.
      * @param fieldOfStudy The field of which the tutor is/has studied
      */
-    // SOOO MANY THNIGS AAAAAAH
     // Also overloads make me sad please give me back default parameters!
     public Tutor(String firstName, String lastName, String username, String password,
                  String phoneNumber, String email, Degree highestDegreeOfStudy, Field fieldOfStudy) {
-        this(firstName, lastName, username, password, phoneNumber, email, highestDegreeOfStudy, fieldOfStudy, null, null);
+        this(firstName, lastName, username, password, phoneNumber, email, highestDegreeOfStudy, fieldOfStudy, null, null, 0, 0);
     }
 
     /**
@@ -52,23 +53,26 @@ public class Tutor extends Account {
      * @param fieldOfStudy The field of which the tutor is/has studied
      * @param avails An ArrayList<Availability> of availabilities
      * @param requests An ArrayList<SessionRequest> of requests applicable to the tutor
+     * @param averageRating A float of the average rating of the tutor, from 0 to 5.
+     * @param totalSessions The total number of past sessions for this tutor
      */
     public Tutor(String firstName, String lastName, String username, String password,
                  String phoneNumber, String email, Degree highestDegreeOfStudy, Field fieldOfStudy,
-                 ArrayList<Availability> avails, ArrayList<SessionRequest> requests) {
+                 ArrayList<Availability> avails, ArrayList<SessionRequest> requests, float averageRating, int totalSessions) {
         super(firstName, lastName, username, password, phoneNumber, email);
         _highestDegreeOfStudy = highestDegreeOfStudy;
         _fieldOfStudy = fieldOfStudy;
 
-        if(avails == null)
-            _availabilities = new ArrayList<>();
-        else
-            _availabilities = avails;
-
-        if(requests == null)
-            _sessions = new ArrayList<>();
-        else
-            _sessions = requests;
+        _availabilities = avails == null ? new ArrayList<>() : avails;
+        _sessions = requests == null ? new ArrayList<>() : requests;
+        if(averageRating < 0 || averageRating > 5) {
+            throw new IllegalArgumentException("Average rating must be confined between 0 and 5");
+        }
+        _averageRating = averageRating;
+        if(totalSessions < 0) {
+            throw new IllegalArgumentException("Total sessions cannot be less than zero");
+        }
+        _totalSessions = totalSessions;
     }
 
     public Degree getDegree() {
@@ -80,29 +84,25 @@ public class Tutor extends Account {
     public List<Availability> getAvailabilities() {
         return Collections.unmodifiableList(_availabilities);
     }
-    public void AddAvailability(Availability newAvail) {
-        _availabilities.add(newAvail);
-        PendingRequestManager.UpdateAvailability(this, _availabilities);
-    }
-
-    /**
-     * @return A list of approved sessions
-     */
-    public List<SessionRequest> getAcceptedSessions() {
-        var temp = new ArrayList<SessionRequest>(_sessions.size());
-        for(var req : getSessions()) {
-            if(req.getStatus().equals(RequestStatus.ACCEPTED)) {
-                temp.add(req);
-            }
-        }
-        return Collections.unmodifiableList(temp);
-    }
-
     /**
      * @return A list of all session requests
      */
     public List<SessionRequest> getSessions() {
         return Collections.unmodifiableList(_sessions);
+    }
+    /**
+     * @return Field of study of the current object
+     */
+    public Field getFieldOfStudy() {
+        return _fieldOfStudy;
+    }
+
+    public float getAverageRating() {
+        return _averageRating;
+    }
+
+    public int getTotalSessions() {
+        return _totalSessions;
     }
     /**
      * @param newHighest The degree to set as the new degree
@@ -123,12 +123,6 @@ public class Tutor extends Account {
         _fieldOfStudy = f;
     }
 
-    /**
-     * @return Field of study of the current object
-     */
-    public Field getFieldOfStudy() {
-        return _fieldOfStudy;
-    }
 
     @NonNull
     @Override
@@ -160,11 +154,24 @@ public class Tutor extends Account {
         _availabilities.remove(avail);
         PendingRequestManager.UpdateAvailability(this, _availabilities);
     }
+    public void AddAvailability(Availability newAvail) {
+        _availabilities.add(newAvail);
+        PendingRequestManager.UpdateAvailability(this, _availabilities);
+    }
 
     /**
      * @param sessionRequest Session to add
      */
     public void AddSession(SessionRequest sessionRequest) {
+        var sessStart = sessionRequest.getStartTime();
+        for(var a : _availabilities) {
+            if(a.getDay().equals(sessionRequest.getDate().getDayOfWeek()) &&
+                    StudentSessionManager.DoTimeSlotsOverlap(a.getStart(), a.getEnd(), sessStart) &&
+            a.getAutoApprove()) {
+                sessionRequest.setStatus(RequestStatus.ACCEPTED);
+            }
+
+        }
         _sessions.add(sessionRequest);
         SessionRequestManager.UpdateSessions(this);
     }
@@ -194,5 +201,22 @@ public class Tutor extends Account {
                 return;
             }
         }
+    }
+
+    public void CancelSession(SessionRequest s) {
+
+        //IndexOf was always -1 for some reason
+        for(var sess : getSessions()) {
+            if(sess.equals(s)) {
+                _sessions.remove(sess);
+                SessionRequestManager.UpdateSessions(this);
+                return;
+            }
+        }
+    }
+
+    public void Rate(float value) {
+        if(_totalSessions <= 0) _averageRating = value;
+        else _averageRating = (_averageRating * _totalSessions++ + value) / _totalSessions;
     }
 }

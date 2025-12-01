@@ -99,5 +99,8 @@ public class RegisterAsStudent extends AppCompatActivity {
     private void registerStudent(String firstName, String lastName, String email, String username,
                                  String password, String phone, String ID) {
         LoginManager.Register(firstName, lastName, username, password, phone, email, ID);
+        if(LoginManager.getCurrentAccount() == null) {
+            Toast.makeText(this, "Username already exists, please choose a new one", Toast.LENGTH_LONG).show();
+        }
     }
 }

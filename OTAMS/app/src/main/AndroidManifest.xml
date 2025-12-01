@@ -31,6 +31,7 @@
         <activity android:name=".Layout.RegisterAsStudent" />
         <activity android:name=".Layout.RegisterAsTutor" />
         <activity android:name=".Layout.Status" />
+
         <!-- Admin -->
         <activity android:name=".Layout.AdminClientInfo" />
         <activity android:name=".Layout.AddAvailability" />
@@ -45,6 +46,13 @@
         <activity android:name=".Layout.TutorDailyViewActivity" />
         <activity android:name=".Layout.TutorViewPending" />
         <activity android:name=".Layout.TutorSessionInfo" />
+
+        <!-- Student -->
+        <activity android:name=".Layout.StudentSearchCoursesActivity" />
+        <activity android:name=".Layout.StudentProfile" />
+        <activity android:name=".Layout.StudentBookedActivity" />
+        <activity android:name=".Layout.StudentPendingActivity" />
+        <activity android:name=".Layout.StudentBooking" />
 
     </application>
 

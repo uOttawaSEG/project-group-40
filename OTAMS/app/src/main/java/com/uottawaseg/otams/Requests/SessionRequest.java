@@ -1,6 +1,13 @@
 package com.uottawaseg.otams.Requests;
 
+import static com.uottawaseg.otams.Database.Database.Database;
+
 import androidx.annotation.Nullable;
+
+import com.uottawaseg.otams.Accounts.Student;
+import com.uottawaseg.otams.Accounts.Tutor;
+import  com.uottawaseg.otams.Courses.Course;
+import com.uottawaseg.otams.Database.LoginManager;
 
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
@@ -16,8 +23,13 @@ public class SessionRequest implements Request {
     private final int _year;
     private RequestStatus _status;
     private final RequestType _type;
+    private final Course _course;
 
     // Constructor
+    public SessionRequest(String student, String tutor, OffsetTime startTime,
+                          OffsetTime endTime, int day, int month, int year, Course course) {
+        this(student, tutor, startTime, endTime, day, month, year, RequestStatus.PENDING, course);
+    }
 
     /**
      * @param student Students Username
@@ -29,30 +41,24 @@ public class SessionRequest implements Request {
      * @param year The year
      */
     public SessionRequest(String student, String tutor, OffsetTime startTime,
-                          OffsetTime endTime, int day, int month, int year, RequestStatus status) {
-        if (student == null || tutor == null || startTime == null || endTime == null) {
-            throw new IllegalArgumentException("Do not leave anything null. :(");
+                          OffsetTime endTime, int day, int month, int year, RequestStatus status, Course course) {
+        if (student == null || tutor == null || startTime == null || endTime == null || course == null) {
+            throw new IllegalArgumentException("Do not leave anything null.");
         }
 
+        _type = RequestType.TutorSessionRequest;
         _student = student;
         _tutor = tutor;
         _startTime = startTime;
         _endTime = endTime;
-        _status = RequestStatus.PENDING;
-        _type = RequestType.TutorSessionRequest;
 
         _day = day;
         _month = month;
         _year = year;
         _status = status;
-    }
-    public SessionRequest(String student, String tutor, OffsetTime startTime,
-                          OffsetTime endTime, int day, int month, int year) {
-        this(student, tutor, startTime, endTime, day, month, year, RequestStatus.PENDING);
+        _course = course;
     }
 
-    // Interface methods
-    // Again, I see that u add @Override so I did it
     @Override
     public RequestStatus GetRequestStatus() {
         return _status;
@@ -66,6 +72,7 @@ public class SessionRequest implements Request {
     @Override
     public void AcceptRequest() {
         _status = RequestStatus.ACCEPTED;
+
     }
 
     @Override
@@ -108,6 +115,9 @@ public class SessionRequest implements Request {
     public OffsetDateTime getDate() {
         return OffsetDateTime.of(_year, _month, _day, 0, 0, 0, 0, _startTime.getOffset());
     }
+
+    public Course getCourse() { return _course; }
+
 
     public void setStatus(RequestStatus requestStatus) {
         _status = requestStatus;

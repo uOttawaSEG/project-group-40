@@ -32,14 +32,17 @@ public class Login extends AppCompatActivity {
                     if (acc != null) {
                         System.out.println("Login successful");
                         var role = acc.getRole();
-                        if (role == Account.Role.ADMIN) {
+                        if(LoginManager.WasPending()) {
+                            startActivity(new Intent(Login.this, Status.class));
+                            this.finish();
+                        } else if (role == Account.Role.ADMIN) {
                             startActivity(new Intent(Login.this, AdminPendingRequests.class));
                             this.finish();
                         } else if(role == Account.Role.TUTOR) {
                             startActivity(new Intent(Login.this, TutorWeeklyViewActivity.class));
                             this.finish();
                         } else {
-                            startActivity(new Intent(Login.this, Status.class));
+                            startActivity(new Intent(Login.this, StudentProfile.class));
                             this.finish();
                         }
 
