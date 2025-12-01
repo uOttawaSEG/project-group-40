@@ -61,10 +61,10 @@ public final class StudentSessionManager {
         for (var sr : studentSessions) {
             if (sr.equals(sess)) {
                 sr.setStatus(RequestStatus.DENIED);
-                break;
+                UpdateSessions(student, studentSessions);
+                return;
             }
         }
-        UpdateSessions(student, studentSessions);
 
     }
 
@@ -141,19 +141,66 @@ public final class StudentSessionManager {
         return output;
     }
 
-    public static void RequestSession(OffsetTime start, OffsetTime end, Availability tutAvail, OffsetDateTime day, Course c) {
+    public static boolean RequestSession(OffsetTime start, OffsetTime end, Availability tutAvail, OffsetDateTime day, Course c) {
+        var stud = (Student) LoginManager.getCurrentAccount();
 
         var tutorUsername = tutAvail.getTutor();
+        var request = new SessionRequest(LoginManager.getCurrentAccount().getUsername(), tutorUsername,
+                start, end, day.getDayOfMonth(), day.getMonth().getValue(), day.getYear(), c
+        );
+        if (InvalidSessionRequest(stud, request)) return false;
+
         var tutor = (Tutor) LoginManager.makeAccountFromQuery(
                 Database.Database.Read(LoginManager.ACCOUNTS + "/" + tutorUsername)
         );
-
-        var request = new SessionRequest(((Student)LoginManager.getCurrentAccount()).getUsername(), tutorUsername,
-                start, end, day.getDayOfMonth(), day.getMonth().getValue(), day.getYear(), c
-        );
-
         SessionRequestManager.RequestSession(request, tutor);
-        var stud = (Student) LoginManager.getCurrentAccount();
         stud.AddRequest(request);
+        return true;
+    }
+
+    private static boolean InvalidSessionRequest(Student stud, SessionRequest request) {
+        var studentSessions = stud.getSessions();
+        for(var s : studentSessions) {
+            if(s.getDate().isEqual(request.getDate())) {
+                if(DoTimeSlotsOverlap(s.getStartTime(), s.getEndTime(), request.getStartTime())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean DoTimeSlotsOverlap(OffsetTime existingStart, OffsetTime existingEnd,
+                                             OffsetTime newStart) {
+        // existingStart <= newStart <= existingEnd
+        // Then we have an overlap
+        // Thus, newStart < existingStart or newStart > existingEnd
+        // To simplify we know that
+        // a <= b is logically equivalent to !( a > b )
+        // so we can transform it into
+        // !(existingStart > newStart) && !( newStart > existingEnd)
+        if(!existingStart.isAfter(newStart) && !newStart.isAfter(existingEnd)) {
+            return true;
+        }
+        // We know that our start is before or after the existing slot
+        // Thus, we only need to check if the end is before the start of the next session,
+        // Because if it is we're good, otherwise we have an overlap
+        // basically
+        //      has been checked for already
+        // \/                             \/        \/
+        // existingStart < existingEnd < newStart < newEnd
+        // OR
+        //    has been checked for already
+        // \/            \/         \/
+        // newStart < newEnd < existing start < existing end
+        // We know that existingStart < existing end, it's a requirement
+        // So we can simplify our conditions to just
+        // existingEnd < newStart < newEnd
+        // Simplify again
+        // existingEnd < newStart
+        if(existingEnd.isAfter(newStart)) {
+            return true;
+        }
+        return false;
     }
 }

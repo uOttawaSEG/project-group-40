@@ -16,6 +16,7 @@ import com.uottawaseg.otams.Database.StudentSessionManager;
 import com.uottawaseg.otams.Layout.AdminPendingRequests;
 import com.uottawaseg.otams.Layout.Login;
 import com.uottawaseg.otams.Layout.StudentBooking;
+import com.uottawaseg.otams.Layout.StudentSearchCoursesActivity;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
 
@@ -42,7 +43,8 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
         public ViewHolder(View view) {
             super(view);
 
-            text= view.findViewById(R.id.textView);
+            text = view.findViewById(R.id.textView);
+            this.view = view;
 
         }
         public TextView getText() {
@@ -53,7 +55,7 @@ public class StudentSearchCoursesAdapter extends RecyclerView.Adapter<StudentSea
             text.setOnClickListener(v -> {
 
                 StudentBooking.SetupBooking(text.getText().toString(), avail, SelectedCourse);
-                view.getContext().startActivity(new Intent(view.getContext(), StudentBooking.class));
+                v.getContext().startActivity(new Intent(v.getContext(), StudentBooking.class));
             });
         }
     }

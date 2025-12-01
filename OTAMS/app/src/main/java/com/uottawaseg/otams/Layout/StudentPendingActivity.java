@@ -50,7 +50,7 @@ public class StudentPendingActivity extends AppCompatActivity {
             }
         }
 
-        adapter= new StudentReadonlySessionAdapter(this, pendingSessions);
+        adapter= new StudentReadonlySessionAdapter(this, pendingSessions, currentStudent);
         recyclerView.setAdapter(adapter);
 
 //        if (currentStudent==null) {

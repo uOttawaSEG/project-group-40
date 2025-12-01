@@ -1,8 +1,13 @@
 package com.uottawaseg.otams.Requests;
 
+import static com.uottawaseg.otams.Database.Database.Database;
+
 import androidx.annotation.Nullable;
 
+import com.uottawaseg.otams.Accounts.Student;
+import com.uottawaseg.otams.Accounts.Tutor;
 import  com.uottawaseg.otams.Courses.Course;
+import com.uottawaseg.otams.Database.LoginManager;
 
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
@@ -67,6 +72,7 @@ public class SessionRequest implements Request {
     @Override
     public void AcceptRequest() {
         _status = RequestStatus.ACCEPTED;
+
     }
 
     @Override

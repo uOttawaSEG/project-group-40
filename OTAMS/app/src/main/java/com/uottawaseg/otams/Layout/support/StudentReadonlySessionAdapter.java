@@ -5,13 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -19,11 +26,12 @@ public class StudentReadonlySessionAdapter extends RecyclerView.Adapter<StudentR
 
     private final List<String> dataset;
     private final Context context;
-    private final DateTimeFormatter timeFormatter= DateTimeFormatter.ofPattern("HH:mm");
+    private final Student stud;
 
-    public StudentReadonlySessionAdapter(Context context, List<String> dataset) {
+    public StudentReadonlySessionAdapter(Context context, List<String> dataset, Student acc) {
         this.context= context;
         this.dataset= dataset;
+        stud = acc;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -40,60 +48,48 @@ public class StudentReadonlySessionAdapter extends RecyclerView.Adapter<StudentR
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(
-            @NonNull ViewGroup parent,
-            int viewType
-    ) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.do_not_delete_recycler_view_text, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(
-            @NonNull ViewHolder holder, int position
-    ) {
-//        Availability a= dataset.get(position);
-//        String time= a.getStart().format(timeFormatter) + " - " + a.getEnd().format(timeFormatter);
-//        String text= a.getTutorFirstName() + " " + a.getTutorLastName() + "\n" + "Date: " + a.getDate().toString() + "\n" + "Time: " + time;
-//        if (a.isBooked()) {
-//            text+= "\n(BOOKED)";
-//        } else {
-//            text+= "\n(PENDING APPROVAL)";
-//        }
-
-        /*
-        * if (s == null) return "";
-        return "Date: " + s.getDate().toLocalDate() + "\n" +
-                "Start: " + s.getStartTime() + "\n" +
-                "End: " + s.getEndTime() + "\n" +
-                "Tutor: " + s.getTutor() + "\n" +
-                "Course: " + s.getCourse();
-        * */
-
-//        var strs = dataset.get(position).split("\n");
-//        // String format:
-//        // 0 1 2 3 4 5 6 7 8 9 10
-//        // D a t e :   localDate                0
-//
-//        // 0 1 2 3 4 5 6 7 8 9 10
-//        // S t a r t :   StartTime              1
-//
-//        // 0 1 2 3 4 5 6 7 8 9 10
-//        // E n d :   EndTime                    2
-//
-//        // 0 1 2 3 4 5 6 7 8 9 10
-//        // T u t o r :   TutorUsername          3
-//
-//        // 0 1 2 3 4 5 6 7 8 9 10
-//        // C o u r s e :   Course               4
-//        var dateStr = strs[0].substring(6);
-//        var startStr = strs[1].substring(7);
-//        var endStr = strs[2].substring(5);
-//        var tutorStr = strs[3].substring(7);
-//        var courseStr = strs[4].substring(8);
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getText().setText(dataset.get(position));
+        holder.getText().setOnClickListener(v -> {
+            // We need to extrapolate the time info D:
+            // Date : YYYY-MM-DD \n
+            // Start: HH:MM-HH:MM
+            // The -HH:MM is for the time diff from UTC
+            // End is same as start
+            var strs = dataset.get(position).split("\n");
+            // D a t e : _ Y Y Y Y  -  M  M  -  D  D
+            // 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+            var dateStr = strs[0];
+
+            // S t a r t :   H H : M M - H H : M M
+            // 0 1 2 3 4 5 6 7
+            var startTimeStr = strs[1].split("-")[0];
+            var dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            var timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+
+            var date = LocalDate.from(dateFormatter.parse(dateStr.substring(6)));
+            var startTime = LocalTime.parse(startTimeStr.substring(7), timeFormatter);
+
+            var localDateTime = LocalDateTime.of(date, startTime);
+            var offsetDateTime = OffsetDateTime.of(localDateTime, OffsetDateTime.now().getOffset());
+
+            if(offsetDateTime.minusDays(1L).isBefore(OffsetDateTime.now())) {
+                Toast.makeText(v.getContext(), "Cannot delete a session less than 24h away", 1).show();
+                return;
+            }
+
+            dataset.remove(position);
+            notifyDataSetChanged();
+            stud.RemoveSession(position);
+        });
     }
 
     @Override

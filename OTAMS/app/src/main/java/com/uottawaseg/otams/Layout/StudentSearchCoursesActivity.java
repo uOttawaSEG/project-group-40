@@ -15,6 +15,7 @@ import com.uottawaseg.otams.Courses.Course;
 import com.uottawaseg.otams.Database.AvailabilityReader;
 import com.uottawaseg.otams.Layout.support.StudentSearchCoursesAdapter;
 import com.uottawaseg.otams.R;
+import com.uottawaseg.otams.Requests.Availability;
 
 public class StudentSearchCoursesActivity extends AppCompatActivity {
 

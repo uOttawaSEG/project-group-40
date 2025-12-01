@@ -61,34 +61,7 @@ public class TutorViewPendingAdapter extends RecyclerView.Adapter<TutorViewPendi
 
     @Override
     public void onBindViewHolder(@NonNull TutorViewPendingAdapter.ViewHolder holder, int position) {
-
         holder.getText().setText(dataset[position]);
-        /*Availability availability= dataset.get(position);
-        String tutorName= availability.getTutorFirstName() + " " + availability.getTutorLastName();
-        String time= availability.getStart().format(timeFormatter) + " - " + availability.getEnd().format(timeFormatter);
-        String studentInfo= "";
-        if (availability.getStudentFirstName() != null && availability.getStudentLastName() != null) {
-            studentInfo= "\nRequested by: " + availability.getStudentFirstName() + " " + availability.getStudentLastName();
-        }
-
-        String displayText= tutorName + "\nDate: " + availability.getDate() + "\nTime: " + time + studentInfo;
-        holder.getText().setText(displayText);
-
-        holder.itemView.setOnClickListener(v -> {
-            if (availability.isBooked()) {
-                Toast.makeText(v.getContext(), "This session is already booked.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            StudentAvailabilityWriter.bookAvailabilityForStudent(availability, availability.getStudentFirstName(), availability.getStudentLastName(), availability.getStudentUsername(), (success, errorMessage) -> {
-                if (success) {
-                    Toast.makeText(v.getContext(), "Request approved and session booked!", Toast.LENGTH_SHORT).show();
-                    dataset.remove(position);
-                    notifyItemRemoved(position);
-                } else {
-                    Toast.makeText(v.getContext(), "Failed to approve request: " + errorMessage, Toast.LENGTH_SHORT).show();
-                }
-            });
-        });*/
     }
 
     @Override

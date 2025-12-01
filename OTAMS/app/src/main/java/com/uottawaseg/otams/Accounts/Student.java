@@ -1,9 +1,14 @@
 package com.uottawaseg.otams.Accounts;
 
+import com.uottawaseg.otams.Database.Database;
+import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.Database.SessionRequestManager;
+import com.uottawaseg.otams.Database.StudentSessionManager;
+import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,5 +64,26 @@ public class Student extends Account {
     public void AddRequest(SessionRequest request) {
         _sessions.add(request);
         SessionRequestManager.UpdateSessions(this);
+    }
+
+    public void AcceptSession(SessionRequest s) {
+        for(var sess : getSessions()) {
+            if(sess.equals(s)) {
+                sess.setStatus(RequestStatus.ACCEPTED);
+                StudentSessionManager.UpdateSessions(this, getSessions());
+                return;
+            }
+        }
+    }
+
+    public void RemoveSession(int position) {
+        var sess = _sessions.get(position);
+        _sessions.remove(position);
+        StudentSessionManager.UpdateSessions(this, getSessions());
+
+        var tut = (Tutor) LoginManager.makeAccountFromQuery(Database.Database.Read(
+                LoginManager.ACCOUNTS + "/" + sess.getTutor()
+        ));
+        tut.CancelSession(sess);
     }
 }

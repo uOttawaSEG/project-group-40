@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +19,12 @@ import com.uottawaseg.otams.Database.LoginManager;
 import com.uottawaseg.otams.R;
 import com.uottawaseg.otams.Requests.Availability;
 
+import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TutorViewAvailability extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private AvailabilityAdapter adapter;
     private List<Availability> availabilityList;
 
     @Override
@@ -33,7 +33,7 @@ public class TutorViewAvailability extends AppCompatActivity {
         setContentView(R.layout.tutor_view_availability);
 
         // Get the recycler view ready
-        recyclerView = findViewById(R.id.availability_recycler);
+        RecyclerView recyclerView = findViewById(R.id.availability_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Availability slots from database
@@ -41,7 +41,7 @@ public class TutorViewAvailability extends AppCompatActivity {
         availabilityList = ((Tutor) LoginManager.getCurrentAccount()).getAvailabilities();
 
         // Set up adapter
-        adapter = new AvailabilityAdapter(availabilityList);
+        var adapter = new AvailabilityAdapter(availabilityList);
         recyclerView.setAdapter(adapter);
 
         // Back button goes to calendar
@@ -60,12 +60,12 @@ public class TutorViewAvailability extends AppCompatActivity {
 
         //from Daniil: My changes start here
         private final DateTimeFormatter timeFormatter= DateTimeFormatter.ofPattern("HH:mm"); //from Daniil: I need this for hour slot
-        private final DateTimeFormatter dateFormatter= DateTimeFormatter.ofPattern("yyyy-MM-dd"); //from Daniil: and that for date
 
         public AvailabilityAdapter(List<Availability> slots) {
             this.slots = slots;
         }
 
+        @NonNull
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -87,12 +87,42 @@ public class TutorViewAvailability extends AppCompatActivity {
                 int currentPosition = holder.getAdapterPosition();
                 if (currentPosition != RecyclerView.NO_POSITION) {
                     // Remove it from the list
-                    ((Tutor) LoginManager.getCurrentAccount()).removeAvailability(slot);
-                    // Update the display
-                    notifyItemRemoved(currentPosition);
-                    // Delete from database too maybe?
-                    Toast.makeText(TutorViewAvailability.this,
-                            "Availability deleted", Toast.LENGTH_SHORT).show();
+                    var tut = ((Tutor) LoginManager.getCurrentAccount());
+                    var canDelete = true;
+                    var sessions = tut.getSessions();
+                    for(var s : sessions) {
+                        // If it's on the same day of the week
+                        // And the start time is <= the session start time
+                        // and the end time is >= the session end time
+                        // We cannot delete it
+                        if (DayOfWeek.from(s.getDate()) == slot.getDay() &&
+                                (
+                                    (
+                                            slot.getStart().isBefore(s.getStartTime()) ||
+                                            slot.getStart().isEqual(s.getStartTime())
+                                    ) &&
+                                    (
+                                            slot.getEnd().isAfter(s.getEndTime()) ||
+                                            slot.getEnd().isEqual(s.getEndTime())
+                                    )
+                                )
+                            ) {
+                            canDelete = false;
+                        }
+                    }
+                    if(canDelete) {
+
+                        // Update the display
+                        notifyItemRemoved(currentPosition);
+                        // Delete from database too maybe?
+                        Toast.makeText(TutorViewAvailability.this,
+                                "Availability deleted", Toast.LENGTH_SHORT).show();
+                        tut.removeAvailability(slot);
+                    } else {
+                        Toast.makeText(TutorViewAvailability.this,
+                                "Unable to delete availability due to there being a session during the given slot",
+                                Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         }

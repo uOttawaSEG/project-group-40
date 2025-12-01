@@ -14,8 +14,11 @@ import com.uottawaseg.otams.Requests.Availability;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.util.Arrays;
 
 public class StudentBooking extends AppCompatActivity {
     private static String infoStr = "";
@@ -35,10 +38,21 @@ public class StudentBooking extends AppCompatActivity {
 
         req.setOnClickListener(v -> {
             if(ValidateInput(startTime, endTime)) {
-                StudentSessionManager.RequestSession(
-                        GetTime(startTime.getText().toString()), GetTime(endTime.getText().toString()), tutAvail, day, course);
+                var worked = StudentSessionManager.RequestSession(
+                        GetTime(startTime.getText().toString()), GetTime(endTime.getText().toString()), tutAvail, day, course
+                );
+                if(!worked) {
+                    Toast.makeText(v.getContext(), "Cannot book a session that overlaps with an existing one",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(v.getContext(), "Sent session request", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
+
+        findViewById(R.id.btn_home3).setOnClickListener(v -> { finish(); });
+        findViewById(R.id.btn_back3).setOnClickListener(v -> { finish(); });
     }
 
     private boolean ValidateInput(TextView startTime, TextView endTime) {
@@ -82,8 +96,9 @@ public class StudentBooking extends AppCompatActivity {
 
     private OffsetTime GetTime(String str) {
         var splitStr = str.split(":");
-        if(str.length() > 2)
+        if(splitStr.length > 2)
             return null;
+
         int hour, mins;
         try {
             mins = Integer.parseInt(splitStr[1]);
@@ -105,7 +120,7 @@ public class StudentBooking extends AppCompatActivity {
     private static OffsetDateTime generateDate() {
         var dayOfWeek = tutAvail.getDay();
         // We need to calculate what day the next day of week falls on
-        var today = DayOfWeek.from(OffsetTime.now());
+        var today = LocalDate.from(OffsetDateTime.now()).getDayOfWeek();
         if(dayOfWeek == today) {
             // Plan out a week in advanced
             return OffsetDateTime.now().plusHours(24L * 7);

@@ -16,6 +16,7 @@ import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.Requests.RequestStatus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class StudentBookedActivity extends AppCompatActivity {
@@ -44,7 +45,7 @@ public class StudentBookedActivity extends AppCompatActivity {
                 booked.add(StudentSessionManager.PrepareForDisplay(sess));
             }
         }
-        var adapter = new StudentReadonlySessionAdapter(this, booked);
+        var adapter = new StudentReadonlySessionAdapter(this, booked, acc);
         recyclerView.setAdapter(adapter);
     }
 }

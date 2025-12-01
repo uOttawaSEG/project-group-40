@@ -83,20 +83,6 @@ public class Tutor extends Account {
     public List<Availability> getAvailabilities() {
         return Collections.unmodifiableList(_availabilities);
     }
-
-    /**
-     * @return A list of approved sessions
-     */
-    public List<SessionRequest> getAcceptedSessions() {
-        var temp = new ArrayList<SessionRequest>(_sessions.size());
-        for(var req : getSessions()) {
-            if(req.getStatus().equals(RequestStatus.ACCEPTED)) {
-                temp.add(req);
-            }
-        }
-        return Collections.unmodifiableList(temp);
-    }
-
     /**
      * @return A list of all session requests
      */

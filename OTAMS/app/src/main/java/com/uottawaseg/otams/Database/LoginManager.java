@@ -203,8 +203,9 @@ public class LoginManager {
 
         if (type == Account.Role.STUDENT) {
             var studentNum = (String)(data.child(STUDENT_NUMBER).getValue());
+            var sessions = new ArrayList<>(SessionRequestManager.GenerateSessions(username));
             return new Student(fName, lName, username,
-                    pass, phoneNum, email, studentNum);
+                    pass, phoneNum, email, studentNum, sessions);
         }
         if (type == Account.Role.TUTOR) {
 

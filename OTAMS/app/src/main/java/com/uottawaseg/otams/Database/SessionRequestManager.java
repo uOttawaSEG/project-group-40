@@ -1,5 +1,7 @@
 package com.uottawaseg.otams.Database;
 
+import static com.uottawaseg.otams.Database.Database.Database;
+
 import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Accounts.Tutor;
 import com.uottawaseg.otams.Requests.RequestStatus;
@@ -62,7 +64,13 @@ public class SessionRequestManager {
      * @param s The session to accept
      */
     public static void Accept(SessionRequest s) {
-        getTutor().AcceptSession(s);
+
+        var tutor = (Tutor) LoginManager.getCurrentAccount();
+        tutor.AcceptSession(s);
+
+        var studentQuery = Database.Read(LoginManager.ACCOUNTS + "/" + s.getStudent());
+        var student = (Student) LoginManager.makeAccountFromQuery(studentQuery);
+        student.AcceptSession(s);
     }
 
     /**
@@ -99,14 +107,6 @@ public class SessionRequestManager {
         return AvailabilityReader.readOffsetTime(map);
     }
 
-    /**
-     * @param tut The tutor whose sessions should be updated
-     */
-    public static void UpdateSessions(Tutor tut) {
-        Database.Database.Write(
-                LoginManager.ACCOUNTS + "/" + tut.getUsername() + "/" + SESSIONS,
-                tut.getSessions());
-    }
 
     /**
      * @param username Students username
@@ -158,5 +158,15 @@ public class SessionRequestManager {
         Database.Database.Write(
                 LoginManager.ACCOUNTS + "/" + student.getUsername() + "/" + SESSIONS,
                 student.getSessions());
+    }
+
+
+    /**
+     * @param tut The tutor whose sessions should be updated
+     */
+    public static void UpdateSessions(Tutor tut) {
+        Database.Database.Write(
+                LoginManager.ACCOUNTS + "/" + tut.getUsername() + "/" + SESSIONS,
+                tut.getSessions());
     }
 }

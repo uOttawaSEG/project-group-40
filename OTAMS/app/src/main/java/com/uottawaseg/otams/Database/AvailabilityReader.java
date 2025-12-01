@@ -2,6 +2,7 @@ package com.uottawaseg.otams.Database;
 
 import com.google.firebase.database.DataSnapshot;
 import com.uottawaseg.otams.Accounts.Account;
+import com.uottawaseg.otams.Accounts.Student;
 import com.uottawaseg.otams.Courses.Course;
 import com.uottawaseg.otams.Courses.Field;
 import com.uottawaseg.otams.Requests.Availability;
@@ -72,6 +73,7 @@ public class AvailabilityReader {
     }
 
     public static List<Availability> GenerateAvailabilityFromAllTutors(Course relevantCourse) {
+        var sessions = ((Student)(LoginManager.getCurrentAccount())).getSessions();
         List<Availability> allAvailabilities = new ArrayList<>();
         DataSnapshot allAccounts = Database.Database.Read(LoginManager.ACCOUNTS);
         if (allAccounts.exists()) {
@@ -81,7 +83,20 @@ public class AvailabilityReader {
                 if(role == Account.Role.TUTOR) {
                     var field = Field.fromString(snapshot.child(LoginManager.FIELD_OF_STUDY).getValue().toString());
                     if(field == relevantCourse.getField())
-                        allAvailabilities.addAll(GenerateAvailability(snapshot.child(AVAILABILITIES)));
+                    {
+                        var avails = GenerateAvailability(snapshot.child(AVAILABILITIES));
+                        if(sessions.size() == 0) {
+                            allAvailabilities.addAll(avails);
+                        } else {
+                            for(var a : avails) {
+                                for(var s : sessions) {
+                                    System.out.println(s + "\n" + a);
+                                    if(!StudentSessionManager.DoTimeSlotsOverlap(s.getStartTime(), s.getEndTime(), a.getStart()))
+                                        allAvailabilities.add(a);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

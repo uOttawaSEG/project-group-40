@@ -67,29 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
         tutor.AddAvailability(
                 new Availability(false,
-                        OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
-                        OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC),
+                        OffsetTime.of(1, 30, 0, 0, ZoneOffset.from(OffsetTime.now())),
+                        OffsetTime.of(2, 30, 0, 0, ZoneOffset.from(OffsetTime.now())),
                         DayOfWeek.MONDAY,
                         new String("user"))
         );
 
-        var sessionRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
-                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 10, 12, 2005, Course.GNG1105);
-        sessionRequest.setStatus(RequestStatus.ACCEPTED);
-        tutor.AddSession(sessionRequest);
-
-        var secondRequest = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
-                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 11, 12, 2025, Course.GNG1105);
-        secondRequest.setStatus(RequestStatus.ACCEPTED);
-        tutor.AddSession(secondRequest);
-        var third = new SessionRequest("bananas", "user", OffsetTime.of(1, 0, 0, 0, ZoneOffset.UTC),
-                OffsetTime.of(2, 0, 0, 0, ZoneOffset.UTC), 3, 1, 2026, Course.GNG1105);
-        tutor.AddSession(third);
-
-        var fourth = new SessionRequest("bananas", "user", OffsetTime.of(1, 30, 0, 0, ZoneOffset.UTC),
-                OffsetTime.of(2, 30, 0, 0, ZoneOffset.UTC), 3, 2, 2026, Course.GNG1105);
-        tutor.AddSession(fourth);
-        Database.Database.WriteAccount(LoginManager.ACCOUNTS + "/user", tutor);
 
 
     }
