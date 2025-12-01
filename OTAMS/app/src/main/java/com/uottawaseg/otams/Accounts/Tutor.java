@@ -7,6 +7,7 @@ import com.uottawaseg.otams.Courses.Degree;
 import com.uottawaseg.otams.Courses.Field;
 import com.uottawaseg.otams.Database.PendingRequestManager;
 import com.uottawaseg.otams.Database.SessionRequestManager;
+import com.uottawaseg.otams.Database.StudentSessionManager;
 import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.Requests.RequestStatus;
 import com.uottawaseg.otams.Requests.SessionRequest;
@@ -162,6 +163,14 @@ public class Tutor extends Account {
      * @param sessionRequest Session to add
      */
     public void AddSession(SessionRequest sessionRequest) {
+        var sessStart = sessionRequest.getStartTime();
+        for(var a : _availabilities) {
+            if(StudentSessionManager.DoTimeSlotsOverlap(a.getStart(), a.getEnd(), sessStart) &&
+            a.getAutoApprove()) {
+                sessionRequest.setStatus(RequestStatus.ACCEPTED);
+            }
+
+        }
         _sessions.add(sessionRequest);
         SessionRequestManager.UpdateSessions(this);
     }

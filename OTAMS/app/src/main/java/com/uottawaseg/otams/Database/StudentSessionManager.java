@@ -148,19 +148,19 @@ public final class StudentSessionManager {
         var request = new SessionRequest(LoginManager.getCurrentAccount().getUsername(), tutorUsername,
                 start, end, day.getDayOfMonth(), day.getMonth().getValue(), day.getYear(), c
         );
-        if (InvalidSessionRequest(stud, request)) return false;
-
         var tutor = (Tutor) LoginManager.makeAccountFromQuery(
                 Database.Database.Read(LoginManager.ACCOUNTS + "/" + tutorUsername)
         );
+        if (InvalidSessionRequest(stud, request)) return false;
+
         SessionRequestManager.RequestSession(request, tutor);
         stud.AddRequest(request);
         return true;
     }
 
     private static boolean InvalidSessionRequest(Student stud, SessionRequest request) {
-        var studentSessions = stud.getSessions();
-        for(var s : studentSessions) {
+        var sessions = stud.getSessions();
+        for(var s : sessions) {
             if(s.getDate().isEqual(request.getDate())) {
                 if(DoTimeSlotsOverlap(s.getStartTime(), s.getEndTime(), request.getStartTime())) {
                     return true;

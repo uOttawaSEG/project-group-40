@@ -11,14 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.uottawaseg.otams.Accounts.Student;
-import com.uottawaseg.otams.Requests.Availability;
 import com.uottawaseg.otams.R;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
-import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -32,6 +30,10 @@ public class StudentReadonlySessionAdapter extends RecyclerView.Adapter<StudentR
         this.context= context;
         this.dataset= dataset;
         stud = acc;
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
